@@ -37,9 +37,7 @@
     </select>
   </label>
   <button id="serverbtn" class="btn ghost" hidden title="Change server">⚙</button>
-  <button id="teacherbtn" class="btn ghost" aria-pressed="false"
-          title="Hold questions in a queue until you release them">Teacher mode</button>
-  <button id="notesbtn" class="btn ghost" aria-expanded="false">Transcript</button>
+  <button id="notesbtn" class="btn ghost" aria-expanded="false">My notes</button>
 </header>
 
 <div id="netbar" class="netbar" role="status" hidden></div>
@@ -77,23 +75,15 @@
     <div id="skeleton" class="skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div>
 
     <!-- the student's tools. The board is theirs too, not just a display surface. -->
-    <div id="tools" class="tools" role="toolbar" aria-label="Board tools" aria-orientation="vertical">
-      <button class="tool on" data-tool="pan"  aria-pressed="true"  title="Move around (V)">✋</button>
-      <button class="tool"    data-tool="pen"  aria-pressed="false" title="Draw (P)">✎</button>
-      <button class="tool"    data-tool="text" aria-pressed="false" title="Type (X)">T</button>
-      <button class="tool"    data-tool="select" aria-pressed="false"
-              title="Select part of the board and ask about it (S)">⿴</button>
-      <button class="tool"    data-tool="erase" aria-pressed="false" title="Erase your marks (E)">⌫</button>
+    <div id="tools" class="tools" role="toolbar" aria-label="Board tools">
+      <button class="tool on" data-tool="pan"    aria-pressed="true"  title="Move around">✋</button>
+      <button class="tool"    data-tool="pen"    aria-pressed="false" title="Draw">✎</button>
+      <button class="tool"    data-tool="text"   aria-pressed="false" title="Type">T</button>
+      <button class="tool"    data-tool="select" aria-pressed="false" title="Circle something and ask about it">⿴</button>
+      <button class="tool"    data-tool="erase"  aria-pressed="false" title="Rub out your marks">⌫</button>
       <span class="toolsep" aria-hidden="true"></span>
-      <button id="pickimg" class="tool" title="Add an image (I)">▣</button>
-      <span class="toolsep" aria-hidden="true"></span>
-      <button id="zoomout" class="tool" title="Zoom out (−)">−</button>
-      <button id="zoomlvl" class="tool wide" title="Reset to the lesson page">100%</button>
-      <button id="zoomin" class="tool" title="Zoom in (+)">+</button>
-      <button id="fit" class="tool" title="Fit everything (F)">⤢</button>
-      <span class="toolsep" aria-hidden="true"></span>
-      <button id="undo" class="tool" title="Undo your last mark (⌘Z)">↶</button>
-      <button id="clearmine" class="tool" title="Clear your marks">🗑</button>
+      <button id="pickimg" class="tool" title="Add a photo">▣</button>
+      <button id="undo" class="tool" title="Undo">↶</button>
       <input id="imgfile" type="file" accept="image/*" hidden>
     </div>
     <textarea id="textentry" class="textentry" hidden
@@ -110,9 +100,12 @@
     </div>
     <div class="videowrap" id="videowrap">
       <video id="video" playsinline preload="metadata"></video>
-      <div id="vgrip" class="vgrip" role="slider" tabindex="0" aria-label="Resize the video"
-           aria-valuemin="12" aria-valuemax="46" aria-valuenow="18"
-           title="Drag to resize · scroll over the video to resize · drag the video to move"></div>
+      <div class="vgrip" data-corner="nw" title="Drag to resize"></div>
+      <div class="vgrip" data-corner="ne" title="Drag to resize"></div>
+      <div class="vgrip" data-corner="sw" title="Drag to resize"></div>
+      <div id="vgrip" class="vgrip" data-corner="se" role="slider" tabindex="0"
+           aria-label="Resize the video" aria-valuemin="12" aria-valuemax="46"
+           aria-valuenow="18" title="Drag any corner to resize · drag the video to move"></div>
     </div>
     <div id="wipe" class="wipe" aria-hidden="true"></div>
 
@@ -133,7 +126,7 @@
       <dl>
         <dt>Space</dt><dd>play or pause</dd>
         <dt>H</dt><dd>raise your hand</dd>
-        <dt>T</dt><dd>transcript</dd>
+        <dt>T</dt><dd>my notes</dd>
         <dt>M</dt><dd>mute the voice</dd>
         <dt>Q</dt><dd>teacher mode</dd>
         <dt>Esc</dt><dd>back to the lesson</dd>
@@ -176,21 +169,15 @@
             title="Keep the writing, silence the voice">Mute voice</button>
     <button id="resume" class="btn ghost">Resume lesson</button>
   </div>
-
-  <!-- teacher mode · questions wait here until they are released -->
-  <div id="queue" class="queue" role="region" aria-label="Waiting questions" hidden>
-    <div class="queuehead"><span id="queuecount">0 waiting</span>
-      <button id="queueall" class="linkbtn">Answer next</button>
-      <button id="queueclear" class="linkbtn">Dismiss all</button></div>
-    <ol id="queuelist" class="queuelist"></ol>
-  </div>
 </main>
 
-  <aside id="notes" class="notes" aria-label="Transcript" hidden>
+  <!-- Everything asked in this lesson, kept. Tap one to put that answer back on the
+       board — the questions become the notes. -->
+  <aside id="notes" class="notes" aria-label="My notes" hidden>
     <div class="noteshead">
-      <span>Transcript</span>
+      <span>My notes</span>
       <button id="export" class="linkbtn">Download</button>
-      <button id="closenotes" class="linkbtn" aria-label="Close transcript">✕</button>
+      <button id="closenotes" class="linkbtn" aria-label="Close notes">✕</button>
     </div>
     <div id="noteslist" class="noteslist"></div>
   </aside>

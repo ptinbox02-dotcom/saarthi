@@ -25,9 +25,18 @@ const stage = $('stage'), video = $('video');
 const board = new Board($('board'));
 
 let man = null, live = null, jumpTarget = null;
-const notes = [];                       // the student's transcript
-const queue = [];                       // teacher mode: questions awaiting release
-let teacherMode = false, muted = false, retries = 0, retryTimer = 0;
+/* ---- notes ----------------------------------------------------------------
+ * The transcript used to be a log: this session only, ordered by clock, duplicating
+ * what was already on the board, and you could not do anything with an entry. That is
+ * noise.
+ *
+ * These are notes instead. Every question keeps the board that was drawn for it, they
+ * are stored per lesson and survive the tab closing, and tapping one puts that board
+ * back — so a student who asked six things last week can find the third one and read
+ * it again. The questions become the notebook.
+ */
+let notes = [];
+let muted = false, retries = 0, retryTimer = 0;
 let turn = 0, waitTimer = 0;            // the turn in flight, and its watchdog
 
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -107,7 +116,8 @@ async function loadIndex() {
 async function loadLesson(topic) {
   renderNotes();
   man = await getJSON(api(`/api/lesson/${encodeURIComponent(topic)}`), `lesson:${topic}`);
-  restoreUser();                        // their notebook for this lesson, not a scratch buffer
+  restoreUser();
+  loadNotes();                          // this lesson's notes, from whenever they were made                        // their notebook for this lesson, not a scratch buffer
   video.src = api(man.video);
   syncMicLang();
   phase('ready', man.topic);
@@ -293,6 +303,7 @@ function connect() {
       board.home(); showZoom();          // the answer is written on the lesson page
       board.speed = 1;
       board.push(m.ops);
+      if (notes.length) (notes[notes.length - 1].ops ||= []).push(...m.ops);
       // Keep the chalk with the voice. The board should be finished at about the moment
       // the tutor stops talking, not half a minute later.
       board.pace(12);
@@ -300,6 +311,7 @@ function connect() {
     else if (m.type === 'audio') { phase('speaking'); $('stopbtn').hidden = false; playPCM(m.b64); }
     else if (m.type === 'audio_done') {
       $('stopbtn').hidden = true; settle('ready', 'ask a follow-up');
+      saveNotes();                      // the answer is complete; keep it
     }
     else if (m.type === 'text') showTutor(m.text);
     else if (m.type === 'jump') offerJump(m);
@@ -436,38 +448,13 @@ function beginWait() {
   }, 30000);
 }
 
-/* Teacher in command. In a room the teacher decides when a question is taken, so in
- * teacher mode a question does not go to the tutor — it waits in a queue the teacher
- * releases. Nothing is lost, and nothing is answered over the teacher's head. */
-function setTeacher(on) {
-  teacherMode = on;
-  $('teacherbtn').setAttribute('aria-pressed', String(on));
-  $('teacherbtn').classList.toggle('on', on);
-  renderQueue();
-}
-
-function renderQueue() {
-  $('queuecount').textContent = `${queue.length} waiting`;
-  $('queue').hidden = !(teacherMode && queue.length);
-  $('queuelist').innerHTML = queue.map((item, i) => `
-    <li class="qitem">
-      <span class="qwhen">${fmt(item.t)}</span>
-      <span class="qbody">${esc(item.q)}</span>
-      <button class="linkbtn" data-take="${i}">Answer</button>
-      <button class="linkbtn dim" data-drop="${i}">Dismiss</button>
-    </li>`).join('');
-}
-
+/* Questions go straight to the tutor. There was a teacher mode here that held them in
+ * a queue for release — it belonged to the shared-classroom framing and is noise for a
+ * student sitting alone with their own tutor, so it is gone rather than hidden.
+ */
 function ask(q) {
   q = (q || '').trim();
   if (!q) return;
-  if (teacherMode) {
-    queue.push({ q, t: video.currentTime });
-    $('qtext').value = '';
-    renderQueue();
-    phase('ready', `held · ${queue.length} waiting for you`);
-    return;
-  }
   send(q);
 }
 
@@ -476,8 +463,8 @@ function send(q, image) {
   if (!q) return;
   interrupt();
   $('qtext').value = '';
-  notes.push({ t: video.currentTime, at: new Date(), q, a: '',
-                about: image ? 'about a part of the board' : '' });
+  notes.push({ t: video.currentTime, at: new Date().toISOString(), q, a: '', ops: [],
+                about: image ? 'about something you circled' : '' });
   renderNotes();
   board.clearAll(); drawLegend();
   $('jump').hidden = true;
@@ -498,14 +485,6 @@ function send(q, image) {
   else ws.addEventListener('open', fire, { once: true });
 }
 
-$('queuelist').addEventListener('click', (e) => {
-  const take = e.target.dataset?.take, drop = e.target.dataset?.drop;
-  if (take != null) { const [item] = queue.splice(+take, 1); renderQueue(); send(item.q); }
-  else if (drop != null) { queue.splice(+drop, 1); renderQueue(); }
-});
-$('queueall').onclick = () => { const item = queue.shift(); renderQueue(); if (item) send(item.q); };
-$('queueclear').onclick = () => { queue.length = 0; renderQueue(); };
-$('teacherbtn').onclick = () => setTeacher(!teacherMode);
 $('mute').onclick = () => {
   muted = !muted;
   $('mute').setAttribute('aria-pressed', String(muted));
@@ -560,8 +539,14 @@ $('videowrap').addEventListener('pointerdown', (e) => {
   const box = $('videowrap').getBoundingClientRect();
   e.stopPropagation();                       // never start a board stroke under it
   $('videowrap').setPointerCapture(e.pointerId);
-  if (e.target === $('vgrip')) {
-    pipResize = { x: e.clientX, w: pip.w, bw: bw.width };
+  const corner = e.target.dataset?.corner;
+  if (corner) {
+    // Any corner resizes. The two on the left grow the video leftwards, so the edge
+    // under the finger is the one that moves and the opposite edge stays put — which is
+    // what dragging a corner is supposed to feel like.
+    pipResize = { x: e.clientX, w: pip.w, bw: bw.width,
+                  dir: corner.includes('w') ? -1 : 1,
+                  anchorRight: corner.includes('w') ? box.right - bw.left : null };
   } else {
     // switch to left-anchored while dragging, so the maths is the same in both axes
     pip.left = box.left - bw.left;
@@ -571,7 +556,14 @@ $('videowrap').addEventListener('pointerdown', (e) => {
 });
 $('videowrap').addEventListener('pointermove', (e) => {
   if (pipResize) {
-    resizePip(pipResize.w + ((e.clientX - pipResize.x) / pipResize.bw) * 100);
+    const delta = ((e.clientX - pipResize.x) / pipResize.bw) * 100 * pipResize.dir;
+    resizePip(pipResize.w + delta);
+    if (pipResize.anchorRight !== null) {
+      // keep the right edge where it was while the left one follows the finger
+      const w = (pip.w / 100) * pipResize.bw;
+      pip.left = Math.max(4, pipResize.anchorRight - w);
+      clampPip(); applyPip();
+    }
   } else if (pipDrag) {
     pip.left = pipDrag.left + (e.clientX - pipDrag.x);
     pip.top = pipDrag.top + (e.clientY - pipDrag.y);
@@ -619,7 +611,9 @@ function setTool(t) {
   cv.className = `tool-${t}`;
 }
 
-function showZoom() { $('zoomlvl').textContent = `${Math.round(board.view.z * 100)}%`; }
+// The zoom buttons are gone — pinch and scroll do this, on every device a student has
+// already used, and five fewer controls is five fewer things to explain.
+function showZoom() { /* no readout to update */ }
 
 /* Pointer handling. One handler for every tool, because they differ only in what they
  * do with the same three events, and splitting them was how the pen ended up able to
@@ -863,16 +857,6 @@ $('imgfile').onchange = (e) => {
 
 function pushUndo(entry) { undoStack.push(entry); if (undoStack.length > 60) undoStack.shift(); }
 $('undo').onclick = () => { const e = undoStack.pop(); if (e) e.undo(); };
-$('clearmine').onclick = () => {
-  if (!board.user.length) return;
-  const kept = board.user.slice();
-  pushUndo({ undo: () => { kept.forEach(i => board.addUser(i)); } });
-  board.clearUser();
-};
-$('zoomin').onclick = () => { board.zoomAt(board.W / 2, board.H / 2, 1.25); showZoom(); };
-$('zoomout').onclick = () => { board.zoomAt(board.W / 2, board.H / 2, 1 / 1.25); showZoom(); };
-$('zoomlvl').onclick = () => { board.home(); showZoom(); };
-$('fit').onclick = () => { board.fit(); showZoom(); };
 document.querySelectorAll('.tool[data-tool]').forEach(b =>
   b.onclick = () => setTool(b.dataset.tool));
 
@@ -903,23 +887,69 @@ board.onUserChange = saveUser;
 
 /* ---- transcript ---- */
 const esc = (t) => String(t).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function notesKey() { return `saarthi.notes.${man?.topic || 'lesson'}`; }
+
+function saveNotes() {
+  try {
+    // Board ops are kept with each note — they are what makes an entry re-openable
+    // rather than just re-readable. Images inside them are dropped; a note is the
+    // tutor's writing, not an archive of everything on the canvas.
+    localStorage.setItem(notesKey(), JSON.stringify(notes.slice(-80)));
+  } catch { /* quota or private mode; this session still works */ }
+}
+
+function loadNotes() {
+  try { notes = JSON.parse(localStorage.getItem(notesKey()) || '[]'); }
+  catch { notes = []; }
+  renderNotes();
+}
+
+/* Put an old answer back on the board. The student's own marks stay where they are —
+ * this replaces the tutor's layer only, the same as asking a new question does. */
+function openNote(i) {
+  const n = notes[i];
+  if (!n?.ops?.length) return;
+  if (!stage.classList.contains('mode-live')) { setLive(true); drawLegend(); }
+  board.clearAll();
+  board.home(); showZoom();
+  board.pushInstant(n.ops);
+  narrateBoard(); drawLegend();
+  setContext(n.q, false, 'You asked');
+  $('tutorline').textContent = n.a || '';
+  phase('ready', 'from your notes');
+  for (const el of document.querySelectorAll('.turn')) el.classList.remove('open');
+  document.querySelector(`.turn[data-i="${i}"]`)?.classList.add('open');
+}
+
+$('noteslist').addEventListener('click', (e) => {
+  const card = e.target.closest('.turn');
+  if (card) openNote(+card.dataset.i);
+});
+
 function renderNotes() {
   if (!notes.length) {
     $('noteslist').innerHTML =
-      '<p class="empty">Everything you ask, and every answer, is kept here — '
-      + 'with the point in the lesson where you asked it.</p>';
+      '<p class="empty">Ask something and it is kept here — the question, the answer, '
+      + 'and the board that went with it. Tap any note to put it back on the board.</p>';
     return;
   }
   // Two clocks, because they answer different questions: where in the lesson it was
   // asked (useful as notes) and when it was asked (which is why every row used to read
   // the same 0:13 — the lesson is paused, so its position does not move).
-  $('noteslist').innerHTML = notes.map(n => `
-    <div class="turn">
-      <div class="meta">lesson ${fmt(n.t)} · asked ${n.at.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}${n.about ? ` · ${n.about}` : ''}</div>
-      <div class="q"><div class="who">You</div>${esc(n.q)}</div>
-      ${n.a ? `<div class="a"><div class="who">Saarthi</div>${esc(n.a)}</div>` : ''}
+  const day = (iso) => {
+    const d = new Date(iso), now = new Date();
+    const same = d.toDateString() === now.toDateString();
+    return same ? 'Today' : d.toLocaleDateString([], { day: 'numeric', month: 'short' });
+  };
+  // newest first: the thing you just asked is the thing you are most likely to want
+  $('noteslist').innerHTML = notes.map((n, i) => ({ n, i })).reverse().map(({ n, i }) => `
+    <div class="turn${n.ops?.length ? ' openable' : ''}" data-i="${i}"
+         ${n.ops?.length ? 'role="button" tabindex="0"' : ''}>
+      <div class="meta">${day(n.at)} · at ${fmt(n.t)} in the lesson${n.about ? ` · ${n.about}` : ''}</div>
+      <div class="q">${esc(n.q)}</div>
+      ${n.a ? `<div class="a">${esc(n.a)}</div>` : ''}
+      ${n.ops?.length ? '<div class="reopen">Show on board</div>' : ''}
     </div>`).join('');
-  $('noteslist').scrollTop = $('noteslist').scrollHeight;
 }
 function notifyBoardSize() {
   if (live && live.readyState === WebSocket.OPEN)
@@ -936,10 +966,16 @@ function setNotes(open) {
   setTimeout(() => { board.resize(); notifyBoardSize(); }, 340);
 }
 $('notesbtn').onclick = () => setNotes($('notes').hidden);
+$('noteslist').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const card = e.target.closest('.turn');
+  if (card) { e.preventDefault(); openNote(+card.dataset.i); }
+});
 $('closenotes').onclick = () => setNotes(false);
 $('export').onclick = () => {
   const body = notes.map(n =>
-    `[lesson ${fmt(n.t)} · ${n.at.toLocaleTimeString()}]\nQ: ${n.q}\nA: ${n.a}\n`).join('\n');
+    `[${new Date(n.at).toLocaleString()} · at ${fmt(n.t)} in the lesson]\n`
+    + `Q: ${n.q}\nA: ${n.a}\n`).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([`${man?.topic} — transcript\n\n${body}`],
     { type: 'text/plain' }));
@@ -1201,9 +1237,6 @@ document.addEventListener('keydown', (e) => {
     const pick = { v: 'pan', p: 'pen', x: 'text', e: 'erase',
                    s: 'select' }[e.key.toLowerCase()];
     if (pick && !e.metaKey && !e.ctrlKey) { setTool(pick); return; }
-    if (e.key === '+' || e.key === '=') { $('zoomin').click(); return; }
-    if (e.key === '-') { $('zoomout').click(); return; }
-    if (e.key.toLowerCase() === 'f') { $('fit').click(); return; }
     if (e.key.toLowerCase() === 'i') { $('pickimg').click(); return; }
     // space pans while any tool is held, as in every canvas app
     if (e.code === 'Space') { spaceHeld = true; e.preventDefault(); return; }
@@ -1212,7 +1245,6 @@ document.addEventListener('keydown', (e) => {
   else if (e.key.toLowerCase() === 'h') raiseHand();
   else if (e.key.toLowerCase() === 't') $('notesbtn').click();
   else if (e.key.toLowerCase() === 'm') $('mute').click();
-  else if (e.key.toLowerCase() === 'q') $('teacherbtn').click();
   else if (e.key === 'Escape') {
     if (!$('keyspop').hidden) showKeys(false);
     else if (stage.classList.contains('mode-live')) resume();
@@ -1432,21 +1464,18 @@ async function fixture(qs) {
     await report();
     return;
   }
-  if (qs.has('teacher')) {
-    setTeacher(true);
-    queue.push({ q: 'Nodal plane aur node mein kya farq hai?', t: 96 });
-    queue.push({ q: 'Ye JEE mein kitne marks ka aata hai?', t: 128 });
-    renderQueue();
-  }
   if (qs.has('offline')) {
     net('offline', 'Offline. The recording still plays and the board keeps what is on '
       + 'it — questions will work again when you reconnect.');
   }
   if (qs.has('notes')) {
-    notes.push({ t: 83, at: new Date(2026, 0, 1, 10, 4), q,
-                 a: 'Dono ka shape alag hai: s spherical, p dumbbell.' });
-    notes.push({ t: 96, at: new Date(2026, 0, 1, 10, 6),
-                 q: 'Nodal plane kya hota hai?', a: '' });
+    notes = [
+      { t: 83, at: new Date(2026, 0, 1, 10, 4).toISOString(), q,
+        a: 'Dono ka shape alag hai: s spherical, p dumbbell.', ops },
+      { t: 96, at: new Date(2026, 0, 1, 10, 6).toISOString(),
+        q: 'Nodal plane kya hota hai?', a: 'Wahan electron milne ki probability zero hai.',
+        ops: [] },
+    ];
     renderNotes();
     setNotes(true);
   }
@@ -1481,7 +1510,7 @@ function selfCheck() {
                       const r = e.getBoundingClientRect();
                       return r.width && r.height ? r : null; };
   // 1 · no two pieces of chrome may share a pixel
-  const ids = ['netbar', 'ctxbar', 'caption', 'chips', 'dock', 'queue', 'notes',
+  const ids = ['netbar', 'ctxbar', 'caption', 'chips', 'dock', 'notes',
                'videowrap', 'legend', 'transport', 'tools', 'selbar'];
   const rects = ids.map(i => [i, R(i)]).filter(([, r]) => r);
   for (let i = 0; i < rects.length; i++)
@@ -1527,7 +1556,7 @@ function selfCheck() {
     if (vid.width < 10 || vid.height < 10)
       fail.push(`the <video> element is ${Math.round(vid.width)}x${Math.round(vid.height)}`);
     if (!$('video').getAttribute('src')) fail.push('the video has no source');
-    for (const id of ['ctxbar', 'caption', 'chips', 'dock', 'queue'])
+    for (const id of ['ctxbar', 'caption', 'chips', 'dock'])
       if (R(id)) fail.push(`${id} is showing during playback`);
     if (!R('transport')) fail.push('the transport is missing during playback');
     if (getComputedStyle($('boardalt')).position !== 'absolute')

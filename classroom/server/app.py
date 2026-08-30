@@ -347,7 +347,7 @@ def _wrap(text: str, size: float, width: float, aspect: float = 16 / 9) -> list:
     return lines
 
 
-def layout(ops: list, aspect: float = 16 / 9) -> list:
+def layout(ops: list, aspect: float = 16 / 9, start_row: int | None = None) -> list:
     """Assign every position on the board, from the role and the running order.
 
     The model is told not to send coordinates, and whatever it does send is discarded
@@ -359,7 +359,13 @@ def layout(ops: list, aspect: float = 16 / 9) -> list:
     * a short answer does not look abandoned — the block is centred in the writing
       area rather than pinned to a fixed top and a fixed bottom, which is what left
       two lines marooned at opposite ends of an empty board.
+
+    `start_row` switches this into streaming mode: ops arrive in batches while the model
+    is still writing, so the total height is not yet known and the composition cannot be
+    centred. It anchors to the top instead and each batch continues below the last —
+    which is how a person fills a board anyway.
     """
+    streaming = start_row is not None
     z = ZONES
     text_w = z["text_right"] - z["text_x"]
     big = ("term", "result")
@@ -383,10 +389,14 @@ def layout(ops: list, aspect: float = 16 / 9) -> list:
 
     rows = block_rows(body) + (block_rows(deferred) + z["gap"] if deferred else 0)
     avail = z["bottom"] - z["top"]
-    line_h = min(z["line_h"], avail / rows) if rows else z["line_h"]
-    # centre the composition instead of stretching it: a two-line answer should read as
-    # a two-line answer, not as two lines flung to opposite edges
-    y = z["top"] + max(0.0, (avail - rows * line_h)) / 2
+    if streaming:
+        line_h = z["line_h"]
+        y = z["top"] + start_row * line_h
+    else:
+        line_h = min(z["line_h"], avail / rows) if rows else z["line_h"]
+        # centre instead of stretching: a two-line answer should read as a two-line
+        # answer, not as two lines flung to opposite edges
+        y = z["top"] + max(0.0, (avail - rows * line_h)) / 2
 
     # Beyond three, a board stops being a board. The extras are dropped rather than
     # shrunk further, and the drop is logged so it is never silent.
@@ -394,6 +404,10 @@ def layout(ops: list, aspect: float = 16 / 9) -> list:
         print(f"  board: {len(diagrams)} diagrams requested, drawing the first "
               f"{MAX_DIAGRAMS}")
     slots = DIAGRAM_SLOTS[min(len(diagrams), MAX_DIAGRAMS)] if diagrams else []
+    if streaming and diagrams:
+        # a batch cannot know how many diagrams the whole answer will have, so it takes
+        # the roomiest arrangement and fills it in arrival order
+        slots = DIAGRAM_SLOTS[MAX_DIAGRAMS]
 
     # --- pass 2: place, preserving the model's ordering
     out, n_diagram = [], 0
@@ -556,6 +570,11 @@ COLOUR IS MEANING. Never set a colour. Set `role`, and it renders in the one col
 glyph that role always uses:
   term (a definition) · explain (working) · example · tip · question · trap (a common
   mistake) · result (the key answer)
+
+DRAW, DON'T ONLY WRITE. If the answer involves a shape, an axis, an apparatus, a
+direction, or two things being compared, put a diagram on the board — a student who
+asked "I don't understand" is telling you words were not enough. A board with four
+lines of text and no picture is a paragraph, not a blackboard.
 
 THE BOARD IS FLAT. It cannot show a real 3-D object, so never claim to show one unless
 you have drawn it. For depth use these shapes, which draw a proper projection:
@@ -920,6 +939,55 @@ def tts_pcm(text: str, model: str) -> bytes:
     raise RuntimeError(f"every TTS model refused: {tried}")
 
 
+def ops_so_far(buf: str, taken: int) -> tuple[list, int]:
+    """Pull complete op objects out of a half-arrived JSON response.
+
+    The board used to wait for the whole completion to parse, which took nine to
+    thirteen seconds — so the tutor talked to an empty board and then wrote to an empty
+    room after the voice had stopped. Streaming the same call and emitting each op the
+    moment its closing brace arrives puts the first line on the board while the first
+    sentence is still being spoken.
+
+    Returns the ops after the first `taken`, and the new total. Scanning is brace
+    counting with string and escape awareness — a `{` inside "90% likely" must not open
+    an object, and a `\"` inside a string must not close one.
+    """
+    start = buf.find('"ops"')
+    if start < 0:
+        return [], taken
+    start = buf.find("[", start)
+    if start < 0:
+        return [], taken
+    out, depth, obj_start, in_str, esc = [], 0, None, False, False
+    for i in range(start + 1, len(buf)):
+        ch = buf[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                obj_start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and obj_start is not None:
+                try:
+                    out.append(json.loads(buf[obj_start:i + 1]))
+                except json.JSONDecodeError:
+                    pass                       # not an op yet; wait for more bytes
+                obj_start = None
+        elif ch == "]" and depth == 0:
+            break
+    return out[taken:], len(out)
+
+
 async def answer_once(ctx: dict, question: str, shot: bytes | None, brain: str):
     """One structured call that returns what to say AND what to write.
 
@@ -1031,8 +1099,10 @@ async def run_spoken(ws, ctx: dict, question: str, turn, shot, brain: str, voice
             await to_speak.put(tail)
 
     async def board():
-        """The chalk. Runs alongside the voice, not after it, so the answer appears on
-        the board while the first sentence is still being spoken."""
+        """The chalk, streamed. See stream_board."""
+        await stream_board(ws, ctx, question, turn, shot, brain, stats)
+
+    async def _board_unused():
         ans, usage = await answer_once(ctx, question, shot, brain)
         stats.update(usage)
         raw = sanitise(ans.get("ops") or [])
@@ -1059,6 +1129,69 @@ async def run_spoken(ws, ctx: dict, question: str, turn, shot, brain: str, voice
                             "text": "on-device voice needs the Android build"})
     await ws.send_json({"type": "audio_done", "turn": turn})
     return said_full["text"], 0, stats["ops"], stats["jump"], stats
+
+
+async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, stats: dict):
+    """Write the board while the tutor is still talking.
+
+    The answer is one structured call, but it is consumed as a stream: each op is sent
+    the moment its closing brace arrives, instead of after the whole completion parses.
+    That was the gap the student saw — the voice began at two seconds and the board
+    stayed blank until nine or thirteen, then carried on writing after the voice had
+    stopped. Ops now start landing with the first sentence.
+    """
+    prompt = live_instruction(ctx) + (SELECTION_NOTE if shot else "")
+    contents = [f"{prompt}\n\nSTUDENT ASKS: {question}"]
+    if shot:
+        contents.append(types.Part.from_bytes(data=shot, mime_type="image/png"))
+
+    buf, taken, sent, first_at = "", 0, 0, None
+    t0 = asyncio.get_event_loop().time()
+    stream = await shared_client().aio.models.generate_content_stream(
+        model=BRAINS[brain], contents=contents,
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=ANSWER_SCHEMA, temperature=0.4))
+    async for chunk in stream:
+        um = getattr(chunk, "usage_metadata", None)
+        if um:
+            stats["board_in"] = getattr(um, "prompt_token_count", 0) or 0
+            stats["board_out"] = getattr(um, "candidates_token_count", 0) or 0
+        buf += chunk.text or ""
+        fresh, taken = ops_so_far(buf, taken)
+        if not fresh:
+            continue
+        ops = layout(sanitise(fresh), ctx.get("board_aspect") or 16 / 9, start_row=sent)
+        if ops:
+            if first_at is None:
+                first_at = asyncio.get_event_loop().time() - t0
+                stats["board_first_s"] = round(first_at, 1)
+            sent += len([o for o in ops if o["op"] == "write"])
+            stats["ops"] = stats.get("ops", 0) + len(ops)
+            await ws.send_json({"type": "ops", "ops": ops, "turn": turn})
+
+    # Whatever the stream produced, the rest of the answer still has to be handled: a
+    # refusal with no ops at all should still leave something readable on the board.
+    try:
+        ans = parse_json(buf)
+    except Exception:                                    # noqa: BLE001
+        ans = {}
+    if not stats.get("ops"):
+        said, _ = strip_internals(ans.get("say", ""))
+        if said.strip():
+            ops = layout(sanitise([{"op": "write", "role": "explain", "text": said.strip()}]),
+                         ctx.get("board_aspect") or 16 / 9)
+            stats["ops"] = len(ops)
+            if ops:
+                await ws.send_json({"type": "ops", "ops": ops, "turn": turn})
+    jb = ans.get("jump_beat", -1)
+    beat = next((b for b in (ctx.get("beats") or [])
+                 if b.get("index") == jb and b.get("start") is not None), None)
+    if beat:
+        stats["jump"] = jb
+        await ws.send_json({"type": "jump", "at": beat["start"], "turn": turn,
+                            "beat": jb, "title": beat["title"], "why": beat["title"]})
+    return ans
 
 
 async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None = None):
@@ -1130,6 +1263,9 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
         return said
 
     async def blackboard(stats):
+        await stream_board(ws, ctx, question, turn, shot, "gemini", stats)
+
+    async def _blackboard_unused(stats):
         prompt = live_instruction(ctx) + (SELECTION_NOTE if shot else "")
         contents = [f"{prompt}\n\nSTUDENT ASKS: {question}"]
         if shot:
