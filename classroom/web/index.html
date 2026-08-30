@@ -8,7 +8,7 @@
 </head>
 <body>
 <header class="bar" role="banner">
-  <div class="brand">@saarthi <span>classroom</span></div>
+  <button id="home" class="brand" title="Back to the lesson">@saarthi <span>classroom</span></button>
   <select id="lesson" class="picker" aria-label="Choose lesson"></select>
   <div class="spacer"></div>
   <div id="phase" class="phase" role="status" aria-live="polite">
@@ -54,6 +54,22 @@
     <button type="submit">Connect</button>
   </form>
 </div>
+
+<div class="midrow">
+<!-- A rail that collapses to icons. Lessons and notes are the two things a student
+     moves between; everything else stays out of the way. -->
+<nav id="nav" class="nav" aria-label="Lessons and notes">
+  <button id="navtoggle" class="navtoggle" aria-expanded="true"
+          aria-controls="nav" title="Collapse the menu">⟨</button>
+  <div class="navgroup">
+    <div class="navlabel">Lessons</div>
+    <ul id="navlessons" class="navlist"></ul>
+  </div>
+  <div class="navgroup">
+    <button id="navnotes" class="navitem"><i>☰</i><span>My notes</span></button>
+    <button id="navhome" class="navitem"><i>⌂</i><span>Back to lesson</span></button>
+  </div>
+</nav>
 
 <div id="shell" class="shell">
 <main id="stage" class="stage mode-play" role="main">
@@ -181,6 +197,7 @@
     </div>
     <div id="noteslist" class="noteslist"></div>
   </aside>
+</div>
 </div>
 
 <script type="module" src="/app.js"></script>

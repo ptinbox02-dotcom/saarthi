@@ -108,9 +108,11 @@ window.addEventListener('offline', () =>
 /* ---- lessons ---- */
 async function loadIndex() {
   const list = await getJSON(api('/api/lessons'), 'index');
+  navLessons = list;
   $('lesson').innerHTML = list.map(l =>
     `<option value="${l.topic}">${l.topic} · ${l.language} · ${fmt(l.duration)}</option>`).join('');
   if (list.length) await loadLesson(list[0].topic);
+  renderNav();
 }
 
 async function loadLesson(topic) {
@@ -956,6 +958,49 @@ function notifyBoardSize() {
     live.send(JSON.stringify({ type: 'board', aspect: boardAspect() }));
 }
 
+/* ---- left rail ------------------------------------------------------------
+ * Two things a student moves between: which lesson, and their own notes. Collapsed it
+ * keeps the icons, because a menu that vanishes entirely leaves no way back.
+ */
+function renderNav() {
+  const list = $('navlessons');
+  list.innerHTML = (navLessons || []).map(l => `
+    <li><button class="navitem${l.topic === man?.topic ? ' on' : ''}"
+                data-topic="${l.topic}" title="${l.topic}">
+      <i>▸</i><span>${l.topic}<small>${l.language} · ${fmt(l.duration)}</small></span>
+    </button></li>`).join('');
+}
+
+let navLessons = [];
+
+$('navlessons').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-topic]');
+  if (!b) return;
+  $('lesson').value = b.dataset.topic;
+  loadLesson(b.dataset.topic).then(renderNav);
+});
+
+function setNavCollapsed(collapsed) {
+  document.body.classList.toggle('nav-collapsed', collapsed);
+  $('navtoggle').setAttribute('aria-expanded', String(!collapsed));
+  $('navtoggle').title = collapsed ? 'Expand the menu' : 'Collapse the menu';
+  try { localStorage.setItem('saarthi.nav', collapsed ? '1' : '0'); } catch { /* none */ }
+  setTimeout(() => board.resize(), 260);
+}
+$('navtoggle').onclick = () =>
+  setNavCollapsed(!document.body.classList.contains('nav-collapsed'));
+try { setNavCollapsed(localStorage.getItem('saarthi.nav') === '1'); } catch { /* none */ }
+
+$('navnotes').onclick = () => setNotes($('notes').hidden);
+$('navhome').onclick = () => goHome();
+$('home').onclick = () => goHome();
+
+/* The brand is the way out of wherever you are: off the board, back to the lesson. */
+function goHome() {
+  if (stage.classList.contains('mode-live')) resume();
+  setNotes(false);
+}
+
 function setNotes(open) {
   // The drawer is a real column, so the board must be told to re-measure — otherwise
   // the canvas keeps its old width and the composition sits off-centre.
@@ -1511,13 +1556,14 @@ function selfCheck() {
                       return r.width && r.height ? r : null; };
   // 1 · no two pieces of chrome may share a pixel
   const ids = ['netbar', 'ctxbar', 'caption', 'chips', 'dock', 'notes',
-               'videowrap', 'legend', 'transport', 'tools', 'selbar'];
+               'videowrap', 'legend', 'transport', 'tools', 'selbar', 'nav'];
   const rects = ids.map(i => [i, R(i)]).filter(([, r]) => r);
   for (let i = 0; i < rects.length; i++)
     for (let j = i + 1; j < rects.length; j++) {
       const [an, a] = rects[i], [bn, b] = rects[j];
       const inBoard = (n) => n === 'videowrap' || n === 'legend' || n === 'transport'
                            || n === 'tools' || n === 'selbar';
+      if (an === 'nav' || bn === 'nav') continue;   // its own column, beside the shell
       if (inBoard(an) || inBoard(bn)) continue;       // these live inside the board box
       if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom)
         fail.push(`${an} overlaps ${bn}`);

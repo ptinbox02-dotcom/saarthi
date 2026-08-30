@@ -235,7 +235,7 @@ async def ws_handler(request: web.Request) -> web.WebSocketResponse:
                                if k.startswith(("live_", "board_", "tts_"))},
                 })
             except Exception as e:                      # noqa: BLE001
-                await ws.send_json({"type": "error", "text": str(e)[:220], "turn": turn})
+                await ws.send_json({"type": "error", "text": human_error(e), "turn": turn})
                 audit(ctx.get("topic", "unknown"),
                       {"event": "error", "q": q, "error": str(e)[:200]})
 
@@ -1215,12 +1215,51 @@ async def run_spoken(ws, ctx: dict, question: str, turn, shot, brain: str, voice
     results = await asyncio.gather(speaker(), speak(), board(), return_exceptions=True)
     for r in results:
         if isinstance(r, Exception):
-            await ws.send_json({"type": "error", "text": str(r)[:200], "turn": turn})
+            await ws.send_json({"type": "error", "text": human_error(r), "turn": turn})
     if voice == "on-device":
         await ws.send_json({"type": "status", "turn": turn,
                             "text": "on-device voice needs the Android build"})
     await ws.send_json({"type": "audio_done", "turn": turn})
     return said_full["text"], 0, stats["ops"], stats["jump"], stats
+
+
+TRANSIENT = ("503", "429", "500", "502", "504", "UNAVAILABLE", "RESOURCE_EXHAUSTED")
+
+
+def human_error(e) -> str:
+    """What a student should see when the model falls over.
+
+    A raw 503 payload reached the caption — brace, backslash-n and all — under the word
+    Saarthi. Whatever has gone wrong upstream, the tutor should sound like a person
+    having a bad moment, not like a stack trace.
+    """
+    msg = str(e)
+    if any(t in msg for t in ("503", "UNAVAILABLE", "500", "502", "504")):
+        return "Ek second — main abhi busy hoon. Thoda ruk kar dobara poochho."
+    if any(t in msg for t in ("429", "RESOURCE_EXHAUSTED")):
+        return "Aaj ke liye bahut saare sawaal ho gaye. Thodi der baad try karo."
+    return "Kuch gadbad ho gayi. Sawaal dobara poochho."
+
+
+async def with_retry(make, tries: int = 3, base: float = 1.5, what: str = "call"):
+    """Retry an async call whose failure is worth waiting out.
+
+    The Live and board models return 503 under load often enough that a single attempt
+    is not a real attempt. `make` builds a fresh awaitable each time, because an
+    awaited coroutine cannot be retried.
+    """
+    last = None
+    for i in range(tries):
+        try:
+            return await make()
+        except Exception as e:                            # noqa: BLE001
+            last = e
+            if not any(t in str(e) for t in TRANSIENT) or i == tries - 1:
+                raise
+            wait = base * (2 ** i)
+            print(f"  {what}: {str(e)[:70]} — retrying in {wait:.1f}s")
+            await asyncio.sleep(wait)
+    raise last
 
 
 async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, stats: dict,
@@ -1241,7 +1280,7 @@ async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, sta
     cursor = cursor if cursor is not None else {"row": 0}
     buf, taken, first_at = "", 0, None
     t0 = asyncio.get_event_loop().time()
-    stream = await board_client().aio.models.generate_content_stream(
+    stream = await with_retry(lambda: board_client().aio.models.generate_content_stream(
         model=BRAINS[brain], contents=contents,
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
@@ -1252,7 +1291,8 @@ async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, sta
             # finished. A small thinking budget brings the first token to ~1.9s, which
             # is when the voice starts, and the answer is no worse: same op count, still
             # a diagram. (A budget of 0 is rejected outright by this model.)
-            thinking_config=types.ThinkingConfig(thinking_budget=BOARD_THINKING)))
+            thinking_config=types.ThinkingConfig(thinking_budget=BOARD_THINKING))),
+        what="board")
     async for chunk in stream:
         um = getattr(chunk, "usage_metadata", None)
         if um:
@@ -1326,7 +1366,15 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
         if shot:
             parts.append(types.Part(inline_data=types.Blob(mime_type="image/png",
                                                            data=shot)))
-        async with c.aio.live.connect(model=LIVE_MODEL, config=cfg) as sess:
+        # The Live model returns 503 under load often enough that one attempt is not a
+        # real attempt. Opening the session is the part that fails; once audio is
+        # flowing it keeps flowing, so only the connect is retried.
+        async def open_session():
+            mgr = c.aio.live.connect(model=LIVE_MODEL, config=cfg)
+            return mgr, await mgr.__aenter__()
+
+        mgr, sess = await with_retry(open_session, what="voice")
+        try:
             # turn_complete must be explicit. With a single text part the default
             # closed the turn anyway; with a text part AND an image the session sat
             # waiting for more input after the speech had already finished, which added
@@ -1381,6 +1429,8 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
                                         "text": clean, "leaked": leaked})
                 if sc and sc.turn_complete:
                     break
+        finally:
+            await mgr.__aexit__(None, None, None)
         return said
 
     cursor = {"row": 0}
@@ -1440,7 +1490,7 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
     results = await asyncio.gather(blackboard(stats), speak(stats), return_exceptions=True)
     for r in results:
         if isinstance(r, Exception):
-            await ws.send_json({"type": "error", "text": str(r)[:200], "turn": turn})
+            await ws.send_json({"type": "error", "text": human_error(r), "turn": turn})
     await ws.send_json({"type": "audio_done", "turn": turn})
     said = next((r for r in results if isinstance(r, str)), "")
     return said, stats["leaked"], stats["ops"], stats["jump"], stats
