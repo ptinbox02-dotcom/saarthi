@@ -1,0 +1,98 @@
+[
+  {
+    "shot": "b1_tubelight",
+    "ok": true,
+    "path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/broll/b1_tubelight.mp4",
+    "seconds": 8,
+    "resolution": "1080p",
+    "attempts": [
+      {
+        "attempt": 0,
+        "judge": {
+          "shows_intended_shot": true,
+          "readable_text": false,
+          "text_evidence": "",
+          "dark_cinematic": true,
+          "faces_in_focus": false,
+          "quality": 5,
+          "note": "The video cinematic shot depicts a dual fluorescent light fixture turning on and glowing inside a warm, moody home setting."
+        },
+        "passed": true,
+        "reason": "The video cinematic shot depicts a dual fluorescent light fixture turning on and glowing inside a warm, moody home setting."
+      }
+    ],
+    "billed_seconds": 8
+  },
+  {
+    "shot": "b2_tubelight_closeup",
+    "ok": true,
+    "path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/broll/b2_tubelight_closeup.mp4",
+    "seconds": 8,
+    "resolution": "1080p",
+    "attempts": [
+      {
+        "attempt": 0,
+        "judge": {
+          "shows_intended_shot": true,
+          "readable_text": false,
+          "text_evidence": "",
+          "dark_cinematic": true,
+          "faces_in_focus": false,
+          "quality": 5,
+          "note": "Extreme macro close-up of a glowing blue-white fluorescent tube against a dark background."
+        },
+        "passed": true,
+        "reason": "Extreme macro close-up of a glowing blue-white fluorescent tube against a dark background."
+      }
+    ],
+    "billed_seconds": 8
+  },
+  {
+    "shot": "b3_wind_leaves",
+    "ok": true,
+    "path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/broll/b3_wind_leaves.mp4",
+    "seconds": 8,
+    "resolution": "1080p",
+    "attempts": [
+      {
+        "attempt": 0,
+        "judge": {
+          "shows_intended_shot": true,
+          "readable_text": false,
+          "text_evidence": "",
+          "dark_cinematic": true,
+          "faces_in_focus": false,
+          "quality": 5,
+          "note": "The video features leaves and a yellow cloth blowing in the wind in an Indian courtyard with cinematic shallow depth of field."
+        },
+        "passed": true,
+        "reason": "The video features leaves and a yellow cloth blowing in the wind in an Indian courtyard with cinematic shallow depth of field."
+      }
+    ],
+    "billed_seconds": 8
+  },
+  {
+    "shot": "b4_thomson_lab",
+    "ok": true,
+    "path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/broll/b4_thomson_lab.mp4",
+    "seconds": 8,
+    "resolution": "1080p",
+    "attempts": [
+      {
+        "attempt": 0,
+        "judge": {
+          "shows_intended_shot": true,
+          "readable_text": false,
+          "text_evidence": "",
+          "dark_cinematic": true,
+          "faces_in_focus": false,
+          "quality": 5,
+          "note": "A beautifully rendered atmospheric clip of a 19th-century physics laboratory with glowing vacuum tube and brass equipment."
+        },
+        "passed": true,
+        "reason": "A beautifully rendered atmospheric clip of a 19th-century physics laboratory with glowing vacuum tube and brass equipment."
+      }
+    ],
+    "billed_seconds": 8
+  }
+]

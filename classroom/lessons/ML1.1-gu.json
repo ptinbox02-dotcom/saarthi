@@ -1,0 +1,482 @@
+{
+  "topic": "ML1.1-gu",
+  "title": "Hook",
+  "video": "/media/ML1.1-gu/ML1.1-gu.mp4",
+  "video_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML1.1-gu/ML1.1-gu.mp4",
+  "reel": "/media/ML1.1-gu/ML1.1-gu_reel.mp4",
+  "reel_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML1.1-gu/ML1.1-gu_reel.mp4",
+  "duration": 559.113,
+  "language": "gu",
+  "safe_stops": [
+    3.285,
+    4.891,
+    7.796,
+    10.302,
+    14.293,
+    16.997,
+    20.087,
+    23.178,
+    25.882,
+    28.973,
+    30.609,
+    34.29,
+    36.744,
+    40.15,
+    42.656,
+    44.803,
+    47.309,
+    49.815,
+    52.805,
+    56.136,
+    58.726,
+    60.946,
+    64.212,
+    67.478,
+    70.277,
+    74.03,
+    76.068,
+    79.822,
+    83.176,
+    86.11,
+    88.207,
+    92.399,
+    95.135,
+    97.584,
+    99.726,
+    100.95,
+    103.752,
+    107.489,
+    111.692,
+    114.918,
+    118.02,
+    119.959,
+    123.449,
+    126.163,
+    129.578,
+    132.217,
+    134.479,
+    137.494,
+    139.841,
+    144.126,
+    147.242,
+    149.189,
+    152.305,
+    155.836,
+    160.161,
+    163.587,
+    165.727,
+    169.581,
+    171.294,
+    175.147,
+    178.484,
+    181.821,
+    185.158,
+    188.403,
+    190.749,
+    194.274,
+    196.9,
+    200.867,
+    203.642,
+    206.416,
+    209.191,
+    212.631,
+    215.579,
+    220.002,
+    223.667,
+    225.395,
+    227.814,
+    230.233,
+    233.88,
+    237.019,
+    239.765,
+    242.119,
+    245.258,
+    248.79,
+    251.144,
+    255.508,
+    258.202,
+    260.511,
+    263.589,
+    265.899,
+    269.362,
+    272.441,
+    275.135,
+    277.939,
+    281.747,
+    284.794,
+    287.079,
+    289.745,
+    292.791,
+    295.457,
+    298.729,
+    302.287,
+    305.054,
+    308.612,
+    311.774,
+    313.751,
+    316.914,
+    319.285,
+    322.448,
+    325.958,
+    330.744,
+    332.919,
+    336.399,
+    339.388,
+    341.95,
+    345.793,
+    347.501,
+    350.49,
+    354.173,
+    356.559,
+    359.342,
+    362.921,
+    365.647,
+    368.372,
+    372.227,
+    375.182,
+    377.398,
+    381.092,
+    383.308,
+    386.632,
+    388.849,
+    392.173,
+    394.389,
+    398.083,
+    400.299,
+    403.254,
+    406.948,
+    409.533,
+    412.488,
+    415.443,
+    418.727,
+    421.495,
+    424.659,
+    427.032,
+    430.592,
+    434.151,
+    436.524,
+    439.688,
+    442.061,
+    445.226,
+    448.785,
+    451.949,
+    453.926,
+    457.881,
+    460.255,
+    463.814,
+    466.749,
+    470.004,
+    473.26,
+    475.701,
+    478.957,
+    482.619,
+    486.282,
+    487.909,
+    491.165,
+    493.958,
+    498.612,
+    502.336,
+    506.991,
+    508.852,
+    512.576,
+    516.3,
+    520.023,
+    523.747,
+    527.519,
+    531.211,
+    533.673,
+    537.776,
+    541.058,
+    545.473,
+    548.989,
+    552.002,
+    556.02
+  ],
+  "beats": [
+    {
+      "index": 0,
+      "slug": "beat00",
+      "title": "Hook",
+      "start": 2.0,
+      "seconds": 26.973,
+      "narration": "Tamaara ghar ma je tube light roj bale che… ae ek tube ni andar chhupaayeli che physics ni sauthi moti shodh. Evo ek particle jene aaje sudhi koi e joyo nathi — chhataa aapne pakku jaaniye chhiye ke duniya ni dar ek cheez ena thi bani che. Naam? Electron. Aaje aapne ae j vaarta samjhishu — sav shoonya thi, ane evi rite ke ferithi kyaarey nahi bhulo.",
+      "onscreen": "Dark screen → a tube light flickers ON with its *tink-tink* start, then a steady glow. Zoom into the glow; it morphs into a glowing gas-discharge tube. Big text: \"Aa tubelight… ek shodh che.\"",
+      "facts": [],
+      "cues": {
+        "hook_start": 1.4,
+        "tube_lit": 3.5,
+        "discharge_tube": 14.324,
+        "electron_named": 21.024
+      }
+    },
+    {
+      "index": 1,
+      "slug": "beat01",
+      "title": "Koyado",
+      "start": 28.973,
+      "seconds": 31.973,
+      "narration": "Ek vaat jaani lo: saamaanya hawa bijli conduct karti nathi. Etle j khulla wires ni vachche spark thato nathi. Pan 1850s ma scientists e kaik ajaayab joyu. Ek kaach ni bandh tube lo, ema gas bharo, gas nu pressure khoob ochhu kari do, ane banne baaju khoob high voltage aapo… to tube andar thi chamakva laage che. Vichaaro to kharaa — je gas bijli rokti hati, ae j have glow kari rahi che. Aavu kem? Aa j koyado che.",
+      "onscreen": "Two bare wires in air, a spark tries and fails (❌). Then a sealed glass tube; a battery labelled \"~10,000 V\"; a pressure gauge needle drops high → low; the gas glows. Label: \"Discharge tube.\"",
+      "facts": [
+        "[F1]",
+        "[F2]"
+      ],
+      "cues": {
+        "air_insulates": 2.6,
+        "high_voltage": 15.477,
+        "pressure_low": 22.315,
+        "labelled": 26.815
+      }
+    },
+    {
+      "index": 2,
+      "slug": "beat02",
+      "title": "Discharge tube ane rays",
+      "start": 60.946,
+      "seconds": 40.004,
+      "narration": "Aa tube ne kahevay che discharge tube. Ek chhedo cathode — etle negative terminal, minus. Bijo anode — positive, plus. Jem jem pressure vadhu ochhu karta gaya, glow ni pattern badalti gai… ane khoob low pressure par ek navo nazaaro: tube ni saame ni deewaal chamakva laagi — ane aa chamak cathode thi aavti hati, ek sidhi dhaara ni jem. Ene naam malyu — cathode rays. Cathode mathi nikalti kirano. Ane haa — aa ae j tube light che je tamaara ghar ma che. Bas ema gas low pressure par che, ane voltage aapelu che.",
+      "onscreen": "Label cathode (–, left) and anode (+, right). Pressure slider drops in 3 stages; glow changes each stage; at the lowest, a straight beam streams cathode → the far wall fluoresces green. Callout: \"Cathode rays.\"",
+      "facts": [
+        "[F3]"
+      ],
+      "cues": {
+        "electrodes_named": 3.3,
+        "beam_forms": 16.127,
+        "wall_fluoresces": 27.935,
+        "named": 34.148
+      }
+    },
+    {
+      "index": 3,
+      "slug": "beat03",
+      "title": "Jaasusi: aa rays che shu?",
+      "start": 100.95,
+      "seconds": 74.197,
+      "narration": "Have samasya: aa rays dekhaati nathi. To scientists e jaasus jevu kaam karyu — jyaare cheez pote na dekhaay, to ena effects juo. Jem hawa — hawa dekhaati nathi, pan paandada ne halta joi ne khabar padi jaay che ke hawa che. Bilkul ae j rite. Pehlo clue — sidhi line. Beam na raste ma ek object mooko… to deewaal par eni sharp shadow bane che. Etle rays sidhi line ma chaale che. Bijo clue — ema dam che. Raste ma ek halko pankho (paddle-wheel) mooko… ane ae farva laage che! Etle rays fakt roshni nathi — ema mass ane momentum che. Aa kaink particles che je takraai rahya che. Trijo clue — sauthi moto. Be charged plates mooko, ek plus ek minus… beam plus plate ni baaju vali jaay che. Have vichaaro — opposite charges attract kare che. Beam jo plus ni baaju jai rahi che, etle beam pote negative che. Cathode rays negatively charged che. Magnet paase laavo — tyaare pan vale che, ae confirm kare che ke aa moving charges che.",
+      "onscreen": "Three mini-panels, each with a ✅ as it is proven: 1. Object in beam → crisp shadow. 2. Paddle-wheel spins. 3. Two plates (+/–); beam bends toward +; then a magnet bends it.",
+      "facts": [
+        "[F4]",
+        "[F5]",
+        "[F6]",
+        "[F7]"
+      ],
+      "cues": {
+        "wind_metaphor": 10.548,
+        "shadow": 23.769,
+        "paddle_wheel": 32.244,
+        "plate_deflection": 45.185,
+        "negative_concluded": 59.09,
+        "magnet": 70.25
+      }
+    },
+    {
+      "index": 4,
+      "slug": "beat04",
+      "title": "Moto insight: universal particle",
+      "start": 175.147,
+      "seconds": 34.044,
+      "narration": "Have kharo twist. Scientists e tube ma alag alag gas bhari — hydrogen, oxygen, koi pan. Cathode nu metal pan badalyu. Ane result? Rays hamesha same. Vichaaro eno matlab shu che. Jo dar gas mathi, dar metal mathi ae j ek particle nikli rahyo che… to aa particle dar cheez ni andar hajar che. Aa koi ek padarth no nathi — aa aakha matter no building block che. Universal. Dar atom ni andar betho che.",
+      "onscreen": "A carousel swaps the gas (H₂ → O₂ → N₂) and the cathode metal (Al → Cu → Fe); the beam stays identical. Then zoom out: different objects each reveal the same particle. Big text: \"Dar cheez ma — ae j particle.\"",
+      "facts": [
+        "[F8]"
+      ],
+      "cues": {
+        "carousel_start": 5.033,
+        "beam_identical": 20.538,
+        "same_particle": 28.064
+      }
+    },
+    {
+      "index": 5,
+      "slug": "beat05",
+      "title": "Thomson ane e/m: ratio j kem",
+      "start": 209.191,
+      "seconds": 127.208,
+      "narration": "Have ek saahjik sawaal. Aapne maani lidhu ke cathode rays negative particles che. Pan aa particle che shu? Ketlu bhaare, ketlo charge? Takleef aa che — ene na pakadi shako, na taraaju par mooki shako, dekhaato pan nathi. To je cheez pakadi j na shako, ene maapsho kai rite? Trick aa j che. Sidhu mass ke charge to nathi maapi shakta, pan aapne ae maapi shakiye ke beam known electric ane magnetic field ma ketlu vale che. Ane aa valvu aadhaar rakhe che banne par ek saathe — charge ane mass na ratio par. Etle e/m, charge divided by mass. Intuition samjho: vadhu charge hoy to beam vadhu valshe. Pan vadhu mass — vadhu bhaare — to ochhu valshe, kaaran ke bhaare cheez ne valavvi mushkel. Jem bharelo thelo ane khaali thelo — same dhakko aapo, bharelo ochho vale che. Etle beam nu valvu aapne sidhu kahe che charge per unit mass — e/m. Na fakt e, na fakt m. 1897 ma J.J. Thomson e bilkul aa j karyu. Electric field beam ne ek baaju khenche, magnetic field biji baaju — banne ne balance kari ne ene e/m kaadhi lidhu. Value aavi lagbhag 1.76 × 10¹¹ coulomb per kilogram. Khoob moto number. Have aa mota number no matlab. Hydrogen saathe compare karo — electron nu e/m ena thi lagbhag 1836 gaNu vadhu nikalyu. Charge to malto julto che, to aatla mota ratio no ek j matlab: electron 1836 gaNu halku che hydrogen atom karta. Etle aa atom ni andar no, atom karta pan naano particle che — subatomic. Ane ahiya exam no trap — Thomson e fakt e/m maapyu, e ke m alag alag nahi. Ae values pachhi thi aavi. Thomson e ene \"corpuscle\" kahyu; naam padyu electron.",
+      "onscreen": "1. Question card over a faint \"?\": \"Ene maapvu kai rite?\" 2. **3D deflection tube:** horizontal beam; E-field pushes it up, B-field pushes it down. 3. Intuition inset: **bharelo thelo vs khaali thelo**, same push — the heavy one turns less. 4. The two fields **balance** → beam straight. Formula card \"e/m ≈ 1.76 × 10¹¹ C/kg\" + \"1897\". 5. Balance scale: electron vs hydrogen atom, \"1836× halku\" as a **consequence** of the ratio. 6. Red **TRAP** banner: \"Thomson measured e/m — NOT e, NOT m.\" Then \"corpuscle → electron.\"",
+      "facts": [
+        "[F9]",
+        "[F10]",
+        "[F11]",
+        "[F12]",
+        "[F14]"
+      ],
+      "cues": {
+        "question": 3.1,
+        "E_field": 22.78,
+        "B_field": 35.495,
+        "ratio_intuition": 49.861,
+        "crossed_fields_balanced": 70.915,
+        "em_value": 83.629,
+        "mass_ratio": 95.944,
+        "trap": 106.632,
+        "electron_named": 121.69
+      }
+    },
+    {
+      "index": 6,
+      "slug": "beat06",
+      "title": "Aeni asar",
+      "start": 336.399,
+      "seconds": 26.522,
+      "narration": "Eni asar samjho. Ae samay sudhi badha maanta hata ke atom sauthi naani, na-tootnaari cheez che. Electron ni shodh e kahyu — nahi. Atom ni andar pan naana particles che. Atom tute che. Aa ek j shodh thi shroo thai aakha atomic structure ni vaarta — Thomson nu model, pachhi Rutherford, pachhi Bohr. Badha no paayo aa tube light jevo glow hato.",
+      "onscreen": "Solid \"atom\" ball cracks open to reveal electrons. Timeline ticks: Thomson → Rutherford → Bohr. Line: \"Ek glow thi… aakho atom samjaayo.\"",
+      "facts": [
+        "[F15]"
+      ],
+      "cues": {
+        "old_belief": 2.2,
+        "atom_cracks": 13.394,
+        "timeline": 19.407
+      }
+    },
+    {
+      "index": 7,
+      "slug": "beat07",
+      "title": "JEE rapid-fire: aa j puchaay che",
+      "start": 362.921,
+      "seconds": 128.244,
+      "narration": "Have sidha JEE mode. Aa paanch pointers dar varse koi na koi form ma aave che. Ek — cathode rays wave nathi, particle che. Ghana loko lakhi de che \"electromagnetic wave.\" Khotu. Kem? Kaaran ke ema momentum che, ane aa electric ane magnetic banne fields thi vale che. Light — etle electromagnetic radiation — koi pan field thi valti nathi. Aa j ek line no answer che. Be — properties ni aakhi list yaad raakho. Fluorescence karaave che, gas ne ionise kare che — etle gas na atoms mathi electron kaadhi de che — photographic plate ne affect kare che, patli metal foil ni aar-paar nikli jaay che, ane target ne garam kari de che. Tran — X-rays, ek line ma. Cathode rays koi bhaare metal (jem ke tungsten) par takraay to X-rays nikle che — ae j hospital vaali X-ray. Bas aetlu yaad raakho. Chaar — specific charge. e-by-m ne specific charge pan kahevay che. Electron nu e-by-m 1.758 × 10¹¹, ane proton nu fakt 9.578 × 10⁷ coulomb per kilogram. Ratio? Ae j 1836. Etle atom ni andar sauthi motu specific charge electron nu che. Question aave \"highest e/m kono?\" — answer electron. Paanch — ane aa j cathode ane anode rays no kharo farak che. Cathode rays nu e-by-m gas par aadhaar nathi raakhtu. Anode rays nu e-by-m gas par aadhaar raakhe che — ane hydrogen mate maximum hoy che. Aa ek line aakho question nakki kari de che. Ane ek chhelli vaat — e ane m nikalya kai rite? Tran step. Thomson e 1897 ma e-by-m kaadhyu. Millikan e oil-drop thi e kaadhyu. Ane m koi e maapyu j nahi — ae derive thayu: m = e divided by e-by-m, etle 9.11 × 10⁻³¹ kilogram. Order yaad raakho — exam aa j order par question banaave che.",
+      "onscreen": "Five numbered rapid-fire cards with ✗/✓ verdicts, as in the Hinglish version: wave-vs-particle with E and B bending the beam beside a straight light ray; the property checklist; the tungsten target emitting X-rays; the e/m bars (electron 1.758 × 10¹¹ vs proton 9.578 × 10⁷, \"1836×\"); and cathode-vs-anode gas dependence, then the chain \"Thomson 1897 → e/m\" → \"Millikan 1909 → e\" → \"m = e ÷ (e/m)\".",
+      "facts": [
+        "[F17]",
+        "[F18]",
+        "[F19]",
+        "[F20]",
+        "[F21]",
+        "[F22]"
+      ],
+      "cues": {
+        "wave_vs_particle": 11.164,
+        "properties": 32.421,
+        "xrays": 54.387,
+        "em_bars": 74.615,
+        "cathode_vs_anode": 92.442,
+        "mass_derived": 117.287
+      }
+    },
+    {
+      "index": 8,
+      "slug": "beat08",
+      "title": "Recap + CTA",
+      "start": 491.165,
+      "seconds": 64.855,
+      "narration": "Ek line ma: discharge tube → low pressure + high voltage → cathode rays → sidhi line, momentum, negative, ane gas thi independent → etle ek universal particle → Thomson e e/m maapyu → electron. Exam mate tran cheez pakki: ek — cathode rays negative hoy che ane cathode thi anode ni baaju chaale che. Be — ae gas ane electrode par aadhaar nathi raakhti. Tran — Thomson e e/m maapyu, e ke m nahi. Kaale: proton ni vaarta — anode rays. Follow karo. Ane jo samjaai gayu hoy, to comment ma lakho \"tubelight\" — jethi mane khabar pade ke aa click thayu.",
+      "onscreen": "Clean recap chain as connected chips. Then three numbered exam-pointer cards. Outro: \"@saarthi · JEE no kharo mentor\" + \"Kaale: Proton ni vaarta →\". CTA text: comment \"tubelight\".",
+      "facts": [],
+      "cues": {
+        "recap_chain": 5.48,
+        "exam_pointers": 38.489,
+        "cta": 50.798
+      }
+    }
+  ],
+  "facts": {
+    "F1": {
+      "claim": "Air/gas is normally an insulator",
+      "detail": "Does not conduct at ordinary pressure & voltage"
+    },
+    "F2": {
+      "claim": "Discharge tube setup",
+      "detail": "Sealed glass tube, two electrodes (cathode –, anode +), gas at low pressure, high voltage (~10,000 V)"
+    },
+    "F3": {
+      "claim": "Rays originate at the cathode",
+      "detail": "Named cathode rays (name coined by Goldstein, 1876)"
+    },
+    "F4": {
+      "claim": "Cathode rays travel in **straight lines**",
+      "detail": "Cast a sharp shadow of an object placed in path"
+    },
+    "F5": {
+      "claim": "Cathode rays carry **momentum / mass**",
+      "detail": "Rotate a light paddle-wheel placed in path"
+    },
+    "F6": {
+      "claim": "Cathode rays are **negatively charged**",
+      "detail": "Deflected towards the positive plate in an electric field"
+    },
+    "F7": {
+      "claim": "Deflected by a **magnetic field** too",
+      "detail": "Confirms they are moving charged particles"
+    },
+    "F8": {
+      "claim": "Rays are **independent of the gas and the electrode metal**",
+      "detail": "Same particle regardless of gas filled or cathode material → universal constituent of all matter"
+    },
+    "F9": {
+      "claim": "**J.J. Thomson**, **1897**",
+      "detail": "Measured the charge-to-mass ratio (e/m) using crossed electric & magnetic fields"
+    },
+    "F10": {
+      "claim": "e/m value",
+      "detail": "e/m ≈ 1.758 × 10¹¹ C/kg (specific charge of the electron; 1.758820 × 10¹¹)"
+    },
+    "F11": {
+      "claim": "Thomson measured the **ratio**, not e or m separately",
+      "detail": "Common exam trap"
+    },
+    "F12": {
+      "claim": "Electron mass",
+      "detail": "≈ 9.11 × 10⁻³¹ kg (≈ 1/1836 of a H atom) — *established later* (Millikan's e, then m)"
+    },
+    "F13": {
+      "claim": "Charge on electron",
+      "detail": "e ≈ 1.602 × 10⁻¹⁹ C — measured by Millikan (oil-drop, ~1909)"
+    },
+    "F14": {
+      "claim": "Name \"electron\"",
+      "detail": "Coined by G.J. Stoney (1891); Thomson called them \"corpuscles\""
+    },
+    "F15": {
+      "claim": "Significance",
+      "detail": "First subatomic particle → atom is divisible → led to Thomson's plum-pudding model, then Rutherford, Bohr"
+    },
+    "F16": {
+      "claim": "Low-pressure discharge glow first seen in the **1850s**",
+      "detail": "Geissler's mercury vacuum pump (~1855) → Geissler tubes (from 1857); Plücker observed the glow and its magnetic deflection (1858)"
+    },
+    "F17": {
+      "claim": "Cathode rays are **material particles, not electromagnetic waves**",
+      "detail": "They carry momentum and are deflected by both electric and magnetic fields; EM radiation is not deflected by either. A very common MCQ distractor"
+    },
+    "F18": {
+      "claim": "Further properties",
+      "detail": "Cause fluorescence (ZnS screen, glass wall), ionise gases, affect a photographic plate, penetrate thin metal foils, produce a heating effect on the target"
+    },
+    "F19": {
+      "claim": "Cathode rays → **X-rays**",
+      "detail": "On striking a target of high atomic number / high melting point (tungsten, molybdenum) at high speed, X-rays are emitted"
+    },
+    "F20": {
+      "claim": "Electron has the **largest specific charge** of the atom's constituents",
+      "detail": "e/m(electron) = 1.758 × 10¹¹ C/kg vs e/m(proton) = 9.578 × 10⁷ C/kg → ratio ≈ 1836"
+    },
+    "F21": {
+      "claim": "**Anode (canal) rays** contrast",
+      "detail": "Their e/m depends on the gas in the tube and is maximum for hydrogen; cathode rays' e/m is gas-independent — this is *the* discriminating fact between the two"
+    },
+    "F22": {
+      "claim": "How e and m were actually pinned down",
+      "detail": "Thomson 1897 → e/m; Millikan ~1909 → e; mass then *derived*, m = e ÷ (e/m) ≈ 9.11 × 10⁻³¹ kg. Order matters in exam questions"
+    }
+  },
+  "in_scope": [
+    "Production of cathode rays (discharge tube, low pressure + high voltage).",
+    "The five properties (F4–F8) and what each **proves**.",
+    "Gas/electrode independence → universal negative particle.",
+    "Thomson 1897, e/m ≈ 1.76 × 10¹¹ C/kg, and the \"ratio not e or m\" trap (F11).",
+    "One-line significance: atom is divisible.",
+    "**Exam pointers (F17–F22):** particle-not-wave; the full property list incl. X-ray"
+  ],
+  "out_of_scope": [
+    "Full Millikan oil-drop derivation (separate lesson).",
+    "Exact crossed-field math derivation of e/m (name the method, don't derive on screen).",
+    "Quantum/orbital structure."
+  ],
+  "exact_numbers": [
+    "e/m = **1.758 × 10¹¹ C/kg** (round to 1.76 × 10¹¹ in narration).",
+    "Year **1897**, Thomson.",
+    "Electron ~**1836×** lighter than a hydrogen atom."
+  ]
+}

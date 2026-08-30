@@ -1,0 +1,3 @@
+aiohttp>=3.9
+google-genai>=1.0
+python-dotenv>=1.0          # gclient imports it; load_dotenv is a no-op with no .env

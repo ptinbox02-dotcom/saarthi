@@ -1,0 +1,444 @@
+{
+  "topic": "ML5.10",
+  "title": "Hook",
+  "video": "/media/ML5.10/ML5.10.mp4",
+  "video_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML5.10/ML5.10.mp4",
+  "reel": "/media/ML5.10/ML5.10_reel.mp4",
+  "reel_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML5.10/ML5.10_reel.mp4",
+  "duration": 469.201,
+  "language": "hi",
+  "safe_stops": [
+    4.714,
+    7.88,
+    11.267,
+    13.34,
+    17.546,
+    20.211,
+    22.495,
+    25.54,
+    27.919,
+    31.488,
+    34.66,
+    37.612,
+    40.895,
+    43.767,
+    46.64,
+    50.547,
+    54.413,
+    57.42,
+    61.54,
+    63.956,
+    67.981,
+    71.201,
+    74.019,
+    76.837,
+    80.46,
+    83.68,
+    87.46,
+    91.24,
+    96.016,
+    98.169,
+    101.184,
+    105.06,
+    109.973,
+    111.757,
+    114.879,
+    118.0,
+    120.878,
+    124.833,
+    127.799,
+    131.26,
+    134.57,
+    137.052,
+    139.948,
+    143.671,
+    145.74,
+    150.273,
+    152.998,
+    157.54,
+    160.265,
+    165.261,
+    168.44,
+    172.33,
+    174.466,
+    178.31,
+    181.3,
+    183.912,
+    186.525,
+    189.66,
+    194.135,
+    196.519,
+    199.697,
+    202.08,
+    206.488,
+    210.434,
+    212.627,
+    216.135,
+    220.081,
+    223.589,
+    226.22,
+    229.729,
+    232.711,
+    235.32,
+    237.5,
+    239.68,
+    243.615,
+    246.65,
+    248.818,
+    252.721,
+    255.756,
+    259.225,
+    262.26,
+    266.324,
+    270.016,
+    273.181,
+    277.4,
+    281.135,
+    282.553,
+    286.097,
+    288.224,
+    291.059,
+    293.54,
+    296.46,
+    299.562,
+    302.708,
+    304.282,
+    306.484,
+    309.001,
+    311.203,
+    313.72,
+    316.813,
+    320.469,
+    321.932,
+    325.222,
+    327.05,
+    330.34,
+    334.26,
+    337.403,
+    340.393,
+    344.505,
+    346.748,
+    348.991,
+    351.608,
+    355.346,
+    358.71,
+    362.075,
+    363.57,
+    366.934,
+    369.551,
+    372.541,
+    375.906,
+    378.148,
+    381.513,
+    383.756,
+    387.12,
+    390.238,
+    392.486,
+    395.484,
+    397.732,
+    400.729,
+    404.102,
+    407.099,
+    409.722,
+    412.72,
+    415.398,
+    420.307,
+    422.984,
+    425.662,
+    429.232,
+    431.91,
+    435.48,
+    440.035,
+    442.776,
+    446.431,
+    450.085,
+    453.74,
+    457.007,
+    459.768,
+    463.319,
+    466.08
+  ],
+  "beats": [
+    {
+      "index": 0,
+      "slug": "beat00",
+      "title": "Hook",
+      "start": 2.0,
+      "seconds": 23.54,
+      "narration": "Ek sawaal jo har student ko confuse karta hai: electron rehta kahan hai? Aur uska ghar dikhta kaisa hai? Kisi ka laddoo jaisa gol… aur kisi ka dumbbell jaisa. Aaj hum yahi samjhenge — s aur p orbitals ki shapes — aur wo ek cheez jo in dono ko alag karti hai. Bilkul zero se.",
+      "onscreen": "Dark screen. A glowing sphere fades up on the left, a two-lobed dumbbell on the right. Camera pushes in on the sphere, then reframes to the dumbbell. Big text: \"Electron ka ghar — gol ya dumbbell?\"",
+      "facts": [],
+      "cues": {
+        "s_shape": 3.0,
+        "p_shape": 11.27,
+        "hook": 14.97
+      }
+    },
+    {
+      "index": 1,
+      "slug": "beat01",
+      "title": "Orbit nahi, orbital",
+      "start": 25.54,
+      "seconds": 58.14,
+      "narration": "Pehle ek galat picture hata do. Bohr ne kaha tha electron ek fixed circular path par ghoomta hai — usse bolte hain orbit. Lekin quantum mechanics ne bataya: electron ka koi definite raasta hota hi nahi. Hum sirf ye keh sakte hain ki wo kahan milne ke chances zyada hain. Aur usi region ko bolte hain orbital. Orbit ek line hai, orbital ek jagah hai — ye farak exam mein seedha aata hai. Ab shape ka matlab. Electron ka wave function hota hai psi. Uska square, psi-square, batata hai probability density — yaani kis point par electron milne ka chance kitna hai. Hum ek aisi surface bana dete hain jiske andar electron milne ka chance lagbhag 90 percent ho. Yahi hai boundary surface — aur \"shape\" ka matlab bas yahi surface hai. Koi thos gend nahi.",
+      "onscreen": "Left: a Bohr-style electron running a crisp circular track, struck out in red. Right: the track dissolves into a cloud of dots, denser near the nucleus. Push in on the cloud; a translucent surface inflates around it until it encloses most of the dots, labelled \"boundary surface · ~90%\". Caption: \"Orbit = line. Orbital = jagah.\"",
+      "facts": [
+        "[F1]",
+        "[F2]",
+        "[F3]"
+      ],
+      "cues": {
+        "orbit": 3.4,
+        "orbital": 13.584,
+        "boundary_surface": 36.759,
+        "contrast": 48.114
+      }
+    },
+    {
+      "index": 2,
+      "slug": "beat02",
+      "title": "s orbital: har taraf se gol",
+      "start": 83.68,
+      "seconds": 47.58,
+      "narration": "Chalo pehla orbital — s. Iska l, yaani azimuthal quantum number, hota hai zero. Iska psi-square sirf distance par depend karta hai — nucleus se kitni door ho. Direction par bilkul nahi. Matlab upar dekho, neeche dekho, left, right — har taraf se same. Isiliye s orbital ki boundary surface ek sphere hai. Ek laddoo socho — har side se gol, koi \"aage-peeche\" nahi. Isi liye s ko bolte hain non-directional. Aur n badhne par? Sphere bada hota jaata hai — 1s chhota, 2s usse bada, 3s aur bada. Shape wahi rehti hai, size badhta hai.",
+      "onscreen": "3D translucent sphere around a bright nucleus, slowly orbiting camera so its roundness is unmistakable. A radius arrow labelled \"r\" sweeps in every direction, the value unchanged. Then 1s → 2s → 3s: the sphere inflates in three steps, labels ticking, shape identical. Caption: \"Sirf distance — direction nahi.\"",
+      "facts": [
+        "[F4]",
+        "[F5]"
+      ],
+      "cues": {
+        "sphere": 2.3,
+        "symmetry": 6.7,
+        "size_grows": 37.81
+      }
+    },
+    {
+      "index": 3,
+      "slug": "beat03",
+      "title": "s ke andar chhupa hua node",
+      "start": 131.26,
+      "seconds": 50.04,
+      "narration": "Ab ek cheez jo diagram mein dikhti nahi. 2s bahar se to gol hai, par uske andar ek aisi spherical layer hai jahan electron milne ka chance bilkul zero hai. Ise bolte hain radial node. Formula yaad rakho — radial nodes barabar n minus l minus one. Check karo: 1s mein n ek, l zero — to one minus zero minus one, yaani zero nodes. 2s mein n do — to two minus zero minus one, yaani ek radial node. 3s mein do. Picture yeh banti hai: 2s ek gend ke andar gend jaisa — beech mein ek khali spherical shell. Socho kachori — bahar parat, andar khali jagah, phir bharaai.",
+      "onscreen": "The 2s sphere is sliced open by a moving cross-section plane; inside, a dark spherical shell appears where density falls to zero. Push in on that shell. A small table writes itself: \"1s → 0 · 2s → 1 · 3s → 2 radial nodes\" with \"n − l − 1\" beside it. Caption: \"Bahar se gol, andar ek khaali parat.\"",
+      "facts": [
+        "[F9]",
+        "[F14]"
+      ],
+      "cues": {
+        "radial_node": 13.218,
+        "curve_zero": 26.937,
+        "node_table": 38.809
+      }
+    },
+    {
+      "index": 4,
+      "slug": "beat04",
+      "title": "p orbital: dumbbell, aur teen directions",
+      "start": 181.3,
+      "seconds": 54.02,
+      "narration": "Ab dusra orbital — p. Yahan l barabar ek hai. Aur shape? Bilkul badal jaati hai. p orbital ki boundary surface dumbbell jaisi hai — nucleus ke dono taraf do lobes, ek hi axis par. Gym wala dumbbell socho: beech mein pakad, dono taraf weight. Ab important baat. l ek hone par magnetic quantum number m teen values le sakta hai — minus one, zero, plus one. Matlab p ek nahi, teen orbitals hain: p-x, p-y, p-z. Aur teeno ek dusre ke perpendicular — bilkul kamre ke kone ki teen edges jaisi. Ek lambaai, ek chaudai, ek unchai. Aur teeno ki energy same hoti hai, jab tak koi bahar ka electric ya magnetic field na lage. Isse bolte hain degenerate.",
+      "onscreen": "3D: a single dumbbell forms along z, nucleus at the pinch point; camera orbits to show it is a solid of revolution. Then p<sub>x</sub> and p<sub>y</sub> snap in along the other two axes, colour-coded, with the axis triad drawn. Camera orbits once around all three. Flat labels: \"p<sub>x</sub> · p<sub>y</sub> · p<sub>z</sub> — mutually perpendicular\", \"same energy = degenerate\".",
+      "facts": [
+        "[F6]",
+        "[F7]",
+        "[F8]"
+      ],
+      "cues": {
+        "dumbbell": 3.3,
+        "three_orbitals": 23.712,
+        "degenerate": 41.124
+      }
+    },
+    {
+      "index": 5,
+      "slug": "beat05",
+      "title": "Nodal plane: yahi hai asli farak",
+      "start": 235.32,
+      "seconds": 58.22,
+      "narration": "Ab wo ek cheez jo s aur p ko sach mein alag karti hai. p orbital ke do lobes ke beech ek poora plane hai jahan electron milne ka chance exactly zero hai. Ise bolte hain nodal plane — ya angular node. Ye plane nucleus se hoke guzarta hai, aur orbital ke axis ke perpendicular hota hai. p-z ka nodal plane hai x-y plane. Kitne? Formula: angular nodes barabar l. p ke liye l ek hai — to ek nodal plane. Sirf ek. Do lobes hain iska matlab do plane nahi. Aur s? s mein l zero hai — matlab zero nodal plane. Yahi hai poori kahani ka nichod: s gol hai kyunki uske paas koi direction hi nahi; p dumbbell hai kyunki uske beech ek plane hai jahan electron ja hi nahi sakta.",
+      "onscreen": "3D p<sub>z</sub> dumbbell; a translucent plane slides in through the nucleus, perpendicular to the lobes, and the density on it visibly drops to zero. Push in on the plane edge-on so it reads as a plane, not a line. Then split screen: sphere (0 planes) vs dumbbell (1 plane), each with a counter. Caption: \"angular nodes = l\".",
+      "facts": [
+        "[F10]",
+        "[F12]",
+        "[F13]",
+        "[F19]"
+      ],
+      "cues": {
+        "nodal_plane": 11.3,
+        "contrast": 42.1
+      }
+    },
+    {
+      "index": 6,
+      "slug": "beat06",
+      "title": "Shape matter kyun karti hai",
+      "start": 293.54,
+      "seconds": 36.8,
+      "narration": "Ye shapes sirf dekhne ke liye nahi hain. s har direction mein same hai — to wo kisi bhi taraf se overlap kar sakta hai. Par p sirf apne axis ke along theek se overlap karta hai. Isi wajah se bond kis direction mein banega ye p orbitals decide karte hain — aur wahi se molecule ki shape aati hai. Ek aur baat, aage kaam aayegi: p ke dono lobes ka phase ulta hota hai — ek plus, ek minus. Ye charge nahi hai, ye wave ka sign hai. Jab do orbitals milte hain, yahi sign decide karta hai bond banega ya nahi.",
+      "onscreen": "An s sphere approaches another from three different directions; overlap succeeds each time. Then a p dumbbell: overlap along its axis succeeds (highlighted green), sideways-on fails (red). Then the two lobes tint + and −, and two dumbbells meet lobe-to-lobe. Caption: \"Direction fix karta hai — isliye molecule ki shape.\"",
+      "facts": [
+        "[F16]",
+        "[F17]"
+      ],
+      "cues": {
+        "s_overlap": 8.05,
+        "axial_overlap": 12.15,
+        "phase": 27.996
+      }
+    },
+    {
+      "index": 7,
+      "slug": "beat07",
+      "title": "JEE rapid-fire: yahi poocha jaata hai",
+      "start": 330.34,
+      "seconds": 82.38,
+      "narration": "Ab seedha JEE mode. Paanch pointers. Ek — nodes ka pura formula. Radial nodes barabar n minus l minus one, angular nodes barabar l, aur total nodes barabar n minus one. Teeno yaad, kaam khatam. Do — 2s versus 2p ka classic trap. Dono mein total node ek hi hai. Par kism alag hai: 2s ka node radial hai — ek spherical layer. 2p ka node angular hai — ek plane. Question bolta hai \"type of node\" — wahin log fisalte hain. Teen — nodal plane ki ginti. p orbital mein nodal plane ek hota hai, do nahi. Do lobes dekh ke do mat likh dena. Aur d orbitals mein l do hota hai — to do nodal planes. Chaar — nucleus par kya hota hai. s orbital mein electron density nucleus par maximum hoti hai. Par p orbital mein nucleus par psi zero hai. Isiliye dumbbell beech se pinched dikhta hai — wo do alag gend nahi hain. Paanch — shape kis par depend karti hai. Shape l par, size n par. l zero to sphere, l ek to dumbbell. Aur boundary surface 90 percent probability enclose karti hai, sau nahi — yaani lagbhag das percent chance bahar bhi hai. Ye do lines har saal kisi na kisi form mein aati hain.",
+      "onscreen": "1. The three node formulas write themselves, then a small table fills: 1s, 2s, 2p, 3p with radial/angular/total columns. 2. Side by side: 2s cut open (spherical node) vs 2p (nodal plane), each labelled with the node *type*. 3. A p orbital with a single plane and a big \"1\", a struck-out \"2\" beside it; then a d orbital with \"2\". 4. Two density curves through the nucleus: s peaking at r = 0, p falling to zero at r = 0, with the pinch highlighted. 5. \"shape ← l · size ← n\" and a boundary surface with \"90%\" inside and \"~10%\" leaking outside.",
+      "facts": [
+        "[F3]",
+        "[F9]",
+        "[F10]",
+        "[F11]",
+        "[F15]",
+        "[F18]",
+        "[F19]",
+        "[F20]",
+        "[F21]",
+        "[F22]"
+      ],
+      "cues": {
+        "formulas": 9.083,
+        "2s_vs_2p": 29.216,
+        "nodal_plane_count": 42.183,
+        "nucleus_density": 55.958,
+        "shape_l_size_n": 68.03
+      }
+    },
+    {
+      "index": 8,
+      "slug": "beat08",
+      "title": "Recap + CTA",
+      "start": 412.72,
+      "seconds": 53.36,
+      "narration": "Ek line mein: orbital matlab jagah, orbit nahi → shape aati hai psi-square ki boundary surface se, 90 percent wali → s gol, kyunki sirf distance par depend karta hai → p dumbbell, teen perpendicular directions mein, degenerate → aur farak ki jad: s mein zero nodal plane, p mein ek. Exam ke liye teen cheez pakki: ek — radial n minus l minus one, angular l, total n minus one. Do — p mein nodal plane ek hi hota hai. Teen — shape l se, size n se. Kal: d orbitals ki shapes — aur wo double-dumbbell wala twist. Follow karo. Aur agar samajh aaya, comment mein likho \"dumbbell\" — taaki mujhe pata chale ye click hua.",
+      "onscreen": "Recap chain as connected chips: \"orbital = jagah → |ψ|² → 90% boundary → s: sphere → p: dumbbell ×3 → s:0 / p:1 nodal plane\". Then three numbered exam-pointer cards. Outro: \"@saarthi · JEE ka asli mentor\" + \"Kal: d orbitals ki shapes →\". CTA text: comment \"dumbbell\".",
+      "facts": [],
+      "cues": {
+        "recap_chain": 4.08,
+        "exam_pointers": 32.365,
+        "cta": 42.609
+      }
+    }
+  ],
+  "facts": {
+    "F1": {
+      "claim": "An **orbital is not an orbit**",
+      "detail": "Bohr's orbit = a fixed circular *path*. An orbital = a region of space where the electron is likely to be found. The electron has no definite trajectory (Heisenberg)"
+    },
+    "F2": {
+      "claim": "What the \"shape\" actually is",
+      "detail": "ψ is the wave function; \\"
+    },
+    "F3": {
+      "claim": "Boundary surface encloses **~90%** probability",
+      "detail": "The surface is drawn where \\"
+    },
+    "F4": {
+      "claim": "**s orbital is spherical**",
+      "detail": "Spherically symmetric; \\"
+    },
+    "F5": {
+      "claim": "s orbital size grows with n",
+      "detail": "1s < 2s < 3s. All remain spherical"
+    },
+    "F6": {
+      "claim": "**p orbital is dumbbell-shaped**",
+      "detail": "Two lobes on either side of the nucleus, along one axis. l = 1"
+    },
+    "F7": {
+      "claim": "There are **three** p orbitals",
+      "detail": "m<sub>l</sub> = −1, 0, +1 → p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub>, mutually perpendicular (along the three Cartesian axes)"
+    },
+    "F8": {
+      "claim": "p orbitals are **degenerate**",
+      "detail": "In the absence of an external electric/magnetic field the three p orbitals of a given shell have equal energy"
+    },
+    "F9": {
+      "claim": "**Radial nodes = n − l − 1**",
+      "detail": "Spherical shells where \\"
+    },
+    "F10": {
+      "claim": "**Angular nodes (nodal planes) = l**",
+      "detail": "For p, l = 1 → exactly one nodal plane"
+    },
+    "F11": {
+      "claim": "**Total nodes = n − 1**",
+      "detail": "Sum of radial and angular nodes"
+    },
+    "F12": {
+      "claim": "The p nodal plane passes through the **nucleus**",
+      "detail": "It is perpendicular to the orbital's axis: for p<sub>z</sub> the nodal plane is the xy-plane. Probability there is exactly zero"
+    },
+    "F13": {
+      "claim": "s has **no** nodal plane",
+      "detail": "Angular nodes = l = 0. This is the structural difference behind \"spherical vs dumbbell\""
+    },
+    "F14": {
+      "claim": "Node counts, worked",
+      "detail": "1s: 0 radial, 0 angular. 2s: 1 radial, 0 angular. 2p: 0 radial, 1 angular. 3p: 1 radial, 1 angular. 3d: 0 radial, 2 angular"
+    },
+    "F15": {
+      "claim": "Probability **at the nucleus**",
+      "detail": "For s, \\"
+    },
+    "F16": {
+      "claim": "Lobes carry opposite **phase**",
+      "detail": "The two lobes of a p orbital have opposite signs of ψ (+ and −). Sign is a property of ψ, not of charge; it governs constructive/destructive overlap in bonding"
+    },
+    "F17": {
+      "claim": "Directionality is the consequence that matters",
+      "detail": "s overlaps in any direction; p overlaps best along its own axis → p orbitals fix bond directions and hence molecular geometry"
+    },
+    "F18": {
+      "claim": "2s vs 2p node trap",
+      "detail": "Both have one node in total (n − 1 = 1), but of different kinds: 2s's is radial (spherical), 2p's is angular (a plane). A very common MCQ"
+    },
+    "F19": {
+      "claim": "\"Two nodal planes for p\" is wrong",
+      "detail": "A p orbital has one nodal plane. Two lobes ≠ two planes"
+    },
+    "F20": {
+      "claim": "The dumbbell is **not** two spheres",
+      "detail": "The lobes are teardrop/elongated, meeting at the nucleus where ψ = 0"
+    },
+    "F21": {
+      "claim": "Shape depends on **l**, size on **n**",
+      "detail": "l fixes the shape (0 → sphere, 1 → dumbbell); n fixes the size/energy"
+    },
+    "F22": {
+      "claim": "Boundary surface is not the electron's \"edge\"",
+      "detail": "Roughly 10% of the probability lies outside the drawn surface"
+    }
+  },
+  "in_scope": [
+    "Orbital vs orbit; \\|ψ\\|² and the boundary surface idea (F1–F3).",
+    "The **spherical** s orbital and its size trend (F4, F5).",
+    "The **dumbbell** p orbital, the three perpendicular orientations, degeneracy (F6–F8).",
+    "Nodes: radial = n − l − 1, angular = l, total = n − 1, worked for 1s/2s/2p/3p (F9–F11, F14).",
+    "The p **nodal plane** through the nucleus, and s having none (F12, F13) — the core contrast.",
+    "Probability at the nucleus for s vs p (F15); lobe phase (F16).",
+    "**Exam pointers (F17–F22).**"
+  ],
+  "out_of_scope": [
+    "d and f orbital shapes (mentioned only as \"l = 2 gives a different shape again\").",
+    "The radial distribution function 4πr²R² and its maxima.",
+    "Solving the Schrödinger equation, or the explicit angular wave functions.",
+    "Hybridisation and molecular orbital theory."
+  ],
+  "exact_numbers": [
+    "Boundary surface encloses **90%** probability.",
+    "Radial nodes = **n − l − 1**; angular nodes = **l**; total nodes = **n − 1**.",
+    "**Three** p orbitals; **one** nodal plane per p orbital.",
+    "2s → **1 radial** node; 2p → **1 angular** node (nodal plane)."
+  ]
+}

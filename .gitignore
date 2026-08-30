@@ -1,0 +1,33 @@
+# Secrets. The API keys live here and must never reach a public repo; they are set as
+# environment variables on the host instead.
+.env
+.env.*
+*.key
+**/stored_tokens
+
+# Environments and caches
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+.gradle/
+android-app/www/
+android-app/android/app/build/
+android-app/android/build/
+android-app/android/.gradle/
+android-app/android/local.properties
+
+# Build artefacts and working files
+build/
+scenes/
+audio/
+manim/
+classroom/shots/
+classroom/web/_fx_*.json
+classroom/web/*.bak
+*.bak
+
+# Real student questions and answers — not for a public repo
+classroom/audit/
+
+.DS_Store

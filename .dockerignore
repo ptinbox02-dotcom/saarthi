@@ -1,0 +1,19 @@
+**/__pycache__
+**/*.pyc
+classroom/audit
+classroom/shots
+classroom/tests
+classroom/web/_fx_*.json
+classroom/web/*.bak
+
+# everything the image does not need — keeps the 206 MB of media as the only bulk
+.git
+.venv
+hb/__pycache__
+build
+scenes
+audio
+manim
+lessons/*/
+*.md
+.env

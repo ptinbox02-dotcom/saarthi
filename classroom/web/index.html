@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saarthi Classroom</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="bar" role="banner">
+  <div class="brand">@saarthi <span>classroom</span></div>
+  <select id="lesson" class="picker" aria-label="Choose lesson"></select>
+  <div class="spacer"></div>
+  <div id="phase" class="phase" role="status" aria-live="polite">
+    <span class="dot" aria-hidden="true"></span><span id="phasetext">Ready</span>
+  </div>
+  <label class="modepick" title="Which model decides what to say">
+    <span>brain</span>
+    <select id="brain" class="picker">
+      <option value="gemini">Gemini</option>
+      <option value="gemma">Gemma 4 31B</option>
+    </select>
+  </label>
+  <label class="modepick" title="How the student's voice is understood">
+    <span>ears</span>
+    <select id="ears" class="picker">
+      <option value="device">Device (instant, free)</option>
+      <option value="gemini">Gemini (better Hinglish)</option>
+    </select>
+  </label>
+  <label class="modepick" title="How the answer is spoken">
+    <span>voice</span>
+    <select id="voice" class="picker">
+      <option value="live">Live (native audio)</option>
+      <option value="tts">Gemini TTS</option>
+      <option value="on-device">On-device (Android only)</option>
+    </select>
+  </label>
+  <button id="serverbtn" class="btn ghost" hidden title="Change server">⚙</button>
+  <button id="teacherbtn" class="btn ghost" aria-pressed="false"
+          title="Hold questions in a queue until you release them">Teacher mode</button>
+  <button id="notesbtn" class="btn ghost" aria-expanded="false">Transcript</button>
+</header>
+
+<div id="netbar" class="netbar" role="status" hidden></div>
+
+<!-- Android shell only: the UI ships in the APK, the tutor does not. -->
+<div id="setup" class="setup" hidden>
+  <form id="setupform">
+    <h1>Connect to your classroom</h1>
+    <p>The lessons and the tutor run on your server. Paste its address — you can change
+       it later from the ⚙ button.</p>
+    <input id="setupurl" type="url" inputmode="url" autocomplete="off"
+           placeholder="https://your-server.example.com" aria-label="Server address">
+    <p id="setuperr" class="err" hidden></p>
+    <button type="submit">Connect</button>
+  </form>
+</div>
+
+<div id="shell" class="shell">
+<main id="stage" class="stage mode-play" role="main">
+
+  <!-- row 1 · context. The question lives here, in type, not in chalk. -->
+  <div id="ctxbar" class="ctxbar">
+    <span id="qlab" class="qlab">You asked</span>
+    <span id="qctext" class="qtextline"></span>
+    <span id="working" class="working" hidden><i></i><i></i><i></i> writing the answer</span>
+    <div class="spacer"></div>
+    <button id="back" class="btn ghost small">← Back to lesson</button>
+  </div>
+
+  <!-- row 2 · the board. The only absolutely-positioned things in the app live here,
+       and they are clipped to this box, so they can never reach the controls. -->
+  <section class="boardwrap" aria-label="Blackboard">
+    <canvas id="board" role="img" aria-labelledby="boardalt"></canvas>
+    <div id="legend" class="legend" aria-hidden="true"></div>
+    <div id="skeleton" class="skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <!-- the student's tools. The board is theirs too, not just a display surface. -->
+    <div id="tools" class="tools" role="toolbar" aria-label="Board tools" aria-orientation="vertical">
+      <button class="tool on" data-tool="pan"  aria-pressed="true"  title="Move around (V)">✋</button>
+      <button class="tool"    data-tool="pen"  aria-pressed="false" title="Draw (P)">✎</button>
+      <button class="tool"    data-tool="text" aria-pressed="false" title="Type (X)">T</button>
+      <button class="tool"    data-tool="select" aria-pressed="false"
+              title="Select part of the board and ask about it (S)">⿴</button>
+      <button class="tool"    data-tool="erase" aria-pressed="false" title="Erase your marks (E)">⌫</button>
+      <span class="toolsep" aria-hidden="true"></span>
+      <button id="pickimg" class="tool" title="Add an image (I)">▣</button>
+      <span class="toolsep" aria-hidden="true"></span>
+      <button id="zoomout" class="tool" title="Zoom out (−)">−</button>
+      <button id="zoomlvl" class="tool wide" title="Reset to the lesson page">100%</button>
+      <button id="zoomin" class="tool" title="Zoom in (+)">+</button>
+      <button id="fit" class="tool" title="Fit everything (F)">⤢</button>
+      <span class="toolsep" aria-hidden="true"></span>
+      <button id="undo" class="tool" title="Undo your last mark (⌘Z)">↶</button>
+      <button id="clearmine" class="tool" title="Clear your marks">🗑</button>
+      <input id="imgfile" type="file" accept="image/*" hidden>
+    </div>
+    <textarea id="textentry" class="textentry" hidden
+              aria-label="Type on the board"></textarea>
+
+    <!-- highlight a line, a number, a diagram — then ask about that, not the lesson -->
+    <div id="selbox" class="selbox" hidden aria-hidden="true"></div>
+    <div id="selbar" class="selbar" role="group" aria-label="Ask about the selection" hidden>
+      <button id="selexplain" class="btn ask">Explain this</button>
+      <input id="selq" class="qinput" placeholder="…or ask about it"
+             aria-label="Ask about the selection">
+      <button id="selmic" class="btn" aria-label="Hold to ask about the selection">🎤</button>
+      <button id="selclose" class="btn ghost" aria-label="Cancel">✕</button>
+    </div>
+    <div class="videowrap" id="videowrap">
+      <video id="video" playsinline preload="metadata"></video>
+      <div id="vgrip" class="vgrip" role="slider" tabindex="0" aria-label="Resize the video"
+           aria-valuemin="12" aria-valuemax="46" aria-valuenow="18"
+           title="Drag to resize · scroll over the video to resize · drag the video to move"></div>
+    </div>
+    <div id="wipe" class="wipe" aria-hidden="true"></div>
+
+    <!-- the transport floats over the recording, the way a player's controls do -->
+    <div id="transport" class="transport" role="group" aria-label="Playback controls">
+      <button id="back10" class="tbtn" aria-label="Back ten seconds" title="Back 10s">↺</button>
+      <button id="play" class="tbtn play" aria-label="Play">▶</button>
+      <button id="fwd10" class="tbtn" aria-label="Forward ten seconds" title="Forward 10s">↻</button>
+      <span id="pos" class="pos" aria-live="off">0:00</span>
+      <input id="seek" class="seek" type="range" min="0" max="1000" value="0" aria-label="Seek">
+      <span id="dur" class="pos dim">0:00</span>
+      <span class="tsep" aria-hidden="true"></span>
+      <button id="ask" class="tbtn cta">✋ Raise hand</button>
+      <button id="keys" class="tbtn" aria-label="Keyboard shortcuts"
+              aria-expanded="false" title="Keyboard shortcuts">⌘</button>
+    </div>
+    <div id="keyspop" class="keyspop" role="dialog" aria-label="Keyboard shortcuts" hidden>
+      <dl>
+        <dt>Space</dt><dd>play or pause</dd>
+        <dt>H</dt><dd>raise your hand</dd>
+        <dt>T</dt><dd>transcript</dd>
+        <dt>M</dt><dd>mute the voice</dd>
+        <dt>Q</dt><dd>teacher mode</dd>
+        <dt>Esc</dt><dd>back to the lesson</dd>
+      </dl>
+    </div>
+  </section>
+  <p id="boardalt" class="sr-only" aria-live="polite">The board is empty.</p>
+
+  <!-- row 3 · caption -->
+  <div id="caption" class="caption">
+    <span class="who">Saarthi</span>
+    <p id="tutorline" class="captiontext" role="log" aria-live="polite"></p>
+  </div>
+
+  <!-- row 4 · steer -->
+  <div id="chips" class="chips" role="group" aria-label="Steer the explanation">
+    <button class="chip jump" id="jump" hidden></button>
+    <button class="chip stop" id="stopbtn" hidden>■ Stop</button>
+    <button class="chip" data-say="Thoda dheere samjhao, main follow nahi kar paaya.">Slow down</button>
+    <button class="chip" data-say="Isse aur simple bhasha mein samjhao, basics se.">Explain simpler</button>
+    <button class="chip" data-say="Iska ek example do.">Give an example</button>
+    <button class="chip" data-say="Ye dobara samjhao.">Repeat</button>
+  </div>
+
+  <!-- row 5 · ask -->
+  <div id="dock" class="dock" role="region" aria-label="Ask a question">
+    <button id="mic" class="btn mic" aria-label="Hold to speak">🎤 <span>Hold to speak</span></button>
+    <select id="miclang" class="miclang" aria-label="Answer language">
+      <option value="hi-IN">हिन्दी</option>
+      <option value="gu-IN">ગુજરાતી</option>
+      <option value="en-IN">English (IN)</option>
+      <option value="mr-IN">मराठी</option>
+      <option value="bn-IN">বাংলা</option>
+      <option value="ta-IN">தமிழ்</option>
+      <option value="te-IN">తెలుగు</option>
+    </select>
+    <input id="qtext" class="qinput" placeholder="…or type your question" aria-label="Question">
+    <button id="qsend" class="btn ask">Ask</button>
+    <button id="mute" class="btn ghost" aria-pressed="false"
+            title="Keep the writing, silence the voice">Mute voice</button>
+    <button id="resume" class="btn ghost">Resume lesson</button>
+  </div>
+
+  <!-- teacher mode · questions wait here until they are released -->
+  <div id="queue" class="queue" role="region" aria-label="Waiting questions" hidden>
+    <div class="queuehead"><span id="queuecount">0 waiting</span>
+      <button id="queueall" class="linkbtn">Answer next</button>
+      <button id="queueclear" class="linkbtn">Dismiss all</button></div>
+    <ol id="queuelist" class="queuelist"></ol>
+  </div>
+</main>
+
+  <aside id="notes" class="notes" aria-label="Transcript" hidden>
+    <div class="noteshead">
+      <span>Transcript</span>
+      <button id="export" class="linkbtn">Download</button>
+      <button id="closenotes" class="linkbtn" aria-label="Close transcript">✕</button>
+    </div>
+    <div id="noteslist" class="noteslist"></div>
+  </aside>
+</div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>

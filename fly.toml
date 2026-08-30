@@ -1,0 +1,30 @@
+# fly launch --no-deploy  then  fly deploy
+app = "saarthi-classroom"
+primary_region = "bom"          # Mumbai: the students and the lessons are both in India
+
+[build]
+  # Context is the repo root: the image needs classroom/ AND hb/gclient.py, which the
+  # server imports for model resolution and retries. Deploy from the repo root.
+  dockerfile = "classroom/Dockerfile"
+
+[env]
+  PORT = "8080"
+  SAARTHI_DAILY_ASKS = "300"    # shared daily budget for live answers
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "suspend" # a preview link should not bill for an idle machine
+  auto_start_machines = true
+  min_machines_running = 0
+
+  # The tutor holds a WebSocket open for the length of an answer, so the machine must
+  # not be reaped mid-sentence.
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

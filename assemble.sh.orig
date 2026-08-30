@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Assemble the ML1.1 hybrid: fit each beat's visual to its Sarvam audio, strip B-roll audio,
+# burn overlay text on B-roll shots, concat with a Manim fallback when a B-roll clip is missing.
+# Claude Code may refine paths/timings; this is a working starting point.
+set -euo pipefail
+cd "$(dirname "$0")"
+
+FONT="${FONT:-/System/Library/Fonts/Supplemental/Arial.ttf}"   # any installed ttf
+INK="0xe8eaed"; ACCENT="0xd9702f"
+mkdir -p build/seg
+
+# beat : visual_source : overlay_text (empty = none) : audio_wav
+# visual_source points at a B-roll clip (broll/…) or a Manim clip (manim/…).
+# For B-roll beats we list the B-roll first with a MANIM fallback after "||".
+BEATS=(
+  "b0:broll/b1_tubelight.mp4||manim/beat0.mp4:Ye tubelight… ek discovery hai.:audio/beat0.wav"
+  "b1:manim/beat1.mp4::audio/beat1.wav"
+  "b2:manim/beat2.mp4::audio/beat2.wav"
+  "b2b:broll/b2_tubelight_closeup.mp4||manim/beat2.mp4:Same cheez — low-pressure gas + voltage.:audio/beat2b.wav"
+  "b3:manim/beat3.mp4::audio/beat3.wav"
+  "b4:manim/beat4.mp4::audio/beat4.wav"
+  "b5:broll/b4_thomson_lab.mp4||manim/beat5.mp4:1897 · J.J. Thomson:audio/beat5.wav"
+  "b5b:manim/beat5.mp4::audio/beat5b.wav"
+  "b6:manim/beat6.mp4::audio/beat6.wav"
+  "b7:manim/beat7.mp4::audio/beat7.wav"
+)
+
+pick() {  # "primary||fallback" -> first that exists
+  local p="${1%%||*}" f=""
+  [[ "$1" == *"||"* ]] && f="${1##*||}"
+  if [[ -f "$p" ]]; then echo "$p"; elif [[ -n "$f" && -f "$f" ]]; then echo "$f"; else echo ""; fi
+}
+
+dur() { ffprobe -v error -show_entries format=duration -of csv=p=0 "$1"; }
+
+list="build/seg/concat.txt"; : > "$list"
+for entry in "${BEATS[@]}"; do
+  IFS=":" read -r id vis overlay wav <<<"$entry"
+  src="$(pick "$vis")"
+  [[ -z "$src" ]] && { echo "!! no visual for $id ($vis)"; exit 1; }
+  [[ -f "$wav" ]] || { echo "!! missing audio $wav"; exit 1; }
+  alen="$(dur "$wav")"
+  seg="build/seg/${id}.mp4"
+
+  # video filter: scale/pad to 1920x1080, loop to audio length; burn overlay if present
+  vf="scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,setsar=1"
+  if [[ -n "$overlay" ]]; then
+    esc="${overlay//:/\\:}"; esc="${esc//\'/\\\'}"
+    vf="${vf},drawtext=fontfile='${FONT}':text='${esc}':fontcolor=${INK}:fontsize=54:box=1:boxcolor=0x0e1116@0.6:boxborderw=24:x=(w-tw)/2:y=h-th-120"
+  fi
+
+  ffmpeg -y -stream_loop -1 -i "$src" -i "$wav" \
+    -map 0:v -map 1:a -t "$alen" \
+    -vf "$vf" -r 30 -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest "$seg"
+  echo "file '$(basename "$seg")'" >> "$list"
+done
+
+# concat all beats
+( cd build/seg && ffmpeg -y -f concat -safe 0 -i concat.txt -c copy ../body.mp4 )
+
+# TODO(claude-code): prepend 2s intro + append 3s outro (brand template), burn captions from a
+# combined SRT, then export build/ML1.1_hybrid.mp4 and cut a <90s build/ML1.1_hybrid_reel.mp4.
+cp build/body.mp4 build/ML1.1_hybrid.mp4
+echo "wrote build/ML1.1_hybrid.mp4  (add intro/outro + captions next)"

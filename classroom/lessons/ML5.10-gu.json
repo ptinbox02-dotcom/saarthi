@@ -1,0 +1,445 @@
+{
+  "topic": "ML5.10-gu",
+  "title": "Hook",
+  "video": "/media/ML5.10-gu/ML5.10-gu.mp4",
+  "video_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML5.10-gu/ML5.10-gu.mp4",
+  "reel": "/media/ML5.10-gu/ML5.10-gu_reel.mp4",
+  "reel_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML5.10-gu/ML5.10-gu_reel.mp4",
+  "duration": 489.54,
+  "language": "gu",
+  "safe_stops": [
+    4.917,
+    8.32,
+    11.947,
+    14.22,
+    17.48,
+    21.055,
+    23.2,
+    26.06,
+    28.66,
+    32.993,
+    36.46,
+    39.529,
+    43.0,
+    46.037,
+    48.64,
+    53.167,
+    57.247,
+    60.42,
+    64.615,
+    67.086,
+    71.205,
+    73.676,
+    77.795,
+    80.266,
+    84.385,
+    87.68,
+    91.66,
+    95.64,
+    100.548,
+    102.329,
+    105.892,
+    109.9,
+    114.653,
+    116.366,
+    119.363,
+    122.36,
+    126.417,
+    128.672,
+    132.732,
+    136.34,
+    140.153,
+    143.012,
+    146.348,
+    150.637,
+    153.02,
+    157.653,
+    160.453,
+    165.12,
+    167.92,
+    173.053,
+    176.32,
+    180.31,
+    182.518,
+    186.05,
+    189.14,
+    191.677,
+    194.215,
+    197.26,
+    201.927,
+    204.439,
+    206.113,
+    209.88,
+    214.573,
+    217.891,
+    221.684,
+    225.476,
+    229.743,
+    233.536,
+    236.38,
+    240.245,
+    243.635,
+    246.6,
+    248.945,
+    251.68,
+    255.481,
+    258.382,
+    260.454,
+    264.183,
+    267.084,
+    270.399,
+    273.3,
+    277.062,
+    279.923,
+    282.785,
+    286.6,
+    290.92,
+    293.913,
+    296.906,
+    299.899,
+    303.747,
+    306.74,
+    310.06,
+    313.311,
+    316.669,
+    318.685,
+    320.7,
+    323.722,
+    325.737,
+    328.76,
+    332.043,
+    336.015,
+    338.796,
+    340.782,
+    343.96,
+    346.74,
+    349.54,
+    350.94,
+    354.038,
+    356.968,
+    360.997,
+    363.195,
+    365.393,
+    369.422,
+    371.619,
+    374.916,
+    377.846,
+    380.044,
+    383.341,
+    385.905,
+    388.835,
+    392.131,
+    394.329,
+    397.259,
+    399.823,
+    403.12,
+    406.549,
+    408.387,
+    411.328,
+    413.534,
+    416.475,
+    419.784,
+    422.725,
+    425.299,
+    428.24,
+    431.143,
+    436.465,
+    439.368,
+    442.755,
+    446.626,
+    449.529,
+    453.4,
+    457.978,
+    462.181,
+    465.334,
+    469.537,
+    473.74,
+    476.845,
+    481.255,
+    483.46,
+    486.4
+  ],
+  "beats": [
+    {
+      "index": 0,
+      "slug": "beat00",
+      "title": "Hook",
+      "start": 2.0,
+      "seconds": 24.06,
+      "narration": "Ek sawaal je badha students ne confuse kare che: electron rahe che kyaan? Ane enu ghar dekhaay che kevu? Koi nu laddoo jevu gol… ane koi nu dumbbell jevu. Aaje aapne ae j samjhishu — s ane p orbitals ni shapes — ane ae ek cheez je aa banne ne alag kare che. Sav shoonya thi.",
+      "onscreen": "Dark screen. A glowing sphere fades up on the left, a two-lobed dumbbell on the right. Camera pushes in on the sphere, then reframes to the dumbbell. Big text: \"Electron nu ghar — gol ke dumbbell?\"",
+      "facts": [],
+      "cues": {
+        "s_shape": 3.0,
+        "p_shape": 11.53,
+        "hook": 15.23
+      }
+    },
+    {
+      "index": 1,
+      "slug": "beat01",
+      "title": "Orbit nahi, orbital",
+      "start": 26.06,
+      "seconds": 61.62,
+      "narration": "Pehla ek khoti picture kaadhi naakho. Bohr e kahyu hatu ke electron ek fixed circular path par fare che — ene kahevay che orbit. Pan quantum mechanics e kahyu: electron no koi nakki raasto hoto j nathi. Aapne fakt aetlu kahi shakiye ke ae kyaan malva na chances vadhare che. Ane ae j region ne kahevay che orbital. Orbit ek line che, orbital ek jagya che — aa farak exam ma sidho puchaay che. Have shape no matlab. Electron nu wave function hoy che psi. Eno square, psi-square, batave che probability density — etle ke kaya point par electron malva no chance ketlo che. Aapne evi ek surface banaavi daiye jena andar electron malva no chance lagbhag 90 percent hoy. Aa j che boundary surface — ane \"shape\" no matlab bas aa j surface. Koi thos dado nahi.",
+      "onscreen": "Left: a Bohr-style electron running a crisp circular track, struck out in red. Right: the track dissolves into a cloud of dots, denser near the nucleus. Push in on the cloud; a translucent surface inflates around it, labelled \"boundary surface · ~90%\". Caption: \"Orbit = line. Orbital = jagya.\"",
+      "facts": [
+        "[F1]",
+        "[F2]",
+        "[F3]"
+      ],
+      "cues": {
+        "orbit": 3.4,
+        "orbital": 14.152,
+        "boundary_surface": 38.676,
+        "contrast": 50.742
+      }
+    },
+    {
+      "index": 2,
+      "slug": "beat02",
+      "title": "s orbital: badhi baaju thi gol",
+      "start": 87.68,
+      "seconds": 48.66,
+      "narration": "Chalo pehlu orbital — s. Enu l, etle azimuthal quantum number, hoy che shoonya. Enu psi-square fakt distance par aadhaar rakhe che — nucleus thi ketlu door. Direction par jara pan nahi. Etle upar juo, niche juo, daabe, jamne — badhi baaju thi same. Etle s orbital ni boundary surface ek sphere che. Ek laddoo vichaaro — badhi side thi gol, koi \"aagal-pachhal\" nahi. Aetle j s ne kahevay che non-directional. Ane n vadhe tyare? Sphere motu thatu jaay che — 1s nanu, 2s ena thi motu, 3s ena thi pan motu. Shape ae j rahe che, size vadhe che.",
+      "onscreen": "3D translucent sphere around a bright nucleus, slowly orbiting camera. A radius arrow labelled \"r\" sweeps in every direction, the value unchanged. Then 1s → 2s → 3s inflating, shape identical. Caption: \"Fakt distance — direction nahi.\"",
+      "facts": [
+        "[F4]",
+        "[F5]"
+      ],
+      "cues": {
+        "sphere": 2.3,
+        "symmetry": 6.7,
+        "size_grows": 38.574
+      }
+    },
+    {
+      "index": 3,
+      "slug": "beat03",
+      "title": "s ni andar chhupayelo node",
+      "start": 136.34,
+      "seconds": 52.8,
+      "narration": "Have ek cheez je diagram ma dekhaati nathi. 2s bahar thi to gol che, pan ena andar ek evi spherical layer che jyaan electron malva no chance bilkul zero che. Ene kahevay che radial node. Formula yaad rakho — radial nodes barabar n minus l minus one. Check karo: 1s ma n ek, l shoonya — to one minus zero minus one, etle zero nodes. 2s ma n be — to two minus zero minus one, etle ek radial node. 3s ma be. Picture aavi bane che: 2s ek dada ni andar dado jevu — vachche ek khaali spherical shell. Vichaaro khaman — bahar par, andar khaali jagya, pachhi bharaai.",
+      "onscreen": "The 2s sphere is sliced open by a moving cross-section plane; inside, a dark spherical shell appears where density falls to zero. Push in on that shell. A table writes itself: \"1s → 0 · 2s → 1 · 3s → 2 radial nodes\" beside \"n − l − 1\". Caption: \"Bahar thi gol, andar ek khaali par.\"",
+      "facts": [
+        "[F9]",
+        "[F14]"
+      ],
+      "cues": {
+        "radial_node": 13.756,
+        "curve_zero": 28.082,
+        "node_table": 40.627
+      }
+    },
+    {
+      "index": 4,
+      "slug": "beat04",
+      "title": "p orbital: dumbbell, ane tran directions",
+      "start": 189.14,
+      "seconds": 57.46,
+      "narration": "Have biju orbital — p. Ahiya l barabar ek che. Ane shape? Sav badlaai jaay che. p orbital ni boundary surface dumbbell jevi che — nucleus ni banne baaju be lobes, ek j axis par. Gym nu dumbbell vichaaro: vachche pakad, banne baaju weight. Have agatya ni vaat. l ek hoy tyare magnetic quantum number m tran values lai shake che — minus one, zero, plus one. Etle p ek nahi, tran orbitals che: p-x, p-y, p-z. Ane trane ek bija na perpendicular — bilkul room na khuna ni tran edges jevi. Ek lambaai, ek pahoLaai, ek unchaai. Ane trane ni energy same hoy che, jyaa sudhi bahar nu koi electric ke magnetic field na lage. Ene kahevay che degenerate.",
+      "onscreen": "3D: a single dumbbell forms along z, nucleus at the pinch point; camera orbits. Then p<sub>x</sub> and p<sub>y</sub> snap in along the other two axes, colour-coded, with the axis triad. Camera orbits once around all three. Flat labels: \"p<sub>x</sub> · p<sub>y</sub> · p<sub>z</sub> — mutually perpendicular\", \"same energy = degenerate\".",
+      "facts": [
+        "[F6]",
+        "[F7]",
+        "[F8]"
+      ],
+      "cues": {
+        "dumbbell": 3.3,
+        "three_orbitals": 24.5,
+        "degenerate": 42.7
+      }
+    },
+    {
+      "index": 5,
+      "slug": "beat05",
+      "title": "Nodal plane: aa j che kharo farak",
+      "start": 246.6,
+      "seconds": 60.14,
+      "narration": "Have ae ek cheez je s ane p ne kharekhar alag kare che. p orbital na be lobes ni vachche ek aakho plane che jyaan electron malva no chance exactly zero che. Ene kahevay che nodal plane — ke angular node. Aa plane nucleus mathi pasar thay che, ane orbital na axis ne perpendicular hoy che. p-z no nodal plane che x-y plane. Ketla? Formula: angular nodes barabar l. p mate l ek che — to ek nodal plane. Fakt ek. Be lobes che eno matlab be plane nahi. Ane s? s ma l shoonya che — etle zero nodal plane. Aa j che aakhi vaat no saar: s gol che kaaran ke ene koi direction j nathi; p dumbbell che kaaran ke ena vachche ek plane che jyaan electron jai j nathi shakto.",
+      "onscreen": "3D p<sub>z</sub> dumbbell; a translucent plane slides in through the nucleus, perpendicular to the lobes. Push in on the plane edge-on so it reads as a plane, not a line. Then split screen: sphere (0 planes) vs dumbbell (1 plane), each with a counter. Caption: \"angular nodes = l\".",
+      "facts": [
+        "[F10]",
+        "[F12]",
+        "[F13]",
+        "[F19]"
+      ],
+      "cues": {
+        "nodal_plane": 11.3,
+        "contrast": 42.1
+      }
+    },
+    {
+      "index": 6,
+      "slug": "beat06",
+      "title": "Shape shu kaam agatya ni che",
+      "start": 306.74,
+      "seconds": 40.0,
+      "narration": "Aa shapes fakt jova mate nathi. s dar direction ma same che — etle ae koi pan baaju thi overlap kari shake che. Pan p fakt potana axis na along j barabar overlap kare che. Aa j kaarne bond kai direction ma banshe ae p orbitals nakki kare che — ane tyaa thi j molecule ni shape aave che. Ek bija vaat, aagal kaam aavshe: p na banne lobes no phase ulto hoy che — ek plus, ek minus. Aa charge nathi, aa wave ni sign che. Jyaare be orbitals male che, aa j sign nakki kare che bond banshe ke nahi.",
+      "onscreen": "An s sphere approaches another from three different directions; overlap succeeds each time. Then a p dumbbell: overlap along its axis succeeds (green), sideways-on fails (red). Then the two lobes tint + and −, and two dumbbells meet lobe-to-lobe. Caption: \"Direction nakki kare che — etle molecule ni shape.\"",
+      "facts": [
+        "[F16]",
+        "[F17]"
+      ],
+      "cues": {
+        "s_overlap": 8.05,
+        "axial_overlap": 12.15,
+        "phase": 29.862
+      }
+    },
+    {
+      "index": 7,
+      "slug": "beat07",
+      "title": "JEE rapid-fire: aa j puchaay che",
+      "start": 346.74,
+      "seconds": 81.5,
+      "narration": "Have sidha JEE mode. Paanch pointers. Ek — nodes no aakho formula. Radial nodes barabar n minus l minus one, angular nodes barabar l, ane total nodes barabar n minus one. Trane yaad, kaam pooru. Be — 2s versus 2p no classic trap. Banne ma total node ek j che. Pan prakaar alag che: 2s no node radial che — ek spherical layer. 2p no node angular che — ek plane. Question kahe \"type of node\" — tyaa j loko lapsi jaay che. Tran — nodal plane ni ganatri. p orbital ma nodal plane ek hoy che, be nahi. Be lobes joi ne be lakhi na dejo. Ane d orbitals ma l be hoy che — to be nodal planes. Chaar — nucleus par shu thay che. s orbital ma electron density nucleus par maximum hoy che. Pan p orbital ma nucleus par psi zero che. Etle j dumbbell vachche thi pinched dekhaay che — ae be alag dada nathi. Paanch — shape kaya par aadhaar rakhe che. Shape l par, size n par. l shoonya to sphere, l ek to dumbbell. Ane boundary surface 90 percent probability enclose kare che, so nahi — etle lagbhag das percent chance bahar pan che. Aa be lines dar varse koi na koi form ma aave che.",
+      "onscreen": "Five numbered rapid-fire cards. 1. The three node formulas write themselves, then a table fills: 1s, 2s, 2p, 3p with radial/angular/total. 2. Side by side: 2s cut open (spherical node) vs 2p (nodal plane), labelled by node *type*. 3. A p orbital with a single plane and a big \"1\", a struck-out \"2\"; then a d orbital with \"2\". 4. Two density curves through the nucleus: s peaking at r = 0, p falling to zero, with the pinch highlighted. 5. \"shape ← l · size ← n\" and a boundary surface with \"90%\" inside and \"~10%\" leaking outside.",
+      "facts": [
+        "[F3]",
+        "[F9]",
+        "[F10]",
+        "[F11]",
+        "[F15]",
+        "[F18]",
+        "[F19]",
+        "[F20]",
+        "[F21]",
+        "[F22]"
+      ],
+      "cues": {
+        "formulas": 9.01,
+        "2s_vs_2p": 28.935,
+        "nodal_plane_count": 41.755,
+        "nucleus_density": 55.42,
+        "shape_l_size_n": 67.37
+      }
+    },
+    {
+      "index": 8,
+      "slug": "beat08",
+      "title": "Recap + CTA",
+      "start": 428.24,
+      "seconds": 58.16,
+      "narration": "Ek line ma: orbital etle jagya, orbit nahi → shape aave che psi-square ni boundary surface thi, 90 percent vaali → s gol, kaaran ke fakt distance par aadhaar rakhe che → p dumbbell, tran perpendicular directions ma, degenerate → ane farak nu mool: s ma zero nodal plane, p ma ek. Exam mate tran cheez pakki: ek — radial n minus l minus one, angular l, total n minus one. Be — p ma nodal plane ek j hoy che. Tran — shape l thi, size n thi. Kaale: d orbitals ni shapes — ane ae double-dumbbell vaalo twist. Follow karo. Ane jo samjaai gayu hoy, to comment ma lakho \"dumbbell\" — jethi mane khabar pade ke aa click thayu.",
+      "onscreen": "Recap chain as connected chips. Then three numbered exam-pointer cards. Outro: \"@saarthi · JEE no kharo mentor\" + \"Kaale: d orbitals ni shapes →\". CTA text: comment \"dumbbell\".",
+      "facts": [],
+      "cues": {
+        "recap_chain": 4.08,
+        "exam_pointers": 35.01,
+        "cta": 46.037
+      }
+    }
+  ],
+  "facts": {
+    "F1": {
+      "claim": "An **orbital is not an orbit**",
+      "detail": "Bohr's orbit = a fixed circular *path*. An orbital = a region of space where the electron is likely to be found. The electron has no definite trajectory (Heisenberg)"
+    },
+    "F2": {
+      "claim": "What the \"shape\" actually is",
+      "detail": "ψ is the wave function; \\"
+    },
+    "F3": {
+      "claim": "Boundary surface encloses **~90%** probability",
+      "detail": "The surface is drawn where \\"
+    },
+    "F4": {
+      "claim": "**s orbital is spherical**",
+      "detail": "Spherically symmetric; \\"
+    },
+    "F5": {
+      "claim": "s orbital size grows with n",
+      "detail": "1s < 2s < 3s. All remain spherical"
+    },
+    "F6": {
+      "claim": "**p orbital is dumbbell-shaped**",
+      "detail": "Two lobes on either side of the nucleus, along one axis. l = 1"
+    },
+    "F7": {
+      "claim": "There are **three** p orbitals",
+      "detail": "m<sub>l</sub> = −1, 0, +1 → p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub>, mutually perpendicular (along the three Cartesian axes)"
+    },
+    "F8": {
+      "claim": "p orbitals are **degenerate**",
+      "detail": "In the absence of an external electric/magnetic field the three p orbitals of a given shell have equal energy"
+    },
+    "F9": {
+      "claim": "**Radial nodes = n − l − 1**",
+      "detail": "Spherical shells where \\"
+    },
+    "F10": {
+      "claim": "**Angular nodes (nodal planes) = l**",
+      "detail": "For p, l = 1 → exactly one nodal plane"
+    },
+    "F11": {
+      "claim": "**Total nodes = n − 1**",
+      "detail": "Sum of radial and angular nodes"
+    },
+    "F12": {
+      "claim": "The p nodal plane passes through the **nucleus**",
+      "detail": "It is perpendicular to the orbital's axis: for p<sub>z</sub> the nodal plane is the xy-plane. Probability there is exactly zero"
+    },
+    "F13": {
+      "claim": "s has **no** nodal plane",
+      "detail": "Angular nodes = l = 0. This is the structural difference behind \"spherical vs dumbbell\""
+    },
+    "F14": {
+      "claim": "Node counts, worked",
+      "detail": "1s: 0 radial, 0 angular. 2s: 1 radial, 0 angular. 2p: 0 radial, 1 angular. 3p: 1 radial, 1 angular. 3d: 0 radial, 2 angular"
+    },
+    "F15": {
+      "claim": "Probability **at the nucleus**",
+      "detail": "For s, \\"
+    },
+    "F16": {
+      "claim": "Lobes carry opposite **phase**",
+      "detail": "The two lobes of a p orbital have opposite signs of ψ (+ and −). Sign is a property of ψ, not of charge; it governs constructive/destructive overlap in bonding"
+    },
+    "F17": {
+      "claim": "Directionality is the consequence that matters",
+      "detail": "s overlaps in any direction; p overlaps best along its own axis → p orbitals fix bond directions and hence molecular geometry"
+    },
+    "F18": {
+      "claim": "2s vs 2p node trap",
+      "detail": "Both have one node in total (n − 1 = 1), but of different kinds: 2s's is radial (spherical), 2p's is angular (a plane). A very common MCQ"
+    },
+    "F19": {
+      "claim": "\"Two nodal planes for p\" is wrong",
+      "detail": "A p orbital has one nodal plane. Two lobes ≠ two planes"
+    },
+    "F20": {
+      "claim": "The dumbbell is **not** two spheres",
+      "detail": "The lobes are teardrop/elongated, meeting at the nucleus where ψ = 0"
+    },
+    "F21": {
+      "claim": "Shape depends on **l**, size on **n**",
+      "detail": "l fixes the shape (0 → sphere, 1 → dumbbell); n fixes the size/energy"
+    },
+    "F22": {
+      "claim": "Boundary surface is not the electron's \"edge\"",
+      "detail": "Roughly 10% of the probability lies outside the drawn surface"
+    }
+  },
+  "in_scope": [
+    "Orbital vs orbit; \\|ψ\\|² and the boundary surface idea (F1–F3).",
+    "The **spherical** s orbital and its size trend (F4, F5).",
+    "The **dumbbell** p orbital, the three perpendicular orientations, degeneracy (F6–F8).",
+    "Nodes: radial = n − l − 1, angular = l, total = n − 1, worked for 1s/2s/2p/3p (F9–F11, F14).",
+    "The p **nodal plane** through the nucleus, and s having none (F12, F13) — the core contrast.",
+    "Probability at the nucleus for s vs p (F15); lobe phase (F16).",
+    "**Exam pointers (F17–F22).**"
+  ],
+  "out_of_scope": [
+    "d and f orbital shapes (mentioned only as \"l = 2 gives a different shape again\").",
+    "The radial distribution function 4πr²R² and its maxima.",
+    "Solving the Schrödinger equation, or the explicit angular wave functions.",
+    "Hybridisation and molecular orbital theory."
+  ],
+  "exact_numbers": [
+    "Boundary surface encloses **90%** probability.",
+    "Radial nodes = **n − l − 1**; angular nodes = **l**; total nodes = **n − 1**.",
+    "**Three** p orbitals; **one** nodal plane per p orbital.",
+    "2s → **1 radial** node; 2p → **1 angular** node (nodal plane)."
+  ]
+}

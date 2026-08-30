@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed 's/=.*/=<redacted>/' .env)",
+      "Bash(sed 's/=.*/=<redacted>/' ../micro-lectures/.env)",
+      "Bash(python3 -V)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python -V)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/pip list *)",
+      "Bash(env)",
+      "Bash(ls ~/.config/gcloud 2>/dev/null | head; grep -rlE 'GEMINI_API_KEY' ~/.claude/settings.json ~/.claude.json 2>/dev/null; echo done)",
+      "Read(//Users/padminitripathi/.config/**)",
+      "Read(//Users/padminitripathi/.claude/**)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/pip show *)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python -)",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(ffmpeg -y -v error -f lavfi -i \"color=c=0x8B0000:s=640x360:d=3\" -c:v libx264 -pix_fmt yuv420p build/_probe/testvid.mp4)",
+      "Bash(rm -rf build/_probe build/_probe.mp4; echo cleaned)",
+      "Bash(cd /Users/padminitripathi; grep -rIlE '\\(AIza[0-9A-Za-z_-]{30,}|AQ\\\\.[A-Za-z0-9_-]{20,}\\)' \\\\ *)",
+      "Read(//Users/padminitripathi/**)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python audition.py)",
+      "Bash(grep -viE '^\\\\s*$|warning')",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python segments.py)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python broll.py b1_tubelight)",
+      "Bash(grep -viE \"^\\\\s*$|deprecat\")",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python -c ' *)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python broll.py)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python audition_rank.py)",
+      "Bash(grep -viE \"^\\\\s*$|op = retry\")",
+      "Bash(sed -i '' '/^import shutil$/d' step1_audio.py)",
+      "Bash(/Users/padminitripathi/Documents/edtech/micro-lectures/.venv/bin/python step1_audio.py)",
+      "Bash(grep -viE \"^\\\\s*$|deprecat|warning\")",
+      "Bash(which latex *)",
+      "Read(//Library/**)",
+      "Bash(curl -sL \"https://yihui.org/tinytex/install-bin-unix.sh\")",
+      "Bash(sh)"
+    ],
+    "additionalDirectories": [
+      "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/_probe"
+    ]
+  }
+}

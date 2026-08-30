@@ -1,0 +1,476 @@
+{
+  "topic": "ML1.1",
+  "title": "Hook",
+  "video": "/media/ML1.1/ML1.1_hybrid.mp4",
+  "video_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML1.1_hybrid.mp4",
+  "reel": "/media/ML1.1/ML1.1_hybrid_reel.mp4",
+  "reel_path": "/Users/padminitripathi/Documents/edtech/ml-gemini-hybrid/build/ML1.1_hybrid_reel.mp4",
+  "duration": 482.828,
+  "language": "hi",
+  "safe_stops": [
+    3.356,
+    5.051,
+    7.657,
+    9.862,
+    12.874,
+    14.985,
+    17.398,
+    18.907,
+    21.621,
+    23.733,
+    25.015,
+    27.901,
+    29.824,
+    33.334,
+    35.944,
+    38.182,
+    40.792,
+    43.775,
+    46.636,
+    49.799,
+    51.908,
+    53.666,
+    56.918,
+    60.17,
+    62.957,
+    66.132,
+    68.028,
+    71.302,
+    74.176,
+    77.051,
+    80.284,
+    82.799,
+    85.228,
+    87.012,
+    88.796,
+    90.07,
+    92.066,
+    94.727,
+    97.721,
+    100.383,
+    102.439,
+    104.201,
+    106.256,
+    108.312,
+    111.769,
+    114.147,
+    116.186,
+    119.243,
+    121.569,
+    125.806,
+    128.887,
+    130.813,
+    133.894,
+    136.985,
+    140.187,
+    142.488,
+    143.927,
+    146.516,
+    147.667,
+    150.256,
+    153.438,
+    156.165,
+    159.347,
+    162.553,
+    164.858,
+    167.435,
+    171.209,
+    174.432,
+    176.628,
+    178.824,
+    181.02,
+    183.957,
+    186.055,
+    189.831,
+    193.319,
+    195.044,
+    196.769,
+    198.782,
+    201.989,
+    204.626,
+    206.934,
+    208.912,
+    211.549,
+    214.515,
+    216.493,
+    220.942,
+    223.701,
+    227.25,
+    229.221,
+    231.587,
+    235.53,
+    238.684,
+    241.444,
+    244.439,
+    248.21,
+    251.562,
+    254.914,
+    257.009,
+    259.942,
+    262.875,
+    266.045,
+    269.828,
+    273.232,
+    275.88,
+    278.907,
+    282.69,
+    284.96,
+    287.986,
+    291.28,
+    295.27,
+    297.265,
+    300.457,
+    303.119,
+    305.401,
+    308.063,
+    310.726,
+    313.388,
+    316.771,
+    319.608,
+    321.027,
+    324.219,
+    327.065,
+    329.91,
+    333.568,
+    336.326,
+    339.084,
+    341.498,
+    344.6,
+    347.358,
+    350.116,
+    353.219,
+    355.633,
+    358.735,
+    361.493,
+    363.907,
+    365.975,
+    369.423,
+    372.181,
+    374.928,
+    377.226,
+    379.853,
+    381.823,
+    384.779,
+    387.734,
+    390.361,
+    392.002,
+    393.972,
+    397.256,
+    399.554,
+    402.181,
+    404.48,
+    406.778,
+    409.077,
+    412.032,
+    416.832,
+    419.172,
+    423.072,
+    426.193,
+    427.363,
+    431.263,
+    434.773,
+    437.503,
+    440.673,
+    443.843,
+    446.108,
+    450.184,
+    453.354,
+    456.896,
+    459.538,
+    462.557,
+    464.821,
+    467.086,
+    470.105,
+    472.735,
+    475.504,
+    477.234,
+    479.656
+  ],
+  "beats": [
+    {
+      "index": 0,
+      "slug": "beat00",
+      "title": "Hook",
+      "start": 2.0,
+      "seconds": 21.733,
+      "narration": "Tumhare ghar mein jo tube light roz jalti hai… us ek tube ke andar chhupi hai physics ki sabse badi khoj. Ek aisa particle jise aaj tak kisi ne dekha nahi — phir bhi hum pakka jaante hain ki duniya ki har cheez usse bani hai. Naam? Electron. Aaj hum wahi kahani samjhenge — bilkul zero se, aur aisa ki dobara kabhi nahi bhoologe.",
+      "onscreen": "Dark screen → a tube light flickers ON with its characteristic *tink-tink* start, then a steady glow. Zoom into the glow; it morphs into a glowing gas-discharge tube. Big text: \"Ye tubelight… ek discovery hai.\"",
+      "facts": [],
+      "cues": {
+        "hook_start": 1.4,
+        "tube_lit": 3.5,
+        "discharge_tube": 12.578,
+        "electron_named": 17.665
+      }
+    },
+    {
+      "index": 1,
+      "slug": "beat01",
+      "title": "The puzzle",
+      "start": 23.733,
+      "seconds": 29.933,
+      "narration": "Ek baat jaan lo: normal hawa bijli conduct nahi karti. Isiliye to open wires ke beech spark nahi hota. Lekin 1850s mein scientists ne kuch ajeeb dekha. Ek kaanch ki band tube lo, usmein gas bharo, gas ka pressure bahut kam kar do, aur dono taraf bahut high voltage laga do… to tube andar se chamakne lagti hai. Socho zara — jo gas bijli rok rahi thi, wahi ab glow kar rahi hai. Aisa kyun? Yahi puzzle hai.",
+      "onscreen": "Two bare wires in air, a spark tries and fails (❌). Then a sealed glass tube appears; a battery labelled \"~10,000 V\" connects; a pressure gauge needle drops from high → low; the gas inside begins to glow. Label the tube: \"Discharge tube.\"",
+      "facts": [
+        "[F1]",
+        "[F2]"
+      ],
+      "cues": {
+        "air_insulates": 2.6,
+        "high_voltage": 14.57,
+        "pressure_low": 20.955,
+        "labelled": 25.455
+      }
+    },
+    {
+      "index": 2,
+      "slug": "beat02",
+      "title": "The discharge tube & the rays",
+      "start": 53.666,
+      "seconds": 36.404,
+      "narration": "Is tube ko bolte hain discharge tube. Ek sirā cathode — yaani negative terminal, minus. Doosra anode — positive, plus. Jaise-jaise pressure aur kam karte gaye, glow ka pattern badalta gaya… aur bahut low pressure par ek naya nazaara: tube ki saamne wali deewar chamakne lagi — aur ye chamak cathode se aa rahi thi, ek seedhi dhaara ki tarah. Inhe naam mila — cathode rays. Cathode se nikalne wali kirnें. Aur haan — ye wahi tube light hai jo tumhare ghar mein hai. Bas usmein gas low pressure par hai, aur voltage laga hua hai.",
+      "onscreen": "Label cathode (–, left) and anode (+, right). Pressure slider animates lower in 3 stages; glow pattern changes each stage; at the lowest, a straight beam streams from cathode → the far glass wall fluoresces green. Callout: \"Cathode rays.\" Cut to a real tube light side-by-side: \"Same cheez.\"",
+      "facts": [
+        "[F3]"
+      ],
+      "cues": {
+        "electrodes_named": 3.3,
+        "beam_forms": 15.082,
+        "wall_fluoresces": 25.728,
+        "named": 31.419
+      }
+    },
+    {
+      "index": 3,
+      "slug": "beat03",
+      "title": "Detective work: what ARE these rays?",
+      "start": 90.07,
+      "seconds": 60.186,
+      "narration": "Ab problem: ye rays dikhti nahi. To scientists ne detective wala kaam kiya — jab cheez khud na dikhe, to uske effects dekho. Jaise hawa — hawa dikhti nahi, par patton ko hilte dekh ke pata chal jaata hai ki hawa hai. Bilkul waise. Pehla clue — seedhi line. Beam ke raaste mein ek object rakho… to deewar par uski sharp shadow ban jaati hai. Matlab rays seedhi line mein chalti hain. Doosra clue — inme dum hai. Raaste mein ek halka sa pankha (paddle-wheel) rakho… aur wo ghoomne lagta hai! Matlab rays sirf roshni nahi — inmein mass aur momentum hai. Ye kuch particles hain jo takra rahe hain. Teesra clue — sabse bada. Do charged plates lagao, ek plus ek minus… beam plus plate ki taraf mud jaati hai. Ab socho — opposite charges attract karte hain. Beam agar plus ki taraf jaa rahi hai, matlab beam khud negative hai. Cathode rays negatively charged hain. Magnet paas lao — tab bhi mudti hain, ye confirm karta hai ki ye moving charges hain.",
+      "onscreen": "Split into three mini-panels, each with a ✅ tick as it's proven: 1. Object in beam → crisp shadow on wall. Caption: \"Straight line.\" 2. Tiny paddle-wheel spins. Caption: \"Mass + momentum.\" 3. Two plates (+/–); beam bends toward + plate; small arrow \"attract\". Then a magnet bends it. Caption: \"Negative charge.\" (Wind/leaves quick visual when narration says \"hawa\".)",
+      "facts": [
+        "[F4]",
+        "[F5]",
+        "[F6]",
+        "[F7]"
+      ],
+      "cues": {
+        "wind_metaphor": 9.329,
+        "shadow": 20.723,
+        "paddle_wheel": 27.632,
+        "plate_deflection": 37.875,
+        "negative_concluded": 48.908,
+        "magnet": 57.456
+      }
+    },
+    {
+      "index": 4,
+      "slug": "beat04",
+      "title": "The big insight: a universal particle",
+      "start": 150.256,
+      "seconds": 30.764,
+      "narration": "Ab asli twist. Scientists ne tube mein alag-alag gas bhari — hydrogen, oxygen, koi bhi. Cathode ka metal bhi badla. Aur result? Rays hamesha same. Socho iska matlab kya hai. Agar har gas se, har metal se wahi ek particle nikal raha hai… to ye particle har cheez ke andar maujood hai. Ye kisi ek chdravya ka nahi — ye poore matter ka building block hai. Universal. Har atom ke andar baithha hai.",
+      "onscreen": "A carousel swaps the gas label (H₂ → O₂ → N₂) and the cathode metal (Al → Cu → Fe); the beam stays identical each time. Then zoom out: many different objects (a rock, water drop, a leaf) each reveal the *same* tiny particle inside. Big text: \"Har cheez mein — same particle.\"",
+      "facts": [
+        "[F8]"
+      ],
+      "cues": {
+        "carousel_start": 4.652,
+        "beam_identical": 18.708,
+        "same_particle": 25.585
+      }
+    },
+    {
+      "index": 5,
+      "slug": "beat05",
+      "title": "Thomson & e/m: why a *ratio*, not e or m",
+      "start": 181.02,
+      "seconds": 119.437,
+      "narration": "Ab ek natural sawaal. Humne maan liya cathode rays negative particles hain. Par ye particle hai kya? Kitna bhaari, kitna charge? Dikkat ye hai — ise na pakad sakte ho, na taraazu pe rakh sakte ho, dikhta tak nahi. To jo cheez pakad hi na sako, use naapoge kaise? Trick yahi hai. Seedha mass ya charge to nahi naap sakte, par hum ye naap sakte hain ki beam known electric aur magnetic field mein kitna mudti hai. Aur ye mudna depend karta hai dono par ek saath — charge aur mass ke ratio par. Yaani e/m, charge divided by mass. Intuition samjho: zyada charge ho to beam zyada mudegi. Par zyada mass — zyada bhaari — to kam mudegi, kyunki bhaari cheez ko modna mushkil. Jaise bhara hua thela aur khaali thela — same dhakka do, bhara wala kam mudta hai. To beam ka mudna hume seedha batata hai charge per unit mass — e/m. Na akela e, na akela m. 1897 mein J.J. Thomson ne bilkul yahi kiya. Electric field beam ko ek taraf kheenche, magnetic field doosri taraf — dono ko balance karke usne e/m nikaal liya. Value aayi lagbhag 1.76 × 10¹¹ coulomb per kilogram. Bahut bada number. Ab is bade number ka matlab. Compare karo hydrogen se — electron ka e/m usse lagbhag 1836 guna zyada nikla. Charge to milta-julta hai, to itne bade ratio ka ek hi matlab: electron 1836 guna halka hai hydrogen atom se. Yaani ye atom ke andar ka, atom se bhi chhota particle hai — subatomic. Aur yahaan exam ka trap — Thomson ne sirf e/m naapa, e ya m alag-alag nahi. Wo values baad mein aayin. Thomson ne ise \"corpuscle\" kaha; naam pada electron.",
+      "onscreen": "1. Question card over a faint \"?\" where the particle should be: \"Ise naapein kaise?\" — you can't catch it. 2. **3D deflection tube (pre-rendered 3D, not flat 2D):** a horizontal beam; an **E-field** arrow pushes it up, a **B-field** arrow pushes it down. Zoom-in on the beam as each field toggles. 3. Intuition inset: **bhara thela vs khaali thela**, same push arrow → the heavy one deflects less. 4. The two fields **balance** → beam goes straight. Formula card pushes in: \"e/m ≈ 1.76 × 10¹¹ C/kg\". Thomson portrait + \"1897\". 5. Zoom to a balance scale: electron vs hydrogen atom; an arrow runs *from* the ratio *to* the mass as \"1836× lighter\" stamps in — shown as a **consequence**, not a stray fact. 6. Red **TRAP** banner pushes in: \"Thomson measured e/m — NOT e, NOT m.\" Then \"corpuscle → electron.\"",
+      "facts": [
+        "[F9]",
+        "[F10]",
+        "[F11]",
+        "[F12]",
+        "[F14]"
+      ],
+      "cues": {
+        "question": 3.1,
+        "E_field": 21.474,
+        "B_field": 33.47,
+        "ratio_intuition": 47.249,
+        "crossed_fields_balanced": 66.932,
+        "em_value": 78.928,
+        "mass_ratio": 90.524,
+        "trap": 100.428,
+        "electron_named": 114.377
+      }
+    },
+    {
+      "index": 6,
+      "slug": "beat06",
+      "title": "Why it mattered",
+      "start": 300.457,
+      "seconds": 23.762,
+      "narration": "Iska asar samjho. Us waqt tak sab maante the ki atom sabse chhoti, na-tootne wali cheez hai. Electron ki khoj ne kaha — nahi. Atom ke andar bhi chhote particles hain. Atom tootta hai. Yahi ek khoj se shuru hui poore atomic structure ki kahani — Thomson ka model, phir Rutherford, phir Bohr. Sab ki neev yeh tube light jaisa glow tha.",
+      "onscreen": "Solid \"atom\" ball cracks open to reveal tiny electrons inside. A quick timeline ticks: Thomson → Rutherford → Bohr. Warm line on screen: \"Ek glow se… poora atom samajh aaya.\"",
+      "facts": [
+        "[F15]"
+      ],
+      "cues": {
+        "old_belief": 2.2,
+        "atom_cracks": 12.439,
+        "timeline": 17.815
+      }
+    },
+    {
+      "index": 7,
+      "slug": "beat07",
+      "title": "JEE rapid-fire: the pointers that actually get asked",
+      "start": 324.219,
+      "seconds": 113.284,
+      "narration": "Ab seedha JEE mode. Ye paanch pointers har saal kisi na kisi form mein aate hain. Ek — cathode rays wave nahi, particle hain. Bahut log likh dete hain \"electromagnetic wave.\" Galat. Kyun? Kyunki inmein momentum hai, aur ye electric aur magnetic dono fields se mudti hain. Light — yaani electromagnetic radiation — kisi bhi field se nahi mudti. Yahi ek line answer hai. Do — properties ki poori list yaad rakho. Fluorescence karati hain, gas ko ionise karti hain — yaani gas ke atoms se electron nikaal deti hain — photographic plate ko affect karti hain, patli metal foil ke aar-paar nikal jaati hain, aur target ko garam kar deti hain. Teen — X-rays, ek line mein. Cathode rays kisi bhaari metal (jaise tungsten) par takraayein to X-rays nikalti hain — wahi hospital waali X-ray. Bas itna yaad rakho. Chaar — specific charge. e-by-m ko specific charge bhi bolte hain. Electron ka e-by-m 1.758 × 10¹¹, aur proton ka sirf 9.578 × 10⁷ coulomb per kilogram. Ratio? Wahi 1836. Matlab atom ke andar sabse bada specific charge electron ka hai. Question aaye \"highest e/m kiska?\" — answer electron. Paanch — aur yahi cathode aur anode rays ka asli farak hai. Cathode rays ka e-by-m gas par depend nahi karta. Anode rays ka e-by-m gas par depend karta hai — aur hydrogen ke liye maximum hota hai. Ye ek line poora question decide kar deti hai. Aur ek aakhri baat — e aur m nikle kaise? Teen step. Thomson ne 1897 mein e-by-m nikala. Millikan ne oil-drop se e nikala. Aur m kisi ne naapa hi nahi — wo derive hua: m = e divided by e-by-m, yaani 9.11 × 10⁻³¹ kilogram. Order yaad rakhna — exam isi order par question banata hai.",
+      "onscreen": "Five numbered rapid-fire cards, each snapping in with a ✗/✓ verdict: 1. \"WAVE?\" struck out in red → \"PARTICLE ✓\" with two mini-panels: an E-field bending the beam and a B-field bending it, beside a light ray passing straight through both. 2. A property checklist ticking down: fluorescence · ionises gas · photographic plate · penetrates thin foil · heats target. 3. Beam hits a tungsten target labelled \"high Z\" → zig-zag X-ray arrows fly out; small hospital X-ray icon. 4. Side-by-side bars: electron 1.758 × 10¹¹ vs proton 9.578 × 10⁷ C/kg, with \"1836×\" between them; caption \"Highest e/m = electron.\" 5. Split screen: \"Cathode rays — e/m gas se INDEPENDENT\" vs \"Anode rays — e/m gas par DEPENDENT, max for H\". Then a three-step chain: \"Thomson 1897 → e/m\" → \"Millikan 1909 → e\" → \"m = e ÷ (e/m) — derived\".",
+      "facts": [
+        "[F17]",
+        "[F18]",
+        "[F19]",
+        "[F20]",
+        "[F21]",
+        "[F22]"
+      ],
+      "cues": {
+        "wave_vs_particle": 10.12,
+        "properties": 29.522,
+        "xrays": 48.937,
+        "em_bars": 67.077,
+        "cathode_vs_anode": 82.816,
+        "mass_derived": 104.182
+      }
+    },
+    {
+      "index": 8,
+      "slug": "beat08",
+      "title": "Recap + exam pointers + CTA",
+      "start": 437.503,
+      "seconds": 42.153,
+      "narration": "Ek line mein: discharge tube → low pressure + high voltage → cathode rays → seedhi line, momentum, negative, aur gas se independent → matlab ek universal particle → Thomson ne e/m naapa → electron. Exam ke liye teen cheez pakki yaad: ek — cathode rays negative hoti hain aur cathode se anode ki taraf chalti hain. Do — ye gas aur electrode par depend nahi karti. Teen — Thomson ne e/m naapa, e ya m nahi. Kal: proton ki kahani — anode rays. Follow karo. Aur agar samajh aaya, comment mein likho \"tubelight\" — taaki mujhe pata chale ye click hua.",
+      "onscreen": "Clean recap chain as connected chips. Then three numbered exam-pointer cards. Outro: \"@saarthi · JEE ka asli mentor\" + \"Kal: Proton ki kahani →\". CTA text: comment \"tubelight\".",
+      "facts": [],
+      "cues": {
+        "recap_chain": 5.48,
+        "exam_pointers": 26.561,
+        "cta": 35.022
+      }
+    }
+  ],
+  "facts": {
+    "F1": {
+      "claim": "Air/gas is normally an insulator",
+      "detail": "Does not conduct at ordinary pressure & voltage"
+    },
+    "F2": {
+      "claim": "Discharge tube setup",
+      "detail": "Sealed glass tube, two electrodes (cathode –, anode +), gas at low pressure, high voltage (~10,000 V)"
+    },
+    "F3": {
+      "claim": "Rays originate at the cathode",
+      "detail": "Named cathode rays (name coined by Goldstein, 1876)"
+    },
+    "F4": {
+      "claim": "Cathode rays travel in **straight lines**",
+      "detail": "Cast a sharp shadow of an object placed in path"
+    },
+    "F5": {
+      "claim": "Cathode rays carry **momentum / mass**",
+      "detail": "Rotate a light paddle-wheel placed in path"
+    },
+    "F6": {
+      "claim": "Cathode rays are **negatively charged**",
+      "detail": "Deflected towards the positive plate in an electric field"
+    },
+    "F7": {
+      "claim": "Deflected by a **magnetic field** too",
+      "detail": "Confirms they are moving charged particles"
+    },
+    "F8": {
+      "claim": "Rays are **independent of the gas and the electrode metal**",
+      "detail": "Same particle regardless of gas filled or cathode material → universal constituent of all matter"
+    },
+    "F9": {
+      "claim": "**J.J. Thomson**, **1897**",
+      "detail": "Measured the charge-to-mass ratio (e/m) using crossed electric & magnetic fields"
+    },
+    "F10": {
+      "claim": "e/m value",
+      "detail": "e/m ≈ 1.758 × 10¹¹ C/kg (specific charge of the electron; 1.758820 × 10¹¹)"
+    },
+    "F11": {
+      "claim": "Thomson measured the **ratio**, not e or m separately",
+      "detail": "Common exam trap"
+    },
+    "F12": {
+      "claim": "Electron mass",
+      "detail": "≈ 9.11 × 10⁻³¹ kg (≈ 1/1836 of a H atom) — *established later* (Millikan's e, then m)"
+    },
+    "F13": {
+      "claim": "Charge on electron",
+      "detail": "e ≈ 1.602 × 10⁻¹⁹ C — measured by Millikan (oil-drop, ~1909)"
+    },
+    "F14": {
+      "claim": "Name \"electron\"",
+      "detail": "Coined by G.J. Stoney (1891); Thomson called them \"corpuscles\""
+    },
+    "F15": {
+      "claim": "Significance",
+      "detail": "First subatomic particle → atom is divisible → led to Thomson's plum-pudding model, then Rutherford, Bohr"
+    },
+    "F16": {
+      "claim": "Low-pressure discharge glow first seen in the **1850s**",
+      "detail": "Geissler's mercury vacuum pump (~1855) → Geissler tubes (from 1857); Plücker observed the glow and its magnetic deflection (1858)"
+    },
+    "F17": {
+      "claim": "Cathode rays are **material particles, not electromagnetic waves**",
+      "detail": "They carry momentum and are deflected by both electric and magnetic fields; EM radiation is not deflected by either. A very common MCQ distractor"
+    },
+    "F18": {
+      "claim": "Further properties",
+      "detail": "Cause fluorescence (ZnS screen, glass wall), ionise gases, affect a photographic plate, penetrate thin metal foils, produce a heating effect on the target"
+    },
+    "F19": {
+      "claim": "Cathode rays → **X-rays**",
+      "detail": "On striking a target of high atomic number / high melting point (tungsten, molybdenum) at high speed, X-rays are emitted"
+    },
+    "F20": {
+      "claim": "Electron has the **largest specific charge** of the atom's constituents",
+      "detail": "e/m(electron) = 1.758 × 10¹¹ C/kg vs e/m(proton) = 9.578 × 10⁷ C/kg → ratio ≈ 1836"
+    },
+    "F21": {
+      "claim": "**Anode (canal) rays** contrast",
+      "detail": "Their e/m depends on the gas in the tube and is maximum for hydrogen; cathode rays' e/m is gas-independent — this is *the* discriminating fact between the two"
+    },
+    "F22": {
+      "claim": "How e and m were actually pinned down",
+      "detail": "Thomson 1897 → e/m; Millikan ~1909 → e; mass then *derived*, m = e ÷ (e/m) ≈ 9.11 × 10⁻³¹ kg. Order matters in exam questions"
+    }
+  },
+  "in_scope": [
+    "Production of cathode rays (discharge tube, low pressure + high voltage).",
+    "The five properties (F4–F8) and what each **proves**.",
+    "Gas/electrode independence → universal negative particle.",
+    "Thomson 1897, e/m ≈ 1.76 × 10¹¹ C/kg, and the \"ratio not e or m\" trap (F11).",
+    "One-line significance: atom is divisible.",
+    "**Exam pointers (F17–F22):** particle-not-wave; the full property list incl. X-ray"
+  ],
+  "out_of_scope": [
+    "Full Millikan oil-drop derivation (separate lesson).",
+    "Exact crossed-field math derivation of e/m (name the method, don't derive on screen).",
+    "Quantum/orbital structure."
+  ],
+  "exact_numbers": [
+    "e/m = **1.758 × 10¹¹ C/kg** (round to 1.76 × 10¹¹ in narration).",
+    "Year **1897**, Thomson.",
+    "Electron ~**1836×** lighter than a hydrogen atom."
+  ]
+}

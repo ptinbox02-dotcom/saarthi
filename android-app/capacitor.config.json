@@ -1,0 +1,7 @@
+{
+  "appId": "ai.saarthi.classroom",
+  "appName": "Saarthi",
+  "webDir": "www",
+  "android": { "allowMixedContent": true },
+  "server": { "androidScheme": "https", "cleartext": true }
+}

@@ -1,0 +1,17 @@
+# Render: New > Blueprint, point it at this repo.
+services:
+  - type: web
+    name: saarthi-classroom
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: ..
+    region: singapore
+    plan: starter          # free instances sleep and drop WebSockets mid-answer
+    healthCheckPath: /gate
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false        # set it in the dashboard; never commit it
+      - key: SAARTHI_PASSCODE
+        sync: false
+      - key: SAARTHI_DAILY_ASKS
+        value: "300"
