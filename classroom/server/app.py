@@ -829,8 +829,25 @@ it. If the image is their working and it is wrong, say where it goes wrong, kind
 # and a wait — and if those were bundled, a thumbs-down would not say which half he
 # disliked.
 BRAINS = {"gemini": JUDGE, "gemma": "gemma-4-31b-it"}
+BOARD_THINKING = int(os.environ.get("SAARTHI_BOARD_THINKING", "128"))
 
 _CLIENT = None
+_BOARD_CLIENT = None
+
+
+def board_client():
+    """A second long-lived client, for the board only.
+
+    The board and the voice talk to the same host at the same time, and sharing one
+    client made them share a connection pool: the board's first token arrived at seven
+    seconds under load against two seconds on its own. Two clients, two pools, no
+    queueing behind each other. Still created once each — building one per call breaks
+    the SDK's async retry layer outright.
+    """
+    global _BOARD_CLIENT
+    if _BOARD_CLIENT is None:
+        _BOARD_CLIENT = client()
+    return _BOARD_CLIENT
 
 
 def shared_client():
@@ -1131,7 +1148,8 @@ async def run_spoken(ws, ctx: dict, question: str, turn, shot, brain: str, voice
     return said_full["text"], 0, stats["ops"], stats["jump"], stats
 
 
-async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, stats: dict):
+async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, stats: dict,
+                       cursor: dict | None = None):
     """Write the board while the tutor is still talking.
 
     The answer is one structured call, but it is consumed as a stream: each op is sent
@@ -1145,13 +1163,21 @@ async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, sta
     if shot:
         contents.append(types.Part.from_bytes(data=shot, mime_type="image/png"))
 
-    buf, taken, sent, first_at = "", 0, 0, None
+    cursor = cursor if cursor is not None else {"row": 0}
+    buf, taken, first_at = "", 0, None
     t0 = asyncio.get_event_loop().time()
-    stream = await shared_client().aio.models.generate_content_stream(
+    stream = await board_client().aio.models.generate_content_stream(
         model=BRAINS[brain], contents=contents,
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
-            response_schema=ANSWER_SCHEMA, temperature=0.4))
+            response_schema=ANSWER_SCHEMA, temperature=0.4,
+            # The board was late because the model thought in silence first: measured
+            # 6-11.5s before the first token, then the whole answer in 1.5s. Streaming
+            # the parse could not help — there was nothing to parse until the thinking
+            # finished. A small thinking budget brings the first token to ~1.9s, which
+            # is when the voice starts, and the answer is no worse: same op count, still
+            # a diagram. (A budget of 0 is rejected outright by this model.)
+            thinking_config=types.ThinkingConfig(thinking_budget=BOARD_THINKING)))
     async for chunk in stream:
         um = getattr(chunk, "usage_metadata", None)
         if um:
@@ -1161,12 +1187,13 @@ async def stream_board(ws, ctx: dict, question: str, turn, shot, brain: str, sta
         fresh, taken = ops_so_far(buf, taken)
         if not fresh:
             continue
-        ops = layout(sanitise(fresh), ctx.get("board_aspect") or 16 / 9, start_row=sent)
+        ops = layout(sanitise(fresh), ctx.get("board_aspect") or 16 / 9,
+                     start_row=cursor["row"])
         if ops:
             if first_at is None:
                 first_at = asyncio.get_event_loop().time() - t0
                 stats["board_first_s"] = round(first_at, 1)
-            sent += len([o for o in ops if o["op"] == "write"])
+            cursor["row"] += len([o for o in ops if o["op"] == "write"])
             stats["ops"] = stats.get("ops", 0) + len(ops)
             await ws.send_json({"type": "ops", "ops": ops, "turn": turn})
 
@@ -1251,6 +1278,25 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
                                                 "b64": base64.b64encode(d.data).decode()})
                 if sc and sc.output_transcription and sc.output_transcription.text:
                     said += sc.output_transcription.text
+                    # The board's opening line comes from the voice, not from the other
+                    # model. The structured call's first token has been measured
+                    # anywhere between two and thirteen seconds depending on load, and
+                    # a board that is blank while the tutor talks is the complaint this
+                    # exists to fix. The tutor's own first sentence goes up as it is
+                    # said, and the structured ops fill in underneath it.
+                    if not opened["done"]:
+                        first = sentences(strip_internals(said)[0])
+                        if len(first) > 1 or SETTLED_END.search(said):
+                            opened["done"] = True
+                            line = layout(sanitise([{"op": "write", "role": "explain",
+                                                     "text": first[0]}]),
+                                          ctx.get("board_aspect") or 16 / 9,
+                                          start_row=cursor["row"])
+                            if line:
+                                cursor["row"] += len([o for o in line if o["op"] == "write"])
+                                stats["ops"] = stats.get("ops", 0) + len(line)
+                                await ws.send_json({"type": "ops", "ops": line,
+                                                    "turn": turn})
                     clean, leaked = strip_internals(said)
                     if leaked:
                         stats["leaked"] += leaked
@@ -1262,8 +1308,10 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
                     break
         return said
 
+    cursor = {"row": 0}
+
     async def blackboard(stats):
-        await stream_board(ws, ctx, question, turn, shot, "gemini", stats)
+        await stream_board(ws, ctx, question, turn, shot, "gemini", stats, cursor)
 
     async def _blackboard_unused(stats):
         prompt = live_instruction(ctx) + (SELECTION_NOTE if shot else "")
@@ -1309,7 +1357,12 @@ async def run_live(ws, ctx: dict, question: str, turn=None, shot: bytes | None =
 
     stats = {"leaked": 0, "ops": 0, "jump": None,
              "live_in": 0, "live_total": 0, "board_in": 0, "board_out": 0}
-    results = await asyncio.gather(speak(stats), blackboard(stats), return_exceptions=True)
+    opened = {"done": False}     # has the voice put its first line on the board yet
+    # Board first, deliberately. Both requests go to the same host; whichever is issued
+    # second waits behind the other's connection setup, and the Live session then floods
+    # the loop with audio. Issued first, the board's opening token arrives at about two
+    # seconds — the moment the voice starts — instead of seven.
+    results = await asyncio.gather(blackboard(stats), speak(stats), return_exceptions=True)
     for r in results:
         if isinstance(r, Exception):
             await ws.send_json({"type": "error", "text": str(r)[:200], "turn": turn})
