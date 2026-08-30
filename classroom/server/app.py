@@ -347,6 +347,33 @@ def _wrap(text: str, size: float, width: float, aspect: float = 16 / 9) -> list:
     return lines
 
 
+PANEL = {"x0": 0.68, "x1": 0.96, "y0": 0.20, "y1": 0.90}
+
+
+def clamp_to_panel(op: dict) -> dict:
+    """Keep a model-placed diagram inside the right-hand panel.
+
+    The model is trusted with the shape of a figure, not with staying out of the
+    writing. Anything it puts down is squeezed into the panel rather than dropped —
+    a diagram in slightly the wrong place still teaches; a missing one does not.
+    """
+    def fit(pt):
+        return [round(min(PANEL["x1"], max(PANEL["x0"], float(pt[0]))), 3),
+                round(min(PANEL["y1"], max(PANEL["y0"], float(pt[1]))), 3)]
+    for k in ("at", "from", "to"):
+        if k in op and isinstance(op[k], (list, tuple)) and len(op[k]) >= 2:
+            try:
+                op[k] = fit(op[k])
+            except (TypeError, ValueError):
+                op.pop(k)
+    if "r" in op:
+        try:
+            op["r"] = min(0.16, max(0.02, float(op["r"])))
+        except (TypeError, ValueError):
+            op.pop("r")
+    return op
+
+
 def layout(ops: list, aspect: float = 16 / 9, start_row: int | None = None) -> list:
     """Assign every position on the board, from the role and the running order.
 
@@ -413,11 +440,27 @@ def layout(ops: list, aspect: float = 16 / 9, start_row: int | None = None) -> l
     out, n_diagram = [], 0
     for o in order:
         if o["op"] == "draw":
+            # A diagram the model has placed is left where it put it, clamped into the
+            # panel: only the model knows that a box, two plates and an arrow are one
+            # picture rather than three. Slots are the fallback for a shape that arrives
+            # with no geometry at all.
+            if any(k in o for k in ("from", "to")) or ("at" in o and o["shape"] not in
+                                                       ("line", "arrow", "rect")):
+                out.append(clamp_to_panel(o))
+                continue
             if n_diagram >= len(slots):
                 continue
             x, dy, r = slots[n_diagram]
             o["at"] = [x, dy]
             o["r"] = r
+            # A line, an arrow or a box is drawn between two points, and the model is
+            # told not to supply them — so they are derived from the slot it was given.
+            if o["shape"] in ("line", "arrow"):
+                o["from"] = [round(x - r / aspect, 3), round(dy + r * 0.6, 3)]
+                o["to"] = [round(x + r / aspect, 3), round(dy - r * 0.6, 3)]
+            elif o["shape"] == "rect":
+                o["from"] = [round(x - r / aspect, 3), round(dy - r * 0.7, 3)]
+                o["to"] = [round(x + r / aspect, 3), round(dy + r * 0.7, 3)]
             n_diagram += 1
             out.append(o)
         elif o["op"] in ("erase", "pause", "underline"):
@@ -502,6 +545,10 @@ def sanitise(ops: list) -> list:
                     o[k] = pt
 
         if o["op"] == "write":
+            # The model reaches for `label` about as often as `text`, and a line of
+            # teaching thrown away over a key name is the worst possible trade.
+            if not str(o.get("text", "")).strip() and str(o.get("label", "")).strip():
+                o["text"] = o.pop("label")
             if not str(o.get("text", "")).strip():
                 continue
             o.setdefault("at", [0.06, 0.2])
@@ -518,11 +565,11 @@ def sanitise(ops: list) -> list:
         elif o["op"] == "draw":
             if o.get("shape") not in SHAPES:
                 continue
-            if o["shape"] in ("line", "arrow", "rect") and ("from" not in o or "to" not in o):
-                continue
-            if o["shape"] in ("circle", "axes", "sphere3d", "dumbbell3d", "axes3d") \
-                    and "at" not in o:
-                continue
+            # Coordinates are NOT required. The prompt tells the model not to send any —
+            # layout assigns them — and this used to drop every diagram that obeyed,
+            # which is why the board wrote paragraphs and never drew anything. Whatever
+            # coordinates do arrive have already been clamped above; layout overrides
+            # them regardless.
         elif o["op"] == "erase":
             reg = o.get("region")
             if not (isinstance(reg, list) and len(reg) == 4):
@@ -562,9 +609,18 @@ LANG_NAME = {
 BOARD_RULES = """ALWAYS return board ops: the key term, the number, a small diagram, the one-line answer.
 4-8 ops, sparse — a board is not a slide.
 
-DO NOT set x, y or coordinates. Layout is assigned for you from the role, so that lines
-never overlap: text stacks down the left, diagrams sit on the right, and a `trap` or
-`tip` is pinned to the bottom band. Just choose the right role and the right order.
+TEXT: do not set x, y or coordinates on a `write`. Layout is assigned for you from the
+role, so lines never overlap: text stacks down the left, and a `trap` or `tip` is pinned
+to the bottom band. Choose the right role and the right order.
+
+DIAGRAMS: you DO place these, because only you know how the parts fit together. A
+cathode ray tube is a box, two plates and an arrow that belong in one picture — not
+three shapes in a row. Draw inside the right-hand panel: x from 0.68 to 0.96, y from
+0.20 to 0.90. Give `from` and `to` for line/arrow/rect, `at` and `r` for circles and the
+3-D shapes, and `label` to caption a part.
+
+Use `text` for anything written and `label` for a caption on a diagram. A `write` op
+with no `text` is thrown away.
 
 COLOUR IS MEANING. Never set a colour. Set `role`, and it renders in the one colour and
 glyph that role always uses:
@@ -724,13 +780,32 @@ def strip_internals(text: str) -> tuple[str, int]:
 
 
 def speak_instruction(ctx: dict) -> str:
-    """Voice only. Says nothing about drawing, because it has no drawing tool."""
+    """The voice half of a tutor whose other half is drawing.
+
+    This used to say "you have no tools and no board controls", which was true of this
+    call and disastrous as a fact about the tutor: asked for a diagram, the voice
+    answered that it could not draw one — while the board call was drawing it. The
+    student heard the tutor deny something happening on the screen in front of them.
+
+    So the voice is told the board exists and is being filled for it. What it still must
+    not do is speak the protocol: naming an op or a coordinate out loud is what made an
+    earlier version read "call Draw trap zero point seven" to a classroom.
+    """
     base = live_instruction(ctx, for_board=False)
     return base + """
 
-You are ONLY speaking. You have no tools and no board controls. Never say, read out or
-spell any command, function name, JSON, coordinate or code — the student hears exactly
-what you say. Speak plain sentences and nothing else.
+YOU ARE THE VOICE OF A TUTOR WHO IS ALSO WRITING. As you speak, your explanation is
+appearing on the blackboard beside you — the key terms, the numbers, and diagrams:
+spheres, dumbbells, axes, rays, apparatus. You do not control it and you never describe
+how it works, but it IS happening.
+
+So: NEVER say you cannot draw, cannot show, cannot display a diagram, or that you are
+"only text". If the student asks to see something, say you are putting it on the board
+and then explain it — "dekho, board par bana raha hoon" — and talk them through what
+they are looking at. Refer to the board naturally, the way a teacher points at one.
+
+Never say, read out or spell any command, function name, JSON, coordinate or code — the
+student hears exactly what you say. Speak plain sentences and nothing else.
 
 Answer in AT MOST 3 short sentences. Answer the question directly. Do not apologise, do
 not offer options, do not ask which language to use, do not repeat yourself."""

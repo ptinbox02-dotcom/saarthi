@@ -26,7 +26,13 @@ def w(text, role=None):
 
 
 def d(shape="sphere3d"):
-    return {"op": "draw", "shape": shape, "at": [0.5, 0.5], "r": 0.09}
+    """A diagram with no geometry — the server places it in a slot."""
+    return {"op": "draw", "shape": shape}
+
+
+def placed(shape, at, r=0.08):
+    """A diagram the model positioned itself, as it does for a multi-part figure."""
+    return {"op": "draw", "shape": shape, "at": list(at), "r": r}
 
 
 # The real board is wide and short once the chrome has its rows; tests run at the two
@@ -53,13 +59,19 @@ def boxes(out, aspect=2.93):
         elif o["op"] == "draw":
             # measured against board.js proj3d, not guessed: a dumbbell's nodal ellipse
             # is the widest thing on it, and an axes triad is asymmetric about its origin
-            x, y = o["at"]
-            r = o.get("r", 0.09)
             ext = {"sphere3d": (-1.0, 1.0, -1.0, 1.0),
                    "dumbbell3d": (-1.25, 1.25, -1.35, 1.35),
-                   "axes3d": (-0.62, 1.30, -1.30, 0.50)}[o["shape"]]
-            b.append(("draw", x + ext[0] * r / ASPECT, y + ext[2] * r,
-                      x + ext[1] * r / ASPECT, y + ext[3] * r, o["shape"]))
+                   "axes3d": (-0.62, 1.30, -1.30, 0.50)}.get(o["shape"])
+            if ext and "at" in o:
+                x, y = o["at"]
+                r = o.get("r", 0.09)
+                b.append(("draw", x + ext[0] * r / ASPECT, y + ext[2] * r,
+                          x + ext[1] * r / ASPECT, y + ext[3] * r, o["shape"]))
+            elif "from" in o and "to" in o:
+                # flat shapes are bounded by their own endpoints
+                (x0, y0), (x1, y1) = o["from"], o["to"]
+                b.append(("draw", min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1),
+                          o["shape"]))
         elif o["op"] == "underline":
             (x0, y0), (x1, y1) = o["from"], o["to"]
             b.append(("underline", x0, y0 - 0.004, x1, y1 + 0.004, "_"))
@@ -67,12 +79,20 @@ def boxes(out, aspect=2.93):
 
 
 def overlaps(out, aspect=2.93):
+    """Overlaps that matter: writing on writing, or writing under a diagram.
+
+    Two draw ops overlapping each other is not a fault — a cathode ray tube is a box
+    with plates inside it and an arrow through it, and those are three ops in one
+    picture. What must never happen is a diagram landing on the words.
+    """
     bad = []
     bs = boxes(out, aspect)
     for i, a in enumerate(bs):
         for c in bs[i + 1:]:
             if a[0] == "underline" or c[0] == "underline":
                 continue                       # an underline is meant to hug its text
+            if a[0] == "draw" and c[0] == "draw":
+                continue                       # parts of one figure may touch
             if a[1] < c[3] and c[1] < a[3] and a[2] < c[4] and c[2] < a[4]:
                 bad.append((a[5], c[5]))
     return bad
@@ -211,3 +231,45 @@ def test_a_wider_board_fits_more_per_line():
     narrow = len(place([w(text, "explain")], 16 / 9))
     wide = len(place([w(text, "explain")], 2.93))
     assert wide < narrow, f"{wide} lines wide vs {narrow} narrow"
+
+
+# --- diagrams the model placed itself -------------------------------------------
+def test_a_multi_part_figure_keeps_its_shape():
+    """Regression: every draw was forced into its own slot, so a cathode ray tube came
+    out as a box, two plates and an arrow stacked in a column like a shopping list."""
+    ops = place([w("Cathode ray tube", "term"),
+                 {"op": "draw", "shape": "rect", "from": [0.70, 0.35], "to": [0.94, 0.55]},
+                 {"op": "draw", "shape": "line", "from": [0.72, 0.37], "to": [0.72, 0.53]},
+                 {"op": "draw", "shape": "arrow", "from": [0.74, 0.45], "to": [0.92, 0.45]}])
+    draws = [o for o in ops if o["op"] == "draw"]
+    assert len(draws) == 3, "a part of the figure was dropped"
+    # the parts stay where the model put them, relative to each other
+    assert draws[0]["from"][1] < draws[2]["from"][1] < draws[0]["to"][1]
+
+
+def test_a_model_placed_diagram_is_clamped_into_the_panel():
+    ops = place([{"op": "draw", "shape": "line", "from": [0.02, 0.05], "to": [1.4, 1.9]}])
+    o = ops[0]
+    for pt in (o["from"], o["to"]):
+        assert srv.PANEL["x0"] <= pt[0] <= srv.PANEL["x1"], pt
+        assert srv.PANEL["y0"] <= pt[1] <= srv.PANEL["y1"], pt
+
+
+def test_a_placed_diagram_never_lands_on_the_writing():
+    ops = place([w("The azimuthal quantum number l fixes the shape", "explain"),
+                 {"op": "draw", "shape": "rect", "from": [0.10, 0.30], "to": [0.30, 0.50]}])
+    assert overlaps(ops) == []
+
+
+def test_a_diagram_with_no_geometry_still_gets_a_slot():
+    ops = place([d("sphere3d"), d("dumbbell3d")])
+    assert len(ops) == 2
+    for o in ops:
+        assert "at" in o and "r" in o, o
+        assert o["at"][0] > Z["text_right"]
+
+
+def test_flat_shapes_with_no_geometry_are_given_endpoints():
+    for shape in ("line", "arrow", "rect"):
+        o = place([d(shape)])[0]
+        assert "from" in o and "to" in o, f"{shape} was left without endpoints"
