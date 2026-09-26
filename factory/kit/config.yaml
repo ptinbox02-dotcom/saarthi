@@ -1,0 +1,134 @@
+# Saarthi micro-lecture factory — global config
+# Claude Code reads this in pipeline.py. Tune thresholds here, not in code.
+
+brand:
+  name: Saarthi
+  handle: "@saarthi"
+  tagline: "JEE ka asli mentor"
+  colors:
+    bg: "#0e1116"
+    ink: "#e8eaed"
+    muted: "#9aa3af"
+    accent: "#d9702f"
+  intro_seconds: 2
+  outro_seconds: 3
+  outro_cta: "Follow for a concept a day · full lesson in the app (soon)"
+
+audience:            # STRICT — enforced by an eval
+  region: India
+  levels: all        # weak student → topper
+  language: hinglish
+  analogies_must_be_indian: true
+  unpack_every_jargon_term: true
+  banned_references: [baseball, "coffee shop", football (american), thanksgiving]
+
+video:
+  full:
+    width: 1920
+    height: 1080     # 16:9 for the full lesson
+    fps: 30
+    min_seconds: 300 # 5 min
+    max_seconds: 580 # 9.7 min. Raised again for the Gujarati builds: the same script
+                     # runs ~16% longer in Gujarati than in Hinglish (0.445 vs 0.39
+                     # seconds per word on the same voice), so ML1.1-gu measures 554s
+                     # against ML1.1's 478s for equivalent content.
+  reel:
+    width: 1080
+    height: 1920     # 9:16 teaser
+    fps: 30
+    max_seconds: 90
+
+voice:               # Sarvam TTS (Bulbul) — endpoint/params verified 2026-08-09
+  provider: sarvam
+  endpoint: "https://api.sarvam.ai/text-to-speech"
+  auth_header: api-subscription-key
+  model: bulbul
+  model_id: "bulbul:v3"   # current model per docs.sarvam.ai (v2 also available)
+  language: hi-IN
+  speaker: male
+  speaker_id: dev        # chosen by ear from the audition pack (factory/voicecheck.py)
+  sample_rate: 24000
+  pace: 1.0
+  pause_short_ms: 400   # for "…"
+  pause_long_ms: 900    # for "[PAUSE]"
+  inter_sentence_ms: 120
+  # bulbul has NO SSML / <break>: pauses are produced by chunk + splice (factory/audio.py)
+  temperature: 0.2      # v3 only — low keeps one consistent mentor persona across beats
+  synthesis_unit: paragraph   # per-sentence requests reset prosody; paragraphs don't
+  numbers_in_english: true    # years/decimals/quantities spoken in English, not Hindi
+  # Terms the STT gate proved are mis-said in Latin script, respelled even when the
+  # global toggle above is off. This is the gate-driven phonetic-hint loop.
+  forced_devanagari: ["discharge tube"]
+  pronunciation:        # explicit rules run BEFORE the generic number pass
+    - {find: "→",         replace: " phir "}   # recap chain: Bulbul reads a bare arrow as "gives"
+    - {find: "e/m",       replace: "e-by-m"}
+    - {find: "10¹¹",      replace: "ten to the power eleven"}
+    - {find: "×",         replace: " into "}
+    - {find: "1836",      replace: "one thousand eight hundred thirty six"}  # a ratio, not a year
+    - {find: "1850s",     replace: "eighteen fifty ke dashak"}
+    - {find: "kirnें",     replace: "kirne"}
+    - {find: "chdravya",  replace: "dravya"}
+    - {find: "sirā",      replace: "sira"}
+    - {find: "(paddle-wheel)", replace: "paddle wheel"}
+  # TTS-only respelling so English terms land in Indian-English, not a guessed accent.
+  # On-screen text and captions stay in Latin script either way.
+  # OFF for `dev`, which was picked by ear on the Latin variant — it already says the
+  # English terms in a clean Indian accent, and the respelling made it more Hindi-ified.
+  # Keep the table: other voices score better with it (see factory/voicecheck.py --stt).
+  use_devanagari_terms: false
+  devanagari_terms:
+    cathode: कैथोड
+    anode: ऐनोड
+    electron: इलेक्ट्रॉन
+    momentum: मोमेंटम
+    subatomic: सब-ऐटॉमिक
+    corpuscle: कॉर्पसल
+    Thomson: थॉमसन
+    negative: नेगेटिव
+    positive: पॉज़िटिव
+    discharge tube: डिस्चार्ज ट्यूब
+    tube light: ट्यूब लाइट
+    tubelight: ट्यूबलाइट
+    coulomb: कूलॉम
+    voltage: वोल्टेज
+    pressure: प्रेशर
+  # terms the STT round-trip must hear back (step-8 pronunciation gate)
+  must_hear: [cathode, anode, electron, momentum, subatomic, Thomson, negative]
+
+render:
+  engine: manim               # fallback: matplotlib+ffmpeg if manim toolchain fails
+  fallback_engine: matplotlib
+
+# --- VISUAL_GRAMMAR.md ------------------------------------------------------
+direction:                    # camera / emphasis spec, enforced by eval_visual_grammar
+  max_static_seconds: 5.0     # no framing may hold this long without a move or reveal
+  min_emphasis_per_beat: 1    # plus one more per this many seconds of beat length
+  emphasis_per_seconds: 20.0
+  dim_opacity: 0.25           # spotlight: what the non-active elements fade to
+
+avatar:                       # optional presenter layer, composited in step 9
+  enabled: true               # the lesson MUST still build fully with this off:
+                              # a missing clip degrades to no avatar, never to a failure
+  provider: heygen
+  position: bottom-right      # corner presence
+  width_fraction: 0.20        # of frame width — smaller since it now sits in the
+                              # reserved margin rather than on top of the picture
+  margin_x: 18
+  margin_y: 10
+  eye_contact_on_direct_address: true
+
+evals:                        # gate thresholds; on fail → regenerate with feedback
+  max_retries: 3
+  factual_accuracy_gate: 1.0  # HARD 100%
+  script_reading_ease_min: 60
+  duration_tolerance_seconds: 30
+  av_sync_tolerance_seconds: 0.2
+  audio_wer_max: 0.15         # STT round-trip word error rate
+  llm_judge_min: 4.0          # out of 5 (accuracy/flow/engagement/timing/voice)
+  analogy_india_check: true   # every analogy must be India-relevant
+  jargon_unpacked_check: true # every technical term unpacked on first use
+
+output:
+  publish_dir: lessons
+  qa_report: qa_report.md
+  make_reel_teaser: true
