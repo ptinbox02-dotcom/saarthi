@@ -24,10 +24,10 @@ from pathlib import Path
 
 import yaml
 
-from gclient import MICRO, lesson_dirs, topic
+from gclient import KIT, lesson_dirs, topic
 from segments import beat_segments, segments
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from animate import render_manim  # noqa: E402
 import assemble as _assemble  # noqa: E402
 from assemble import assemble  # noqa: E402
@@ -40,7 +40,7 @@ TOPIC = DIRS["topic"]
 AUDIO = DIRS["audio"]
 MANIM = DIRS["manim"]
 BUILD = DIRS["build"]
-CFG = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+CFG = yaml.safe_load((KIT / "config.yaml").read_text())
 SCRIPT = DIRS["script"]
 
 
@@ -145,7 +145,7 @@ def main():
     # ML1.1's reel patterns matched nothing in any other lesson, and the fallback
     # quietly took each beat's first 12 seconds — which is why the reel ended
     # mid-sentence. Windows are per topic now.
-    topics = yaml.safe_load((MICRO / "factory" / "topics.yaml").read_text())
+    topics = yaml.safe_load((KIT / "topics.yaml").read_text())
     picks = next((r.get("reel_picks") for r in topics["topics"]
                   if r.get("id") == TOPIC), None)
     if picks:

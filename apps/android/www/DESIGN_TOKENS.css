@@ -1,0 +1,59 @@
+/* Saarthi classroom — design tokens.
+ * Single source of truth. No colour, spacing, radius, font or z-index is hard-coded
+ * anywhere else. Colour is semantic: each role means one thing, always, and is always
+ * paired with a glyph so it survives greyscale, projectors and colour-blindness.
+ */
+:root{
+  /* ---- surfaces: a clean light board, per the reference ---- */
+  --board:#fbfcfd;          /* the teaching surface */
+  --board-line:#e6ebf0;     /* faint ruling / dividers on the board */
+  --panel:#ffffff;          /* chrome */
+  --panel-2:#f2f5f8;        /* insets, input wells, student bubbles */
+  --edge:#d3dbe3;           /* real UI boundaries — 3:1 against --panel */
+  --rule:#eaeff4;           /* decorative dividers only, no contrast minimum */
+
+  /* ---- ink ---- */
+  --ink:#16202b;            /* primary text, 14.9:1 on --panel */
+  --ink-dim:#5b6b7a;        /* secondary, 5.4:1 */
+  --ink-faint:#8b9aa8;      /* meta only, never body text */
+
+  /* ---- semantic roles: colour = pedagogical meaning ---- */
+  --role-term:#1568d4;      /* ◆ definition / key term */
+  --role-explain:#16202b;   /*   working, plain explanation */
+  --role-example:#c2620a;   /* ✎ worked example */
+  --role-tip:#0f7a4a;       /* ➜ tip / shortcut */
+  --role-question:#c2185b;  /* ? question / prompt */
+  --role-trap:#c62828;      /* ⚠ common mistake */
+  --role-result:#7b4bc9;    /* = the key result */
+
+  /* ---- accents ---- */
+  --cta:#12b76a;            /* primary action */
+  --cta-ink:#ffffff;
+  --live:#e0453b;           /* recording / speaking indicator */
+  --focus:#1568d4;
+  --select-tint:rgba(21,104,212,.10);  /* highlighted region of the board */
+  --warn-bg:#fdecec;        /* offline / blocked notice */
+  --notice-bg:#fdf3e3;      /* retrying, or showing a saved copy */
+  --video-bg:#000000;       /* letterbox behind the lesson video */
+  --wipe-tint:rgba(21,104,212,.07);  /* the sweep between video and board */
+
+  /* ---- type ---- */
+  --font-hand:"Kalam","Bradley Hand","Chalkboard SE",cursive;   /* board strokes only */
+  --font-caption:"Noto Sans","Noto Sans Devanagari","Noto Sans Gujarati",
+                 -apple-system,BlinkMacSystemFont,sans-serif;   /* Indic-safe captions */
+  --font-ui:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --fs-xs:11.5px; --fs-sm:13px; --fs-md:14.5px; --fs-lg:17px; --fs-xl:21px;
+
+  /* ---- space & shape ---- */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --rad:10px; --rad-lg:16px; --rad-pill:999px;
+  --shadow-1:0 1px 2px rgba(16,32,43,.06), 0 1px 3px rgba(16,32,43,.10);
+  --shadow-2:0 10px 30px rgba(16,32,43,.13);
+
+  /* ---- one z-index scale: every overlap decided here, not ad hoc ---- */
+  --z-board:1; --z-avatar:2; --z-caption:3; --z-controls:4;
+  --z-transcript:5; --z-overlay:6;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --transcript-w:0px;
+}

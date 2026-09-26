@@ -21,6 +21,7 @@ import json
 import os
 import re
 import sys
+import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -38,7 +39,7 @@ LESSONS = ROOT / "lessons"
 WEB = ROOT / "web"
 MEDIA = (ROOT / "media").resolve()
 
-sys.path.insert(0, str(REPO / "hb"))
+sys.path.insert(0, str(REPO / "core"))
 from gclient import JUDGE, TTS_CHAIN, client, parse_json, retry   # noqa: E402
 from google.genai import types                         # noqa: E402
 
@@ -1229,11 +1230,19 @@ TRANSIENT = ("503", "429", "500", "502", "504", "UNAVAILABLE", "RESOURCE_EXHAUST
 def human_error(e) -> str:
     """What a student should see when the model falls over.
 
+    The real exception always goes to the log first. Humanising the message is right for
+    the student and wrong for whoever is debugging: this text once hid a plain import
+    error behind "kuch gadbad ho gayi" and cost a round of guessing.
+
     A raw 503 payload reached the caption — brace, backslash-n and all — under the word
     Saarthi. Whatever has gone wrong upstream, the tutor should sound like a person
     having a bad moment, not like a stack trace.
     """
     msg = str(e)
+    if isinstance(e, BaseException):
+        traceback.print_exception(type(e), e, e.__traceback__)
+    else:
+        print(f"  !! {msg[:300]}")
     if any(t in msg for t in ("503", "UNAVAILABLE", "500", "502", "504")):
         return "Ek second — main abhi busy hoon. Thoda ruk kar dobara poochho."
     if any(t in msg for t in ("429", "RESOURCE_EXHAUSTED")):

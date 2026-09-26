@@ -18,11 +18,11 @@ from pathlib import Path
 
 import yaml
 
-from gclient import MICRO, lesson_dirs, must_hear
+from gclient import KIT, lesson_dirs, must_hear
 from segments import Segment, segments
 from tts import STYLE, GeminiTTS, QuotaExhausted, prepare
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from audio import chunk_narration, splice  # noqa: E402
 from evals import phonetic_cer, transcribe_chunk  # noqa: E402
 
@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIRS = lesson_dirs()
 AUDIO = DIRS["audio"]
 BUILD = DIRS["build"]
-CFG = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+CFG = yaml.safe_load((KIT / "config.yaml").read_text())
 
 VOICE = "Achird"          # audition winner (Borda, stable across both prompt orderings)
 MAX_CHUNK_RETRIES = 2

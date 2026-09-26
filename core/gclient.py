@@ -14,7 +14,10 @@ from dotenv import load_dotenv
 from google import genai
 
 ROOT = Path(__file__).resolve().parent.parent
-MICRO = ROOT.parent / "micro-lectures"
+# The rendering kit now lives in this repo. It used to be a sibling directory
+# reached by path, which is how it ended up unversioned.
+KIT = ROOT / "factory" / "kit"
+MICRO = ROOT                      # kept: older callers say MICRO / "factory"
 
 # --- resolved models (verified live on this key, step 0) --------------------
 JUDGE = "gemini-3.6-flash"                    # text + image + video in, text out
@@ -110,7 +113,7 @@ def must_hear(cfg: dict) -> list[str]:
     """
     import yaml
     t = topic()
-    tp = yaml.safe_load((MICRO / "factory" / "topics.yaml").read_text())
+    tp = yaml.safe_load((KIT / "topics.yaml").read_text())
     for row in tp.get("topics", []):
         if row.get("id") == t and row.get("must_hear"):
             return [str(x) for x in row["must_hear"]]

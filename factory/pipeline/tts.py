@@ -22,9 +22,9 @@ from pathlib import Path
 
 from google.genai import types
 
-from gclient import TTS as TTS_MODEL, TTS_CHAIN, MICRO, client, retry
+from gclient import TTS as TTS_MODEL, TTS_CHAIN, KIT, client, retry
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 
 # Reuse the factory's text prep + splicing untouched — same behaviour as the pure-Manim
 # lesson, so the A/B comparison is not confounded by a different chunker.

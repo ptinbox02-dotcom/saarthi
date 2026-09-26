@@ -1,0 +1,95 @@
+# The micro-lecture backlog. pipeline.py --all iterates these in order.
+# id → used as folder name (lessons/<id>/) and CLI arg (--topic <id>).
+# ML1.1 is the flagship: fact_sheet.md + script.md are already written (steps 1–6 done).
+
+topics:
+  - id: ML1.1
+    title: "Discovery of the Electron — cathode rays & discharge tube"
+    subject: chemistry
+    chapter: "Structure of Atom"
+    status: script_ready        # steps 1–6 complete; run step 7–9
+    india_hook: "Tube light & purana CRT TV are literally cathode-ray tubes"
+    # Terms the narration must actually contain. Per topic, because the config-level
+    # list was ML1.1's vocabulary and would fail every other lesson.
+    must_hear: [cathode, anode, electron, momentum, subatomic, Thomson, negative]
+    # Reel windows, per topic. Each entry is [beat slug, regex over spoken chunks,
+    # how many chunks to keep]. A null regex takes the whole beat. These MUST be per
+    # topic: ML1.1's patterns matched nothing in ML5.10, and the silent fallback cut
+    # the first 12 seconds of a beat mid-sentence.
+    reel_picks:
+      - [beat00, null, null]
+      - [beat03, "plus plate ki taraf|opposite charges|beam khud", 3]
+      - [beat05, "e ya m alag-alag|Sirf unka ratio|yeh galti", 3]
+
+  - id: ML5.10
+    title: "Shapes of s & p orbitals — spherical vs dumbbell"
+    subject: chemistry
+    chapter: "Structure of Atom"
+    status: script_ready        # fact_sheet.md + script.md authored; run step 7-9
+    india_hook: "s = laddoo (gol har taraf se), p = gym dumbbell (ek direction)"
+    must_hear: [orbital, boundary surface, probability, spherical, dumbbell,
+                nodal plane, degenerate, radial]
+    reel_picks:
+      - [beat00, null, null]                        # the hook, whole
+      - [beat05, "do lobes ke beech", 1]            # the nodal plane itself
+      - [beat05, "poori kahani ka nichod", 1]       # s gol / p dumbbell — the thesis
+
+  - id: ML5.10-gu
+    title: "Shapes of s & p orbitals (Gujarati) — spherical vs dumbbell"
+    subject: chemistry
+    chapter: "Structure of Atom"
+    status: script_ready
+    india_hook: "s = laddoo (badhi baaju thi gol), p = gym nu dumbbell"
+    brand_tagline: "JEE no kharo mentor"
+    brand_cta: "Follow karo — roj ek concept"
+    brand_next: "Kaale: d orbitals ni shapes →"
+    must_hear: [orbital, boundary surface, probability, dumbbell, nodal plane,
+                degenerate, radial, angular]
+    reel_picks:
+      - [beat00, null, null]
+      - [beat05, "be lobes ni vachche", 1]
+      - [beat05, "aakhi vaat no saar", 1]
+
+  - id: ML1.1-gu
+    title: "Discovery of the Electron (Gujarati) — cathode rays & discharge tube"
+    subject: chemistry
+    chapter: "Structure of Atom"
+    status: script_ready
+    india_hook: "Tube light ane juno CRT TV kharekhar cathode-ray tubes che"
+    brand_tagline: "JEE no kharo mentor"
+    brand_cta: "Follow karo — roj ek concept"
+    brand_next: "Kaale: Proton ni vaarta →"
+    must_hear: [cathode, anode, electron, momentum, subatomic, Thomson, negative]
+    reel_picks:
+      - [beat00, null, null]
+      - [beat03, "plus plate ni baaju|opposite charges|beam pote", 3]
+      - [beat05, "e ke m alag alag|fakt eno ratio|aa bhool", 3]
+
+  - id: ML1.2
+    title: "Discovery of the Proton — anode rays (canal rays)"
+    subject: chemistry
+    chapter: "Structure of Atom"
+    status: todo
+    india_hook: "Same discharge tube, opposite journey"
+
+  # ---- next batch (from the concept graph; high-yield + visual) ----
+  - id: ML1.3
+    title: "Rolling race: sphere vs disc vs ring"
+    subject: physics
+    chapter: "Rotational Motion"
+    status: todo
+    india_hook: "Kaun jeetega? — cricket-ground ramp"
+
+  - id: ML1.4
+    title: "Limiting reagent = making vada-pav (fixed ratio)"
+    subject: chemistry
+    chapter: "Mole Concept / Stoichiometry"
+    status: todo
+    india_hook: "2 patties, 5 pav — kitne vada-pav banenge?"
+
+  - id: ML1.5
+    title: "Why N has higher ionisation energy than O (half-filled 2p³)"
+    subject: chemistry
+    chapter: "Periodic Properties"
+    status: todo
+    india_hook: "Ek galti jo 90% karte hain"

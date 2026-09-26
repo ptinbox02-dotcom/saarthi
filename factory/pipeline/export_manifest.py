@@ -15,9 +15,9 @@ import re
 import sys
 from pathlib import Path
 
-from gclient import MICRO, lesson_dirs, topic
+from gclient import KIT, lesson_dirs, topic
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from common import ffprobe_duration  # noqa: E402
 from evals import parse_fact_sheet  # noqa: E402
 from scriptparse import parse_script  # noqa: E402
@@ -48,7 +48,7 @@ def main():
     # another lesson's beat offsets. fit_segment makes each segment exactly as long as
     # its narration, so cumulative audio duration IS the timeline.
     import yaml
-    cfg = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+    cfg = yaml.safe_load((KIT / "config.yaml").read_text())
     cursor = float(cfg["brand"]["intro_seconds"])
     timeline, chunk_index = [], {}
     for b in beats:
@@ -67,7 +67,7 @@ def main():
         cues[c.stem.replace(".cues", "")] = json.loads(c.read_text()).get("cues", {})
 
     # Chunk boundaries are the whole point: they are the only safe places to pause.
-    sys.path.insert(0, str(MICRO / "factory"))
+    sys.path.insert(0, str(KIT))
     from assemble import caption_cues
     stops = []
     for slug, (offset, chunks) in chunk_index.items():

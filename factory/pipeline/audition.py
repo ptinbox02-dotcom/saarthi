@@ -16,7 +16,7 @@ from pathlib import Path
 
 from google.genai import types
 
-from gclient import JUDGE, MICRO, client, retry
+from gclient import JUDGE, KIT, client, retry
 from tts import GeminiTTS
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -66,7 +66,7 @@ def wer_of(wav: Path, reference: str):
     measures orthography rather than speech. evals.phonetic_cer folds both sides to a
     consonant skeleton, which is what config's audio_wer_max: 0.15 is calibrated against.
     """
-    sys.path.insert(0, str(MICRO / "factory"))
+    sys.path.insert(0, str(KIT))
     from evals import phonetic_cer, transcribe
     heard = transcribe(wav)
     return phonetic_cer(reference, heard), heard

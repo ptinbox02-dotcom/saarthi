@@ -14,9 +14,9 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from gclient import MICRO, lesson_dirs
+from gclient import KIT, lesson_dirs
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from scriptparse import parse_script  # noqa: E402
 
 SCRIPT = lesson_dirs()["script"]
