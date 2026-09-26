@@ -1255,7 +1255,7 @@ document.addEventListener('click', (e) => {
   if (!$('keyspop').hidden && !$('keyspop').contains(e.target)) showKeys(false);
 });
 $('seek').oninput = (e) => { if (video.duration) video.currentTime = e.target.value / 1000 * video.duration; };
-$('lesson').onchange = (e) => loadLesson(e.target.value);
+$('lesson').onchange = (e) => loadLesson(e.target.value).then(renderNav);
 $('ask').onclick = raiseHand;
 $('resume').onclick = resume;
 $('back').onclick = resume;
