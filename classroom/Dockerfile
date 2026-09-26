@@ -12,14 +12,14 @@ WORKDIR /app
 COPY --chown=saarthi classroom/requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-# gclient.py resolves the model names and holds the retry logic; the server imports it.
-COPY --chown=saarthi hb/gclient.py ./hb/gclient.py
+# core/ holds model resolution and retry — the only code the app and the factory share.
+COPY --chown=saarthi core ./core
 COPY --chown=saarthi classroom/server ./classroom/server
 COPY --chown=saarthi classroom/web ./classroom/web
 COPY --chown=saarthi classroom/lessons ./classroom/lessons
 COPY --chown=saarthi classroom/media ./classroom/media
 
 USER saarthi
-ENV PYTHONPATH=/app/hb PORT=8080 SAARTHI_AUDIT_DIR=/tmp/saarthi-audit
+ENV PYTHONPATH=/app/core PORT=8080 SAARTHI_AUDIT_DIR=/tmp/saarthi-audit
 EXPOSE 8080
 CMD ["python", "classroom/server/app.py"]

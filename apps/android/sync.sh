@@ -5,6 +5,6 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 rm -rf www && mkdir -p www
-cp ../classroom/web/index.html ../classroom/web/app.js ../classroom/web/board.js \
-   ../classroom/web/app.css ../classroom/web/DESIGN_TOKENS.css www/
+cp ../../classroom/web/index.html ../../classroom/web/app.js ../../classroom/web/board.js \
+   ../../classroom/web/app.css ../../classroom/web/DESIGN_TOKENS.css www/
 npx cap sync android

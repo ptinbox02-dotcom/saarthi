@@ -24,14 +24,14 @@ from pathlib import Path
 import requests
 import yaml
 
-from gclient import MICRO, lesson_dirs
+from gclient import KIT, lesson_dirs
 from segments import segments
 
 ROOT = Path(__file__).resolve().parent.parent
 DIRS = lesson_dirs()
 AUDIO = DIRS["audio"]
 OUT = DIRS["build"] / "avatar"
-CFG = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+CFG = yaml.safe_load((KIT / "config.yaml").read_text())
 
 UPLOAD = "https://upload.heygen.com/v1/asset"
 GENERATE = "https://api.heygen.com/v2/video/generate"

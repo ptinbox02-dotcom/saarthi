@@ -21,6 +21,6 @@ bash sync.sh
 echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 (cd android && ./gradlew assembleDebug --console=plain -q)
 
-mkdir -p ../build
-cp android/app/build/outputs/apk/debug/app-debug.apk ../build/Saarthi-demo.apk
-printf '\n  build/Saarthi-demo.apk  %s\n' "$(du -h ../build/Saarthi-demo.apk | cut -f1)"
+mkdir -p ../../build
+cp android/app/build/outputs/apk/debug/app-debug.apk ../../build/Saarthi-demo.apk
+printf '\n  build/Saarthi-demo.apk  %s\n' "$(du -h ../../build/Saarthi-demo.apk | cut -f1)"

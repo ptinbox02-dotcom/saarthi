@@ -30,10 +30,11 @@ def stage() -> Path:
     """Build exactly what the image needs, and nothing else."""
     if STAGE.exists():
         shutil.rmtree(STAGE)
-    (STAGE / "hb").mkdir(parents=True)
+    (STAGE / "classroom").mkdir(parents=True)
     (STAGE / "classroom").mkdir(parents=True)
     shutil.copy(REPO / "classroom" / "Dockerfile", STAGE / "Dockerfile")
-    shutil.copy(REPO / "hb" / "gclient.py", STAGE / "hb" / "gclient.py")
+    shutil.copytree(REPO / "core", STAGE / "core",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     shutil.copy(REPO / "classroom" / "requirements.txt",
                 STAGE / "classroom" / "requirements.txt")
     for d in ("server", "web", "lessons", "media"):

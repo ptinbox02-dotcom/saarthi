@@ -24,10 +24,10 @@ from pathlib import Path
 import yaml
 from google.genai import types
 
-from gclient import JUDGE, MICRO, client, lesson_dirs, parse_json, retry
+from gclient import JUDGE, KIT, client, lesson_dirs, parse_json, retry
 from segments import beat_segments, segments
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from animate import measure_scene, render_fallback, render_manim, wait_scale_for  # noqa: E402
 from common import ffprobe_duration  # noqa: E402
 from scriptparse import parse_script  # noqa: E402
@@ -39,7 +39,7 @@ AUDIO = DIRS["audio"]
 SCENES = DIRS["scenes"]        # the 3b1b rebuild, not the factory's scenes
 BUILD = DIRS["build"]
 SCRIPT = DIRS["script"]
-CFG = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+CFG = yaml.safe_load((KIT / "config.yaml").read_text())
 
 # MathTex shells out to latex/dvisvgm, which live in a user-local TinyTeX that is not
 # on a non-login shell's PATH. Without this the scenes silently fall back to Unicode.

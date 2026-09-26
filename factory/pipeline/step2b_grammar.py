@@ -12,9 +12,9 @@ from pathlib import Path
 
 import yaml
 
-from gclient import MICRO, lesson_dirs
+from gclient import KIT, lesson_dirs
 
-sys.path.insert(0, str(MICRO / "factory"))
+sys.path.insert(0, str(KIT))
 from common import ffprobe_duration  # noqa: E402
 from evals import eval_visual_grammar  # noqa: E402
 
@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIRS = lesson_dirs()
 MANIM = DIRS["manim"]
 BUILD = DIRS["build"]
-CFG = yaml.safe_load((MICRO / "factory" / "config.yaml").read_text())
+CFG = yaml.safe_load((KIT / "config.yaml").read_text())
 
 
 def main():

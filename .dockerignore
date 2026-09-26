@@ -9,7 +9,8 @@ classroom/web/*.bak
 # everything the image does not need — keeps the 206 MB of media as the only bulk
 .git
 .venv
-hb/__pycache__
+factory/pipeline/__pycache__
+core/__pycache__
 build
 scenes
 audio

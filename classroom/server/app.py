@@ -38,7 +38,7 @@ LESSONS = ROOT / "lessons"
 WEB = ROOT / "web"
 MEDIA = (ROOT / "media").resolve()
 
-sys.path.insert(0, str(REPO / "hb"))
+sys.path.insert(0, str(REPO / "core"))
 from gclient import JUDGE, TTS_CHAIN, client, parse_json, retry   # noqa: E402
 from google.genai import types                         # noqa: E402
 
