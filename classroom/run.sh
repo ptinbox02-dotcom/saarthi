@@ -11,10 +11,13 @@ set -euo pipefail
 cd "$(dirname "$0")/.."                    # repo root: media paths resolve from here
 PORT="${1:-8756}"
 
+# Returns 0 either way: under `set -e`, a function whose last test fails takes the
+# whole script down, and the only symptom is an empty log.
 pick() {
   for c in "${SAARTHI_PYTHON:-}" ".venv/bin/python" "../micro-lectures/.venv/bin/python"; do
-    [[ -n "$c" && -x "$c" ]] && { echo "$c"; return; }
+    [[ -n "$c" && -x "$c" ]] && { echo "$c"; return 0; }
   done
+  return 0
 }
 
 PY="$(pick)"
