@@ -187,3 +187,39 @@ def test_every_fact_can_name_its_source():
         assert orphan == 0, f"{orphan} fact(s) cite a span that does not exist"
     finally:
         s.close()
+
+
+def test_semantic_retrieval_beats_word_overlap():
+    """The question shares no words with the answer: 'dip at oxygen' has nothing in
+    common with Hund's rule or electron pairing. Keyword scoring answered it with
+    electron-gain-enthalpy facts."""
+    s, query = _corpus()
+    try:
+        if not query.HAVE_VECTORS:
+            pytest.skip("no embedding model")
+        if not s.db.execute("SELECT COUNT(*) c FROM vec").fetchone()[0]:
+            query.build_index(s)
+        ctx = query.context(s, "why does ionisation enthalpy dip at oxygen")
+        top = ctx["facts"][0]["claim"].lower()
+        assert "oxygen" in top and "nitrogen" in top, f"top fact was: {top}"
+    finally:
+        s.close()
+
+
+def test_retrieval_is_fast_enough_to_sit_in_a_live_turn():
+    """Budget is a few tens of ms against a model call measured at ~2s."""
+    import time
+    s, query = _corpus()
+    try:
+        if not query.HAVE_VECTORS:
+            pytest.skip("no embedding model")
+        if not s.db.execute("SELECT COUNT(*) c FROM vec").fetchone()[0]:
+            query.build_index(s)
+        query.context(s, "warm up")
+        t = time.time()
+        for q in ("what is an orbital", "trends in atomic radius", "isotopes of hydrogen"):
+            query.context(s, q)
+        per = (time.time() - t) / 3
+        assert per < 0.25, f"{per*1000:.0f}ms per query"
+    finally:
+        s.close()

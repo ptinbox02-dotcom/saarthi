@@ -18,6 +18,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from store import Store   # noqa: E402
 
+try:
+    import embed
+    HAVE_VECTORS = True
+except Exception:                      # numpy or the model missing; keywords still work
+    HAVE_VECTORS = False
+
 STOP = set("what why how does the a an of is are in to and for with that this it if".split())
 
 
@@ -25,8 +31,39 @@ def _words(q: str) -> list[str]:
     return [w for w in re.split(r"\W+", q.lower()) if len(w) > 3 and w not in STOP]
 
 
+def build_index(store: Store) -> dict:
+    """Embed the concepts and facts. Build time, not request time."""
+    idx = embed.Index(store.db)
+    concepts = [(r["id"], f"{r['name']}. {r['summary'] or ''}")
+                for r in store.db.execute("SELECT id, name, summary FROM concept")]
+    facts = [(str(r["id"]), f"{r['claim']}. {r['detail'] or ''}")
+             for r in store.db.execute("SELECT id, claim, detail FROM fact")]
+    return {"concept": idx.build("concept", concepts), "fact": idx.build("fact", facts)}
+
+
 def resolve(store: Store, question: str, limit: int = 4) -> list[dict]:
-    """Which concepts is this about? Scored over name, summary and the facts beneath."""
+    """Which concepts is this about?
+
+    Semantic first, because a student's phrasing rarely shares words with the answer:
+    "why does ionisation enthalpy dip at oxygen" contains nothing about Hund's rule or
+    electron pairing, and keyword scoring answered it with electron-gain-enthalpy facts.
+    Keywords remain as the fallback when no vectors have been built.
+    """
+    if HAVE_VECTORS:
+        hits = embed.Index(store.db).search("concept", question, k=limit)
+        if hits:
+            ids = [h[0] for h in hits]
+            marks = ",".join("?" * len(ids))
+            rank = " ".join(f"WHEN ? THEN {i}" for i in range(len(ids)))
+            rows = store.db.execute(
+                f"SELECT id, name, summary, chapter, syllabus_seq FROM concept "
+                f"WHERE id IN ({marks}) ORDER BY CASE id {rank} ELSE 99 END",
+                ids + ids)
+            return [dict(r) for r in rows]
+    return _resolve_by_keyword(store, question, limit)
+
+
+def _resolve_by_keyword(store: Store, question: str, limit: int = 4) -> list[dict]:
     words = _words(question)
     if not words:
         return []
@@ -71,6 +108,22 @@ def context(store: Store, question: str) -> dict:
     ids = [c["id"] for c in cs]
     out = {"concepts": cs, "facts": facts(store, ids), "methods": [],
            "misconceptions": [], "connections": []}
+    # A fact can be the right answer while sitting under a concept the question did not
+    # name — semantic search over the facts themselves catches those, and they go first.
+    if HAVE_VECTORS:
+        hits = embed.Index(store.db).search("fact", question, k=6)
+        strong = [h for h in hits if h[1] > 0.35]
+        if strong:
+            marks = ",".join("?" * len(strong))
+            rank = " ".join(f"WHEN ? THEN {i}" for i in range(len(strong)))
+            direct = [dict(r) for r in store.db.execute(
+                "SELECT f.claim, f.detail, f.status, c.name AS concept, c.chapter, "
+                "p.source_id, p.page_no FROM fact f JOIN concept c ON c.id=f.concept_id "
+                "LEFT JOIN span s ON s.id=f.span_id LEFT JOIN page p ON p.id=s.page_id "
+                f"WHERE f.id IN ({marks}) ORDER BY CASE f.id {rank} ELSE 99 END",
+                [int(h[0]) for h in strong] * 2)]
+            seen = {d["claim"] for d in direct}
+            out["facts"] = direct + [f for f in out["facts"] if f["claim"] not in seen]
     if not ids:
         return out
     marks = ",".join("?" * len(ids))

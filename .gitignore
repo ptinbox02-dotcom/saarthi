@@ -36,3 +36,4 @@ classroom/audit/
 # inputs weighing gigabytes, not code, and they do not belong in a public repo.
 sources/
 knowledge/corpus/
+knowledge/models/
