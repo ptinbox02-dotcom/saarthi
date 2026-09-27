@@ -31,3 +31,8 @@ classroom/web/*.bak
 classroom/audit/
 
 .DS_Store
+
+# Source material: books, modules, question banks. Licensed to us, but they are
+# inputs weighing gigabytes, not code, and they do not belong in a public repo.
+sources/
+knowledge/corpus/
