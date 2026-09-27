@@ -42,25 +42,37 @@ def build_index(store: Store) -> dict:
 
 
 def resolve(store: Store, question: str, limit: int = 4) -> list[dict]:
-    """Which concepts is this about?
+    """Which concepts is this about? Dense and sparse together.
 
-    Semantic first, because a student's phrasing rarely shares words with the answer:
-    "why does ionisation enthalpy dip at oxygen" contains nothing about Hund's rule or
-    electron pairing, and keyword scoring answered it with electron-gain-enthalpy facts.
-    Keywords remain as the fallback when no vectors have been built.
+    Neither alone is enough, and the failures are opposite. Keyword scoring answered
+    "why does ionisation enthalpy dip at oxygen" with electron-gain-enthalpy facts,
+    because the question shares no words with Hund's rule. Embeddings fixed that and
+    then missed the second half of "shielding, ionisation enthalpy AND orbital energy" —
+    one strong match at 0.54 drowned out everything else, and the quantum-model concepts
+    never surfaced at all.
+
+    So: take both rankings and fuse them by reciprocal rank, which rewards a concept
+    that either method liked without letting one strong score crowd the list.
     """
-    if HAVE_VECTORS:
-        hits = embed.Index(store.db).search("concept", question, k=limit)
-        if hits:
-            ids = [h[0] for h in hits]
-            marks = ",".join("?" * len(ids))
-            rank = " ".join(f"WHEN ? THEN {i}" for i in range(len(ids)))
-            rows = store.db.execute(
-                f"SELECT id, name, summary, chapter, syllabus_seq FROM concept "
-                f"WHERE id IN ({marks}) ORDER BY CASE id {rank} ELSE 99 END",
-                ids + ids)
-            return [dict(r) for r in rows]
-    return _resolve_by_keyword(store, question, limit)
+    dense = [h[0] for h in embed.Index(store.db).search("concept", question, k=8)] \
+        if HAVE_VECTORS else []
+    sparse = [c["id"] for c in _resolve_by_keyword(store, question, limit=8)]
+    if not dense and not sparse:
+        return []
+
+    K = 60.0                       # the usual damping; exact value barely matters
+    score: dict[str, float] = {}
+    for ranking in (dense, sparse):
+        for rank, cid in enumerate(ranking):
+            score[cid] = score.get(cid, 0.0) + 1.0 / (K + rank)
+    best = [cid for cid, _ in sorted(score.items(), key=lambda kv: -kv[1])[:limit]]
+
+    marks = ",".join("?" * len(best))
+    order = " ".join(f"WHEN ? THEN {i}" for i in range(len(best)))
+    rows = store.db.execute(
+        f"SELECT id, name, summary, chapter, syllabus_seq FROM concept "
+        f"WHERE id IN ({marks}) ORDER BY CASE id {order} ELSE 99 END", best + best)
+    return [dict(r) for r in rows]
 
 
 def _resolve_by_keyword(store: Store, question: str, limit: int = 4) -> list[dict]:
