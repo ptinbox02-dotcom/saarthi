@@ -47,10 +47,19 @@ class Gemini(Provider):
 class Anthropic(Provider):
     name = "anthropic"
 
-    def __init__(self, model="claude-sonnet-5"):
+    def __init__(self, model=None):
         import anthropic
-        self.client = anthropic.Anthropic()
-        self.model = model
+        from dotenv import load_dotenv
+        load_dotenv(ROOT / ".env")
+        # An organisation-scoped key has to name the workspace it is billing to; a
+        # workspace-scoped key already knows. Supporting both means whichever kind of
+        # key turns up works without editing code.
+        headers = {}
+        ws = os.environ.get("ANTHROPIC_WORKSPACE_ID")
+        if ws:
+            headers["anthropic-workspace-id"] = ws
+        self.client = anthropic.Anthropic(default_headers=headers or None)
+        self.model = model or os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
 
     def complete(self, prompt, schema, *, images=()):
         import base64

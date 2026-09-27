@@ -46,14 +46,23 @@ def resolve(store: Store, question: str, limit: int = 4) -> list[dict]:
 
 
 def facts(store: Store, concept_ids: list[str], limit: int = 12) -> list[dict]:
+    """Facts for these concepts, best-matching concept first.
+
+    `concept_ids` arrives in rank order and that order has to survive. Without this the
+    rows came back in insertion order, so asking about orbit versus orbital resolved to
+    exactly the right concept and then answered with s-block facts, because chapter 3
+    had been loaded first. The retrieval was right and the output was wrong.
+    """
     if not concept_ids:
         return []
+    marks = ",".join("?" * len(concept_ids))
+    rank = " ".join(f"WHEN ? THEN {i}" for i in range(len(concept_ids)))
     q = ("SELECT f.claim, f.detail, f.status, c.name AS concept, c.chapter, "
          "p.source_id, p.page_no FROM fact f JOIN concept c ON c.id=f.concept_id "
          "LEFT JOIN span s ON s.id=f.span_id LEFT JOIN page p ON p.id=s.page_id "
-         f"WHERE f.concept_id IN ({','.join('?' * len(concept_ids))}) "
-         f"AND f.status != 'rejected' LIMIT {int(limit)}")
-    return [dict(r) for r in store.db.execute(q, concept_ids)]
+         f"WHERE f.concept_id IN ({marks}) AND f.status != 'rejected' "
+         f"ORDER BY CASE f.concept_id {rank} ELSE 99 END, f.id LIMIT {int(limit)}")
+    return [dict(r) for r in store.db.execute(q, concept_ids + concept_ids)]
 
 
 def context(store: Store, question: str) -> dict:

@@ -135,3 +135,55 @@ def test_the_store_survives_writes_from_several_threads(tmp_path):
         list(pool.map(lambda i: s.upsert_concept(f"c{i}", name=f"C{i}"), range(40)))
     assert s.counts()["concept"] == 40
     s.close()
+
+
+# --- retrieval ------------------------------------------------------------------
+def _corpus():
+    import query
+    from store import Store
+    s = Store()
+    if s.counts()["fact"] == 0:
+        s.close()
+        pytest.skip("no knowledge loaded")
+    return s, query
+
+
+def test_facts_follow_the_concept_ranking():
+    """Regression: concepts resolved correctly and the facts came back in insertion
+    order, so 'orbit versus orbital' was answered with s-block facts."""
+    s, query = _corpus()
+    try:
+        ctx = query.context(s, "what is the difference between orbit and orbital")
+        assert ctx["concepts"], "nothing resolved"
+        top = ctx["concepts"][0]["id"]
+        assert ctx["facts"], "no facts returned"
+        first = ctx["facts"][0]
+        assert first["concept"] == ctx["concepts"][0]["name"], \
+            f"top fact is from {first['concept']}, not {top}"
+    finally:
+        s.close()
+
+
+def test_retrieval_crosses_chapters():
+    """The failure that started the redesign: a question spanning two chapters must
+    not be answered from one of them."""
+    s, query = _corpus()
+    try:
+        if len({r[0] for r in s.db.execute("SELECT DISTINCT chapter FROM concept")}) < 2:
+            pytest.skip("only one chapter loaded")
+        ctx = query.context(s, "how does shielding affect ionisation enthalpy and orbital energy")
+        chapters = {c["chapter"] for c in ctx["concepts"]}
+        assert len(chapters) > 1, f"stayed inside {chapters}"
+    finally:
+        s.close()
+
+
+def test_every_fact_can_name_its_source():
+    s, query = _corpus()
+    try:
+        orphan = s.db.execute(
+            "SELECT COUNT(*) c FROM fact WHERE span_id IS NULL "
+            "OR span_id NOT IN (SELECT id FROM span)").fetchone()["c"]
+        assert orphan == 0, f"{orphan} fact(s) cite a span that does not exist"
+    finally:
+        s.close()
